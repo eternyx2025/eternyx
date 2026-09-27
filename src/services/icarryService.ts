@@ -148,7 +148,7 @@ export const icarryService = {
     }
 
     try {
-      const fetchEstimateForMode = async (mode: string) => {
+      const fetchEstimateForMode = async (mode: string): Promise<CourierRate[] | null> => {
         const url = `https://www.icarry.in/api_get_estimate?api_token=${token}`;
         const payload = {
           origin_pincode: originPincode,
@@ -173,12 +173,12 @@ export const icarryService = {
         const data = await res.json();
         const rawRates = data.estimate || data.rates || [];
         if (res.ok && Array.isArray(rawRates) && rawRates.length > 0) {
-          return rawRates.map((r: any) => ({
+          return rawRates.map((r: any): CourierRate => ({
             courier_id: Number(r.courier_id),
             courier_name: r.courier_name,
             shipping_cost: Number(r.courier_cost || r.freight_cost || r.shipping_cost || 0),
             expected_days: r.expected_days || '3-4 Days',
-            mode: r.courier_group_name?.includes('Air') ? 'Air' : 'Surface',
+            mode: (r.courier_group_name?.includes('Air') ? 'Air' : 'Surface') as 'Air' | 'Surface',
           }));
         }
         return null;
@@ -203,21 +203,21 @@ export const icarryService = {
           courier_name: 'Amazon Shipping (Surface)',
           shipping_cost: Math.round(85 * costFactor),
           expected_days: '3-4 Days',
-          mode: 'Surface',
+          mode: 'Surface' as const,
         },
         {
           courier_id: 101,
           courier_name: 'Delhivery Surface Logistics',
           shipping_cost: Math.round(95 * costFactor),
           expected_days: '3-5 Days',
-          mode: 'Surface',
+          mode: 'Surface' as const,
         },
         {
           courier_id: 102,
           courier_name: 'BlueDart Ground Cargo',
           shipping_cost: Math.round(115 * costFactor),
           expected_days: '2-4 Days',
-          mode: 'Surface',
+          mode: 'Surface' as const,
         }
       ];
     } catch (e) {
@@ -228,7 +228,7 @@ export const icarryService = {
           courier_name: 'Amazon Shipping (Surface)',
           shipping_cost: 85,
           expected_days: '3-4 Days',
-          mode: 'Surface',
+          mode: 'Surface' as const,
         }
       ];
     }
