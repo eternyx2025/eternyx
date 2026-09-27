@@ -65,8 +65,9 @@ export const icarryService = {
       });
 
       const data = await res.json();
-      if (res.ok && data.api_token_id) {
-        cachedToken = data.api_token_id;
+      const token = data.api_token || data.api_token_id;
+      if (res.ok && token) {
+        cachedToken = token;
         // Expire slightly early (e.g. after 50 minutes instead of 60) for safety
         tokenExpiry = now + 50 * 60 * 1000;
         return cachedToken;
@@ -160,6 +161,8 @@ export const icarryService = {
         breadth: 15,
         height: 15,
         shipment_mode: shipmentMode,
+        parcel_type: 'P',
+        parcel_value: 1299,
       };
 
       const res = await fetch(url, {
@@ -265,7 +268,8 @@ export const icarryService = {
         breadth: 15,
         height: 15,
         shipment_mode: shipmentMode,
-        parcel_type: 'Prepaid',
+        parcel_type: 'P',
+        parcel_value: 1299,
         contents: 'Cosmetics / Fragrance',
         courier_id: courierId || null,
         order_reference_id: orderId,
