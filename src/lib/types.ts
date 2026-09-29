@@ -75,6 +75,7 @@ export interface Order {
     city: string;
     zip: string;
     country: string;
+    state?: string;
   };
   discount_code: string | null;
   items: OrderItem[];

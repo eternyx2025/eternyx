@@ -98,13 +98,17 @@ export async function POST(request: Request) {
         address: order.shipping_address?.street || '',
         city: order.shipping_address?.city || '',
         zip: order.shipping_address?.zip || '',
+        state: order.shipping_address?.state || '',
       };
 
       const bookingResult = await icarryService.bookShipment(
         order.id,
         recipient,
         defaultWeight || 250,
-        'E' // Express courier
+        'S', // Surface logistics (best for perfumes & liquids in India)
+        undefined,
+        undefined,
+        Number(order.total)
       );
 
       if (bookingResult.success && bookingResult.tracking_id) {
@@ -115,6 +119,8 @@ export async function POST(request: Request) {
           bookingResult.label_url,
           bookingResult.cost
         );
+      } else {
+        console.warn(`[Auto-Booking iCarry Shipment Warning for order ${order.id}]:`, bookingResult.error);
       }
     } catch (shipErr) {
       console.error('[Auto-Booking iCarry Shipment Error]:', shipErr);

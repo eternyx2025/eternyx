@@ -39,10 +39,11 @@ export async function POST(request: NextRequest) {
       address: order.shipping_address.street || '',
       city: order.shipping_address.city || '',
       zip: order.shipping_address.zip || '',
+      state: order.shipping_address.state || '',
     };
 
     const finalWeight = weightGrams || 250;
-    const mode = shipmentMode || 'E'; // E = Express/Air, S = Surface
+    const mode = shipmentMode || 'S'; // Surface is standard for perfumes
 
     // Call iCarry service to execute the booking
     const result = await icarryService.bookShipment(
@@ -51,7 +52,8 @@ export async function POST(request: NextRequest) {
       finalWeight,
       mode,
       courierId,
-      courierName
+      courierName,
+      Number(order.total)
     );
 
     if (result.success) {
