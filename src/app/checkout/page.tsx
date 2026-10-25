@@ -54,6 +54,7 @@ function CheckoutContent() {
   const [checkoutError, setCheckoutError] = useState('');
   const [success, setSuccess] = useState(false);
   const [createdOrderId, setCreatedOrderId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
 
   // Guest save account states
   const [savePassword, setSavePassword] = useState('');
@@ -265,6 +266,27 @@ function CheckoutContent() {
         total: finalTotal
       };
 
+      // If Cash on Delivery is selected, place order directly without opening Razorpay
+      if (paymentMethod === 'cod') {
+        const res = await fetch('/api/checkout/cod-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderPayload)
+        });
+
+        const orderData = await res.json();
+        if (!res.ok) {
+          throw new Error(orderData.error || 'Failed to place Cash on Delivery order.');
+        }
+
+        setCreatedOrderId(orderData.order_id);
+        setSuccess(true);
+        clearCart();
+        setCheckoutLoading(false);
+        return;
+      }
+
+      // Online Payment via Razorpay
       const res = await fetch('/api/checkout/razorpay-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -394,6 +416,12 @@ function CheckoutContent() {
             <div className="receipt-line">
               <span className="label">Order Reference</span>
               <span className="value">{createdOrderId}</span>
+            </div>
+            <div className="receipt-line">
+              <span className="label">Payment Mode</span>
+              <span className="value" style={{ color: paymentMethod === 'cod' ? '#d4af37' : '#81c784', fontWeight: 600 }}>
+                {paymentMethod === 'cod' ? `Cash on Delivery (₹${finalTotal.toLocaleString()} to pay)` : 'Prepaid (Paid via Razorpay)'}
+              </span>
             </div>
             <div className="receipt-line">
               <span className="label">Est. Delivery</span>
@@ -801,16 +829,95 @@ function CheckoutContent() {
                   />
                 </div>
 
+                {/* Payment Method Selector */}
+                <div style={{ margin: '28px 0 20px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', marginBottom: '10px', fontWeight: 600 }}>
+                    Select Payment Method
+                  </label>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {/* Option 1: Razorpay / Online */}
+                    <div 
+                      onClick={() => setPaymentMethod('razorpay')}
+                      style={{
+                        border: paymentMethod === 'razorpay' ? '1px solid #d4af37' : '1px solid #282828',
+                        background: paymentMethod === 'razorpay' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                        padding: '14px 16px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <input 
+                          type="radio" 
+                          name="paymentMethod" 
+                          checked={paymentMethod === 'razorpay'} 
+                          onChange={() => setPaymentMethod('razorpay')}
+                          style={{ accentColor: '#d4af37', cursor: 'pointer' }}
+                        />
+                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#fff' }}>Online Payment</span>
+                      </div>
+                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#888', lineHeight: 1.4 }}>
+                        UPI, Cards, NetBanking
+                      </p>
+                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(76, 175, 80, 0.15)', color: '#81c784', padding: '2px 6px', borderRadius: '2px', letterSpacing: '0.05em', fontWeight: 600 }}>
+                        INSTANT DISPATCH
+                      </span>
+                    </div>
+
+                    {/* Option 2: Cash on Delivery */}
+                    <div 
+                      onClick={() => setPaymentMethod('cod')}
+                      style={{
+                        border: paymentMethod === 'cod' ? '1px solid #d4af37' : '1px solid #282828',
+                        background: paymentMethod === 'cod' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                        padding: '14px 16px',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <input 
+                          type="radio" 
+                          name="paymentMethod" 
+                          checked={paymentMethod === 'cod'} 
+                          onChange={() => setPaymentMethod('cod')}
+                          style={{ accentColor: '#d4af37', cursor: 'pointer' }}
+                        />
+                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#fff' }}>Cash on Delivery</span>
+                      </div>
+                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#888', lineHeight: 1.4 }}>
+                        Pay cash or UPI upon delivery
+                      </p>
+                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(212, 175, 55, 0.15)', color: '#d4af37', padding: '2px 6px', borderRadius: '2px', letterSpacing: '0.05em', fontWeight: 600 }}>
+                        PAY AT DOORSTEP
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="gateway-badge">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4af37" strokeWidth="1.5">
                     <rect x="2" y="5" width="20" height="14" rx="2" />
                     <line x1="2" y1="10" x2="22" y2="10" />
                   </svg>
-                  <span>Secured via Razorpay Payment Gateway</span>
+                  <span>
+                    {paymentMethod === 'cod' 
+                      ? 'Cash on Delivery • Verified Contact & Address Required' 
+                      : 'Secured via Razorpay Payment Gateway'}
+                  </span>
                 </div>
 
                 <button type="submit" className="action-btn checkout-pay" disabled={checkoutLoading || cartItems.length === 0}>
-                  {checkoutLoading ? 'Preparing Gateway...' : `Proceed to Payment — ₹${finalTotal.toLocaleString()}`}
+                  {checkoutLoading 
+                    ? (paymentMethod === 'cod' ? 'Placing Order...' : 'Preparing Gateway...') 
+                    : (paymentMethod === 'cod' 
+                        ? `Place Cash on Delivery Order — ₹${finalTotal.toLocaleString()}` 
+                        : `Proceed to Payment — ₹${finalTotal.toLocaleString()}`
+                      )
+                  }
                 </button>
               </form>
             </div>

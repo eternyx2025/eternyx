@@ -333,7 +333,8 @@ export const icarryService = {
     shipmentMode: 'E' | 'S' | 'H' = 'S',
     courierId?: number,
     courierName?: string,
-    orderValue?: number
+    orderValue?: number,
+    isCod: boolean = false
   ): Promise<BookingResult> => {
     const pickupAddressId = process.env.ICARRY_PICKUP_ADDRESS_ID || '85126';
 
@@ -379,8 +380,9 @@ export const icarryService = {
         country_code: 'IN',
       },
       parcel: {
-        type: 'Prepaid',
+        type: isCod ? 'COD' : 'Prepaid',
         value: Number(orderValue || 1299),
+        cod_amount: isCod ? Number(orderValue || 1299) : 0,
         currency: 'INR',
         contents: 'Luxury Perfume / Fragrance',
         dimensions: {

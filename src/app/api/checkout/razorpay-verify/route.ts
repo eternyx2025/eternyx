@@ -126,6 +126,22 @@ export async function POST(request: Request) {
       console.error('[Auto-Booking iCarry Shipment Error]:', shipErr);
     }
 
+    // E. Send Luxury Order Confirmation Email
+    try {
+      const { emailService } = await import('@/services/emailService');
+      await emailService.sendOrderConfirmationEmail({
+        id: order.id,
+        customer_name: order.customer_name || 'Valued Client',
+        customer_email: order.customer_email,
+        total: Number(order.total),
+        payment_method: 'Prepaid',
+        items: order.items || [],
+        shipping_address: order.shipping_address,
+      });
+    } catch (mailErr) {
+      console.error('Confirmation email dispatch warning:', mailErr);
+    }
+
     return Response.json({ success: true, order_id: order.id });
   } catch (error) {
     console.error('Verify payment signature error:', error);

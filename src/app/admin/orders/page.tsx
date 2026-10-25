@@ -39,6 +39,7 @@ interface Order {
   shipping_label_url?: string | null;
   shipping_cost?: number | null;
   payment_status?: string;
+  payment_method?: string;
   razorpay_order_id?: string | null;
   razorpay_payment_id?: string | null;
   created_at: string;
@@ -377,22 +378,38 @@ export default function OrdersPage() {
                 <div className="col-items">{order.items_count} items</div>
                 <div className="col-total">₹{Number(order.total).toFixed(2)}</div>
                 <div className="col-status">
-                  <span className={`status-badge ${order.status.toLowerCase()}`}>
-                    {order.status}
-                  </span>
-                  {order.payment_status === 'Paid' ? (
-                    <span style={{ display: 'inline-block', marginTop: '5px', fontSize: '0.72rem', padding: '2px 7px', borderRadius: '3px', background: 'rgba(39, 174, 96, 0.2)', color: '#2ecc71', fontWeight: 700, border: '1px solid rgba(46, 204, 113, 0.35)', letterSpacing: '0.04em' }}>
-                      ✓ PAID
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span className={`status-badge ${order.status.toLowerCase()}`}>
+                      {order.status}
                     </span>
-                  ) : order.payment_status === 'Failed' ? (
-                    <span style={{ display: 'inline-block', marginTop: '5px', fontSize: '0.72rem', padding: '2px 7px', borderRadius: '3px', background: 'rgba(231, 76, 60, 0.2)', color: '#e74c3c', fontWeight: 700, border: '1px solid rgba(231, 76, 60, 0.35)', letterSpacing: '0.04em' }}>
-                      ✕ FAILED
-                    </span>
-                  ) : (
-                    <span style={{ display: 'inline-block', marginTop: '5px', fontSize: '0.72rem', padding: '2px 7px', borderRadius: '3px', background: 'rgba(243, 156, 18, 0.15)', color: '#f39c12', fontWeight: 700, border: '1px solid rgba(243, 156, 18, 0.35)', letterSpacing: '0.04em' }}>
-                      ⏳ UNPAID
-                    </span>
-                  )}
+                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                      <span style={{
+                        fontSize: '0.66rem',
+                        padding: '1px 6px',
+                        borderRadius: '3px',
+                        background: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.15)' : 'rgba(52, 152, 219, 0.15)',
+                        color: order.payment_method === 'COD' ? '#d4af37' : '#3498db',
+                        fontWeight: 700,
+                        border: order.payment_method === 'COD' ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid rgba(52, 152, 219, 0.35)',
+                        letterSpacing: '0.04em'
+                      }}>
+                        {order.payment_method === 'COD' ? '💵 COD' : '💳 ONLINE'}
+                      </span>
+                      {order.payment_status === 'Paid' ? (
+                        <span style={{ fontSize: '0.66rem', padding: '1px 6px', borderRadius: '3px', background: 'rgba(39, 174, 96, 0.2)', color: '#2ecc71', fontWeight: 700, border: '1px solid rgba(46, 204, 113, 0.35)', letterSpacing: '0.04em' }}>
+                          ✓ PAID
+                        </span>
+                      ) : order.payment_status === 'Failed' ? (
+                        <span style={{ fontSize: '0.66rem', padding: '1px 6px', borderRadius: '3px', background: 'rgba(231, 76, 60, 0.2)', color: '#e74c3c', fontWeight: 700, border: '1px solid rgba(231, 76, 60, 0.35)', letterSpacing: '0.04em' }}>
+                          ✕ FAILED
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.66rem', padding: '1px 6px', borderRadius: '3px', background: 'rgba(243, 156, 18, 0.15)', color: '#f39c12', fontWeight: 700, border: '1px solid rgba(243, 156, 18, 0.35)', letterSpacing: '0.04em' }}>
+                          ⏳ UNPAID
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="col-actions">
                   <button className="action-link" onClick={() => handleOpenDetails(order)}>View Details</button>
@@ -443,28 +460,34 @@ export default function OrdersPage() {
 
                 <div className="info-grid">
                   <div>
-                    <p className="info-label">Payment Gateway</p>
-                    <p className="info-val" style={{ fontWeight: 600 }}>Razorpay Secure</p>
+                    <p className="info-label">Payment Method</p>
+                    <p className="info-val" style={{ fontWeight: 600, color: selectedOrder.payment_method === 'COD' ? '#d4af37' : '#fff' }}>
+                      {selectedOrder.payment_method === 'COD' ? '💵 Cash on Delivery' : '💳 Razorpay Secure Online'}
+                    </p>
                   </div>
                   <div>
                     <p className="info-label">Order Total</p>
                     <p className="info-val" style={{ color: '#d4af37', fontWeight: 700, fontSize: '1.05rem' }}>₹{Number(selectedOrder.total).toFixed(2)}</p>
                   </div>
                   <div>
-                    <p className="info-label">Razorpay Order ID</p>
+                    <p className="info-label">Transaction Reference</p>
                     <p className="info-val" style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
-                      {selectedOrder.razorpay_order_id || 'Not initiated'}
+                      {selectedOrder.payment_method === 'COD' ? 'Collect on Delivery' : (selectedOrder.razorpay_order_id || 'Not initiated')}
                     </p>
                   </div>
                   <div>
-                    <p className="info-label">Razorpay Payment ID</p>
+                    <p className="info-label">Payment ID</p>
                     <p className="info-val" style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: selectedOrder.razorpay_payment_id ? '#2ecc71' : '#888' }}>
-                      {selectedOrder.razorpay_payment_id || 'None (Payment not captured)'}
+                      {selectedOrder.payment_method === 'COD' ? (selectedOrder.payment_status === 'Paid' ? 'Collected by Courier' : 'Awaiting Doorstep Collection') : (selectedOrder.razorpay_payment_id || 'None (Payment not captured)')}
                     </p>
                   </div>
                 </div>
 
-                {selectedOrder.payment_status !== 'Paid' ? (
+                {selectedOrder.payment_method === 'COD' ? (
+                  <p style={{ marginTop: '14px', marginBottom: 0, fontSize: '0.8rem', color: '#d4af37', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.25)', padding: '10px 14px', borderRadius: '4px', lineHeight: 1.5 }}>
+                    💵 <strong>Cash on Delivery (COD) Order:</strong> Courier will collect <strong>₹{Number(selectedOrder.total).toFixed(2)}</strong> from the buyer upon delivery. When courier status updates to Delivered, payment status will automatically be marked <strong>PAID ✓</strong>.
+                  </p>
+                ) : selectedOrder.payment_status !== 'Paid' ? (
                   <p style={{ marginTop: '14px', marginBottom: 0, fontSize: '0.8rem', color: '#f39c12', background: 'rgba(243, 156, 18, 0.12)', padding: '10px 14px', borderRadius: '4px', lineHeight: 1.5 }}>
                     ⚠️ <strong>Payment Not Received:</strong> Razorpay has not confirmed payment for this order yet. Do not ship items until status shows <strong>PAID ✓</strong>.
                   </p>

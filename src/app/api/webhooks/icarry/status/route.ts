@@ -33,14 +33,26 @@ export async function POST(req: NextRequest) {
       }
 
       try {
-        const updateResult = await query<any>(
-          `UPDATE orders 
-           SET status = ?, 
-               shipping_tracking_id = COALESCE(?, shipping_tracking_id) 
-           WHERE id = ? OR (shipping_tracking_id = ? AND shipping_tracking_id IS NOT NULL AND shipping_tracking_id != '')`,
-          [orderStatus, trackingId || null, orderId || '', trackingId || '']
-        );
-        console.log(`[iCarry Status Webhook] Order status updated to '${orderStatus}' for orderId: ${orderId}, trackingId: ${trackingId}, affected: ${updateResult.affectedRows || 0}`);
+        let updateResult: any;
+        if (orderStatus === 'Delivered') {
+          updateResult = await query<any>(
+            `UPDATE orders 
+             SET status = 'Delivered', 
+                 payment_status = CASE WHEN payment_method = 'COD' THEN 'Paid' ELSE payment_status END,
+                 shipping_tracking_id = COALESCE(?, shipping_tracking_id) 
+             WHERE id = ? OR (shipping_tracking_id = ? AND shipping_tracking_id IS NOT NULL AND shipping_tracking_id != '')`,
+            [trackingId || null, orderId || '', trackingId || '']
+          );
+        } else {
+          updateResult = await query<any>(
+            `UPDATE orders 
+             SET status = ?, 
+                 shipping_tracking_id = COALESCE(?, shipping_tracking_id) 
+             WHERE id = ? OR (shipping_tracking_id = ? AND shipping_tracking_id IS NOT NULL AND shipping_tracking_id != '')`,
+            [orderStatus, trackingId || null, orderId || '', trackingId || '']
+          );
+        }
+        console.log(`[iCarry Status Webhook] Order status updated to '${orderStatus}' for orderId: ${orderId}, trackingId: ${trackingId}, affected: ${updateResult?.affectedRows || 0}`);
       } catch (dbErr) {
         console.error('[iCarry Webhook DB Update Error]:', dbErr);
       }

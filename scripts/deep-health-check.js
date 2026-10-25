@@ -46,7 +46,7 @@ async function comprehensiveDeepCheck() {
       WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'orders'
     `, [process.env.DB_NAME]);
     const colNames = orderCols.map(c => c.COLUMN_NAME);
-    const requiredOrderCols = ['shipping_carrier', 'shipping_tracking_id', 'shipping_label_url', 'shipping_cost', 'razorpay_order_id', 'razorpay_payment_id'];
+    const requiredOrderCols = ['shipping_carrier', 'shipping_tracking_id', 'shipping_label_url', 'shipping_cost', 'razorpay_order_id', 'razorpay_payment_id', 'payment_method'];
     for (const rc of requiredOrderCols) {
       if (colNames.includes(rc)) {
         console.log(`  ✓ Orders column "${rc}": PRESENT`);

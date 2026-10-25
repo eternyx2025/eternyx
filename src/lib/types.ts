@@ -80,6 +80,7 @@ export interface Order {
   discount_code: string | null;
   items: OrderItem[];
   payment_status?: string;
+  payment_method?: 'Prepaid' | 'COD' | string;
   razorpay_order_id?: string | null;
   razorpay_payment_id?: string | null;
   razorpay_signature?: string | null;

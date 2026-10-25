@@ -45,6 +45,8 @@ export async function POST(request: NextRequest) {
     const finalWeight = weightGrams || 250;
     const mode = shipmentMode || 'S'; // Surface is standard for perfumes
 
+    const isCod = order.payment_method === 'COD';
+
     // Call iCarry service to execute the booking
     const result = await icarryService.bookShipment(
       order.id,
@@ -53,7 +55,8 @@ export async function POST(request: NextRequest) {
       mode,
       courierId,
       courierName,
-      Number(order.total)
+      Number(order.total),
+      isCod
     );
 
     if (result.success) {

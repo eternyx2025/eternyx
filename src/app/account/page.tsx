@@ -312,8 +312,14 @@ export default function CustomerAccountPage() {
                           <span className={`status-pill ${status}`}>
                             {order.status || 'Processing'}
                           </span>
-                          <span className="payment-pill">
-                            {order.payment_status === 'Paid' ? 'Paid via Razorpay' : (order.payment_status || 'Prepaid')}
+                          <span className="payment-pill" style={{
+                            background: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+                            borderColor: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                            color: order.payment_method === 'COD' ? '#d4af37' : '#bbb'
+                          }}>
+                            {order.payment_method === 'COD' 
+                              ? (order.payment_status === 'Paid' ? '💵 COD (Paid)' : '💵 Cash on Delivery') 
+                              : (order.payment_status === 'Paid' ? '💳 Paid Online' : '💳 Pending Payment')}
                           </span>
                         </div>
                       </div>

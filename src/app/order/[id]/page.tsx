@@ -234,8 +234,31 @@ export default async function OrderDetailPage({ params }: Props) {
                 <span className="free">COMPLIMENTARY</span>
               </div>
               <div className="summary-row grand-total">
-                <span>Total Paid</span>
+                <span>{order.payment_method === 'COD' ? 'Total (Pay on Delivery)' : 'Total Paid'}</span>
                 <span>₹{Number(order.total).toLocaleString('en-IN')}</span>
+              </div>
+
+              <div style={{
+                marginTop: '12px',
+                padding: '12px 14px',
+                borderRadius: '4px',
+                background: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(46, 125, 50, 0.08)',
+                border: order.payment_method === 'COD' ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid rgba(46, 125, 50, 0.35)',
+                fontSize: '0.8rem',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: order.payment_method === 'COD' && order.status !== 'Delivered' ? '6px' : '0' }}>
+                  <span style={{ color: order.payment_method === 'COD' ? '#d4af37' : '#81c784', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>{order.payment_method === 'COD' ? '💵 Cash on Delivery' : '💳 Prepaid (Online)'}</span>
+                  </span>
+                  <span style={{ fontSize: '0.72rem', color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Status: {order.payment_status || 'Pending'}
+                  </span>
+                </div>
+                {order.payment_method === 'COD' && order.status !== 'Delivered' && (
+                  <p style={{ margin: '4px 0 0 0', fontSize: '0.75rem', color: '#ccc', lineHeight: 1.4 }}>
+                    Please keep <strong>₹{Number(order.total).toLocaleString('en-IN')}</strong> in cash or UPI ready when the delivery partner arrives.
+                  </p>
+                )}
               </div>
             </div>
           </div>

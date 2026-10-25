@@ -112,8 +112,8 @@ export const orderService = {
       const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
       await query(
-        `INSERT INTO orders (id, customer_id, customer_name, customer_email, total, status, payment_status, razorpay_order_id, razorpay_payment_id, razorpay_signature, shipping_address, discount_code, created_at, date)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO orders (id, customer_id, customer_name, customer_email, total, status, payment_status, payment_method, razorpay_order_id, razorpay_payment_id, razorpay_signature, shipping_address, discount_code, created_at, date)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           o.id,
           o.customer_id || null,
@@ -122,6 +122,7 @@ export const orderService = {
           o.total,
           o.status || 'Pending',
           o.payment_status || 'Pending',
+          o.payment_method || 'Prepaid',
           o.razorpay_order_id || null,
           o.razorpay_payment_id || null,
           o.razorpay_signature || null,
@@ -252,14 +253,25 @@ export const orderService = {
       }
 
       if (normalized) {
-        await query(
-          `UPDATE orders 
-           SET status = ? 
-           WHERE (id = ? OR shipping_tracking_id = ?) 
-             AND status != ? 
-             AND status != 'Delivered'`,
-          [normalized, orderIdOrAwb, orderIdOrAwb, normalized]
-        );
+        if (normalized === 'Delivered') {
+          // If COD order is delivered, courier has collected cash, so mark Paid
+          await query(
+            `UPDATE orders 
+             SET status = 'Delivered',
+                 payment_status = CASE WHEN payment_method = 'COD' THEN 'Paid' ELSE payment_status END
+             WHERE (id = ? OR shipping_tracking_id = ?)`,
+            [orderIdOrAwb, orderIdOrAwb]
+          );
+        } else {
+          await query(
+            `UPDATE orders 
+             SET status = ? 
+             WHERE (id = ? OR shipping_tracking_id = ?) 
+               AND status != ? 
+               AND status != 'Delivered'`,
+            [normalized, orderIdOrAwb, orderIdOrAwb, normalized]
+          );
+        }
       }
       return normalized;
     } catch (e) {
