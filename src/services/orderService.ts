@@ -223,5 +223,68 @@ export const orderService = {
       console.error(`Failed to update shipping info for order ${id}:`, e);
       return null;
     }
+  },
+
+  /**
+   * Automatically normalizes and updates delivery status in MySQL if changed
+   */
+  syncDeliveryStatus: async (orderIdOrAwb: string, rawCourierStatus: string): Promise<string> => {
+    try {
+      if (!orderIdOrAwb || !rawCourierStatus) return '';
+      const s = String(rawCourierStatus).toLowerCase();
+      let normalized = '';
+
+      if (s.includes('out for delivery') || s.includes('out for')) {
+        normalized = 'Out for Delivery';
+      } else if (s.includes('deliver') || s.includes('completed')) {
+        normalized = 'Delivered';
+      } else if (
+        s.includes('transit') ||
+        s.includes('shipped') ||
+        s.includes('dispatch') ||
+        s.includes('pickup') ||
+        s.includes('picked up') ||
+        s.includes('in-transit')
+      ) {
+        normalized = 'Shipped';
+      } else if (s.includes('rto') || s.includes('return') || s.includes('cancel')) {
+        normalized = 'Cancelled';
+      }
+
+      if (normalized) {
+        await query(
+          `UPDATE orders 
+           SET status = ? 
+           WHERE (id = ? OR shipping_tracking_id = ?) 
+             AND status != ? 
+             AND status != 'Delivered'`,
+          [normalized, orderIdOrAwb, orderIdOrAwb, normalized]
+        );
+      }
+      return normalized;
+    } catch (e) {
+      console.error(`Failed to sync delivery status for ${orderIdOrAwb}:`, e);
+      return '';
+    }
+  },
+
+  /**
+   * Retrieves all orders that have been shipped but not yet delivered
+   */
+  getActiveInTransitOrders: async (): Promise<any[]> => {
+    try {
+      return await query<any[]>(
+        `SELECT id, shipping_tracking_id, shipping_carrier, status, customer_name, customer_email, date 
+         FROM orders 
+         WHERE shipping_tracking_id IS NOT NULL 
+           AND shipping_tracking_id != '' 
+           AND status NOT IN ('Delivered', 'Cancelled')
+         ORDER BY created_at DESC`
+      );
+    } catch (e) {
+      console.error('Failed to get active in-transit orders:', e);
+      return [];
+    }
   }
 };
+

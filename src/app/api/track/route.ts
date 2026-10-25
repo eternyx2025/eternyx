@@ -42,6 +42,14 @@ export async function GET(request: NextRequest) {
     // Fetch tracking checkpoints from iCarry
     const tracking = await icarryService.trackShipment(trackingId);
 
+    // Auto-sync status to database in background
+    if (tracking?.status) {
+      const synced = await orderService.syncDeliveryStatus(cleanQuery, tracking.status);
+      if (synced && orderInfo) {
+        orderInfo.status = synced;
+      }
+    }
+
     return NextResponse.json({
       success: true,
       trackingId,

@@ -43,3 +43,7 @@ next-env.d.ts
 # Google Credentials & Secrets
 eternyx-uplods-*.json
 client_secret_*.json
+
+# Uploads directory (persisted on server disk)
+/public/uploads/*
+!/public/uploads/.gitkeep

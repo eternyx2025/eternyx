@@ -6,22 +6,41 @@ export async function POST(req: NextRequest) {
     const payload = await req.json();
     console.log('[iCarry Status Webhook Received]:', payload);
 
-    const orderId = payload.order_id || payload.order_reference_id;
-    const newStatus = payload.status || payload.shipment_status;
-    const trackingId = payload.tracking_id || payload.awb || payload.awb_number;
+    const orderId = payload.order_id || payload.order_reference_id || payload.reference_id;
+    const newStatus = payload.status || payload.shipment_status || payload.current_status;
+    const trackingId = payload.tracking_id || payload.awb || payload.awb_number || payload.waybill;
 
-    if (orderId && newStatus) {
+    if ((orderId || trackingId) && newStatus) {
       let orderStatus = 'Processing';
       const s = String(newStatus).toLowerCase();
-      if (s.includes('deliver')) orderStatus = 'Delivered';
-      else if (s.includes('transit') || s.includes('shipped') || s.includes('dispatch') || s.includes('pickup')) orderStatus = 'Shipped';
-      else if (s.includes('cancel')) orderStatus = 'Cancelled';
+      
+      if (s.includes('out for delivery') || s.includes('out for')) {
+        orderStatus = 'Out for Delivery';
+      } else if (s.includes('deliver') || s.includes('completed')) {
+        orderStatus = 'Delivered';
+      } else if (
+        s.includes('transit') ||
+        s.includes('shipped') ||
+        s.includes('dispatch') ||
+        s.includes('pickup') ||
+        s.includes('picked up') ||
+        s.includes('manifest') ||
+        s.includes('in-transit')
+      ) {
+        orderStatus = 'Shipped';
+      } else if (s.includes('rto') || s.includes('return') || s.includes('cancel')) {
+        orderStatus = 'Cancelled';
+      }
 
       try {
-        await query(
-          `UPDATE orders SET status = ?, tracking_id = COALESCE(?, tracking_id) WHERE id = ?`,
-          [orderStatus, trackingId || null, orderId]
+        const updateResult = await query<any>(
+          `UPDATE orders 
+           SET status = ?, 
+               shipping_tracking_id = COALESCE(?, shipping_tracking_id) 
+           WHERE id = ? OR (shipping_tracking_id = ? AND shipping_tracking_id IS NOT NULL AND shipping_tracking_id != '')`,
+          [orderStatus, trackingId || null, orderId || '', trackingId || '']
         );
+        console.log(`[iCarry Status Webhook] Order status updated to '${orderStatus}' for orderId: ${orderId}, trackingId: ${trackingId}, affected: ${updateResult.affectedRows || 0}`);
       } catch (dbErr) {
         console.error('[iCarry Webhook DB Update Error]:', dbErr);
       }

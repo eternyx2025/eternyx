@@ -43,8 +43,11 @@ export const customerService = {
       if (results.length === 0) return null;
       const c = results[0];
 
-      // Get orders for this customer
-      const orders = await query<any[]>('SELECT * FROM orders WHERE customer_id = ?', [id]);
+      // Get orders for this customer (matched by customer_id OR customer_email for guest recovery)
+      const orders = await query<any[]>(
+        'SELECT * FROM orders WHERE customer_id = ? OR (customer_email = ? AND customer_email != "") ORDER BY created_at DESC',
+        [id, c.email]
+      );
       const enrichedOrders = await Promise.all(
         orders.map(async (o) => {
           const items = await query<any[]>('SELECT * FROM order_items WHERE order_id = ?', [o.id]);
@@ -221,5 +224,56 @@ export const customerService = {
       console.error('Failed to create or update customer:', e);
       return null;
     }
+  },
+
+  resetPassword: async (email: string, newPassword: string): Promise<boolean> => {
+    try {
+      const emailLower = email.toLowerCase().trim();
+      const hash = await customerService.hashPassword(newPassword);
+      await query('UPDATE customers SET password_hash = ? WHERE email = ?', [hash, emailLower]);
+      return true;
+    } catch (e) {
+      console.error(`Failed to reset password for ${email}:`, e);
+      return false;
+    }
+  },
+
+  updateProfile: async (id: string, name: string, phone: string): Promise<boolean> => {
+    try {
+      await query('UPDATE customers SET name = ?, phone = ? WHERE id = ?', [name.trim(), phone.trim(), id]);
+      return true;
+    } catch (e) {
+      console.error(`Failed to update customer profile ${id}:`, e);
+      return false;
+    }
+  },
+
+  ensureCustomer: async (email: string, name?: string, phone?: string): Promise<Customer | null> => {
+    try {
+      const emailLower = email.toLowerCase().trim();
+      const existing = await customerService.getByEmail(emailLower);
+      if (existing) return existing;
+
+      const id = `cust-${uuidv4().slice(0, 8)}`;
+      const derivedName = name?.trim() || emailLower.split('@')[0];
+      await query(
+        `INSERT INTO customers (id, name, email, spent, orders, last_active, phone)
+         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [id, derivedName, emailLower, 0.00, 0, 'Today', phone?.trim() || null]
+      );
+      return {
+        id,
+        name: derivedName,
+        email: emailLower,
+        spent: 0,
+        orders: 0,
+        lastActive: 'Today',
+        phone: phone?.trim() || undefined,
+      };
+    } catch (e) {
+      console.error('Failed to ensure customer exists:', e);
+      return null;
+    }
   }
 };
+

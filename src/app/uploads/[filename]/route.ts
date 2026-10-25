@@ -18,7 +18,73 @@ export async function GET(
     const sanitizedFilename = path.basename(filename);
     const filePath = path.join(process.cwd(), 'public', 'uploads', sanitizedFilename);
 
+    const rangeHeader = request.headers.get('range');
+
     if (!fs.existsSync(filePath)) {
+      // Fallback: fetch from live production site so local dev loads all media seamlessly
+      const liveUrl = `https://eternyxfragrance.com/uploads/${sanitizedFilename}`;
+      try {
+        const prodRes = await fetch(liveUrl, {
+          headers: rangeHeader ? { range: rangeHeader } : {},
+        });
+
+        if (prodRes.ok) {
+          const contentType = prodRes.headers.get('content-type') || 'application/octet-stream';
+          const contentLength = prodRes.headers.get('content-length');
+          const contentRange = prodRes.headers.get('content-range');
+
+          // Full file download: cache locally in public/uploads so subsequent requests are instant
+          if (prodRes.status === 200) {
+            const arrayBuffer = await prodRes.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+            try {
+              const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+              if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+              }
+              fs.writeFileSync(filePath, buffer);
+            } catch (writeErr) {
+              console.warn('Could not cache file locally:', writeErr);
+            }
+
+            return new NextResponse(buffer, {
+              status: 200,
+              headers: {
+                'Content-Type': contentType,
+                'Content-Length': String(buffer.length),
+                'Accept-Ranges': 'bytes',
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'public, max-age=31536000, immutable',
+              },
+            });
+          }
+
+          // Video partial content streaming
+          if (prodRes.status === 206) {
+            return new NextResponse(prodRes.body, {
+              status: 206,
+              headers: {
+                'Content-Range': contentRange || '',
+                'Accept-Ranges': 'bytes',
+                'Content-Length': contentLength || '',
+                'Content-Type': contentType,
+                'Access-Control-Allow-Origin': '*',
+              },
+            });
+          }
+
+          return new NextResponse(prodRes.body, {
+            status: prodRes.status,
+            headers: {
+              'Content-Type': contentType,
+              ...(contentLength ? { 'Content-Length': contentLength } : {}),
+            },
+          });
+        }
+      } catch (proxyErr) {
+        console.warn(`[uploads fallback] Failed to fetch ${liveUrl}:`, proxyErr);
+      }
+
       return new NextResponse('File Not Found', { status: 404 });
     }
 
@@ -35,7 +101,6 @@ export async function GET(
     else if (ext === '.png') contentType = 'image/png';
     else if (ext === '.gif') contentType = 'image/gif';
 
-    const rangeHeader = request.headers.get('range');
 
     // Support streaming/seeking for videos with HTTP 206 Partial Content
     if (rangeHeader && fileSize > 0) {

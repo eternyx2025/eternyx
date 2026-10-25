@@ -76,11 +76,21 @@ export default async function OrderDetailPage({ params }: Props) {
   }
 
   // Fetch live tracking if order has tracking/AWB or order ID
-  const trackingRef = order.tracking_id || order.id;
+  const trackingRef = order.shipping_tracking_id || order.tracking_id || order.id;
   const trackingData = await icarryService.trackShipment(trackingRef);
 
+  // Self-Healing Auto-Sync: if courier reports a new status, write it to MySQL in the background
+  let currentStatus = order.status || 'Processing';
+  if (trackingData && trackingData.status) {
+    const synced = await orderService.syncDeliveryStatus(order.id, trackingData.status);
+    if (synced) {
+      currentStatus = synced;
+    } else {
+      currentStatus = order.status || trackingData.status;
+    }
+  }
+
   const statusSteps = ['Placed', 'Shipped', 'In Transit', 'Out for Delivery', 'Delivered'];
-  const currentStatus = order.status || trackingData.status || 'Processing';
 
   const getStepIndex = (s: string) => {
     const lower = s.toLowerCase();
@@ -121,8 +131,8 @@ export default async function OrderDetailPage({ params }: Props) {
               <span className="dot" />
               <span>Live Parcel Tracking &bull; iCarry Logistics</span>
             </div>
-            {order.tracking_id && (
-              <span className="awb-num">AWB: {order.tracking_id}</span>
+            {(order.shipping_tracking_id || order.tracking_id) && (
+              <span className="awb-num">AWB: {order.shipping_tracking_id || order.tracking_id}</span>
             )}
           </div>
 
@@ -175,7 +185,7 @@ export default async function OrderDetailPage({ params }: Props) {
             <p className="tracking-note">
               Carrier: <strong>{order.carrier || 'iCarry Courier Partner (Delhivery/BlueDart)'}</strong> &bull; Estimated delivery: 2-4 business days.
             </p>
-            <Link href={`/track?query=${encodeURIComponent(order.tracking_id || order.id)}`} className="btn-full-track">
+            <Link href={`/track?query=${encodeURIComponent(order.shipping_tracking_id || order.tracking_id || order.id)}`} className="btn-full-track">
               Open Full Tracking View →
             </Link>
           </div>

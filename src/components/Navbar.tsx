@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
+import { useCustomerAuth } from '@/context/CustomerAuthContext';
 import { DEFAULT_CATEGORIES } from '@/lib/types';
 
 const ANNOUNCEMENTS = [
@@ -20,8 +21,10 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [announcementIndex, setAnnouncementIndex] = useState(0);
   const { setIsCartOpen, cartCount } = useCart();
+  const { customer, isLoggedIn, openAuthModal, logout } = useCustomerAuth();
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
 
   const close = () => {
     setIsMenuOpen(false);
@@ -117,6 +120,58 @@ export default function Navbar() {
                 <path d="M21 21l-4.35-4.35" />
               </svg>
             </button>
+
+            {/* Account Icon & Dropdown */}
+            <div className="nav-account-container" onMouseLeave={() => setIsAccountDropdownOpen(false)}>
+              <button
+                aria-label="Account"
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    openAuthModal('login');
+                  } else {
+                    setIsAccountDropdownOpen(!isAccountDropdownOpen);
+                  }
+                }}
+                className={`nav-icon-btn ${isLoggedIn ? 'logged-in' : ''}`}
+                title={isLoggedIn ? (customer?.name || 'Account') : 'Sign In'}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                {isLoggedIn && <span className="nav-user-dot" />}
+              </button>
+
+              {isLoggedIn && isAccountDropdownOpen && (
+                <div className="account-dropdown-menu">
+                  <div className="dropdown-user-header">
+                    <p className="dropdown-user-name">{customer?.name || 'Valued Client'}</p>
+                    <p className="dropdown-user-email">{customer?.email}</p>
+                  </div>
+                  <div className="dropdown-divider" />
+                  <Link href="/account" className="dropdown-link" onClick={() => setIsAccountDropdownOpen(false)}>
+                    <span className="dropdown-bullet">✦</span>
+                    <span>My Account &amp; Orders</span>
+                  </Link>
+                  <Link href="/track" className="dropdown-link" onClick={() => setIsAccountDropdownOpen(false)}>
+                    <span className="dropdown-bullet">✦</span>
+                    <span>Track Delivery</span>
+                  </Link>
+                  <div className="dropdown-divider" />
+                  <button
+                    className="dropdown-link logout"
+                    onClick={async () => {
+                      setIsAccountDropdownOpen(false);
+                      await logout();
+                    }}
+                  >
+                    <span className="dropdown-bullet">✕</span>
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
             {pathname !== '/checkout' && (
               <button aria-label="Cart" onClick={() => setIsCartOpen(true)} className="cart-trigger-btn nav-icon-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -189,6 +244,46 @@ export default function Navbar() {
 
         {/* Gold divider */}
         <div className="mobile-menu-divider" />
+
+        {/* Mobile Account Profile Card */}
+        <div className="mobile-account-bar">
+          {isLoggedIn ? (
+            <div className="mobile-account-logged">
+              <div className="mobile-account-avatar">
+                {(customer?.name || 'U').charAt(0).toUpperCase()}
+              </div>
+              <div className="mobile-account-meta">
+                <span className="mobile-account-name">{customer?.name}</span>
+                <Link href="/account" onClick={close} className="mobile-account-sublink">
+                  My Orders &amp; Profile →
+                </Link>
+              </div>
+              <button
+                className="mobile-account-logout-btn"
+                onClick={async () => {
+                  close();
+                  await logout();
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <button
+              className="mobile-account-signin-btn"
+              onClick={() => {
+                close();
+                openAuthModal('login');
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span>Sign In / Create Account</span>
+            </button>
+          )}
+        </div>
 
         {/* Navigation links */}
         <nav className="mobile-menu-links">

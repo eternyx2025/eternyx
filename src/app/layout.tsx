@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { CartProvider } from "@/context/CartContext";
+import { CustomerAuthProvider } from "@/context/CustomerAuthContext";
+import AuthModal from "@/components/AuthModal";
 import CartDrawer from "@/components/CartDrawer";
 import FloatingCart from "@/components/FloatingCart";
 import StyledJsxRegistry from "./registry";
@@ -56,14 +58,17 @@ export default function RootLayout({
       <body>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
         <StyledJsxRegistry>
-          <CartProvider>
-            <Navbar />
-            <CartDrawer />
-            <FloatingCart />
-            <SmoothScroll />
-            {children}
-            <StorefrontFooterWrapper />
-          </CartProvider>
+          <CustomerAuthProvider>
+            <CartProvider>
+              <Navbar />
+              <CartDrawer />
+              <FloatingCart />
+              <SmoothScroll />
+              {children}
+              <StorefrontFooterWrapper />
+              <AuthModal />
+            </CartProvider>
+          </CustomerAuthProvider>
         </StyledJsxRegistry>
       </body>
     </html>

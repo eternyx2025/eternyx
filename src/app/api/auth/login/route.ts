@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { customerSessionOptions, SessionData } from '@/lib/session';
 import { customerService } from '@/services/customerService';
 
 export const dynamic = 'force-dynamic';
@@ -15,17 +15,17 @@ export async function POST(request: NextRequest) {
 
     const customer = await customerService.getByEmail(email);
     if (!customer || !customer.password_hash) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
     const isMatch = await customerService.verifyPassword(password, customer.password_hash);
     if (!isMatch) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
     // Set the cookie session for the customer
     const res = NextResponse.json({ success: true, customer });
-    const session = await getIronSession<SessionData>(request, res, sessionOptions);
+    const session = await getIronSession<SessionData>(request, res, customerSessionOptions);
     session.customerId = customer.id;
     session.customerEmail = customer.email;
     session.customerName = customer.name;

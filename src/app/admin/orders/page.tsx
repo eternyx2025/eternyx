@@ -65,6 +65,8 @@ export default function OrdersPage() {
   const [bookingError, setBookingError] = useState('');
   const [trackingInfo, setTrackingInfo] = useState<any | null>(null);
   const [trackingLoading, setTrackingLoading] = useState(false);
+  const [syncingCourier, setSyncingCourier] = useState(false);
+  const [syncMessage, setSyncMessage] = useState('');
 
   // Synchronize state when selectedOrder changes in details drawer
   useEffect(() => {
@@ -181,15 +183,39 @@ export default function OrdersPage() {
   const fetchTracking = async (awb: string) => {
     setTrackingLoading(true);
     try {
-      const res = await fetch(`/api/admin/icarry/track?tracking_id=${awb}`);
+      const orderIdParam = selectedOrder?.id ? `&order_id=${encodeURIComponent(selectedOrder.id)}` : '';
+      const res = await fetch(`/api/admin/icarry/track?tracking_id=${encodeURIComponent(awb)}${orderIdParam}`);
       const data = await res.json();
       if (res.ok && data.success) {
         setTrackingInfo(data.tracking);
+        if (data.syncedStatus && selectedOrder && data.syncedStatus !== selectedOrder.status) {
+          setSelectedOrder((prev) => (prev ? { ...prev, status: data.syncedStatus } : null));
+          fetchOrders();
+        }
       }
     } catch (err) {
       console.error(err);
     } finally {
       setTrackingLoading(false);
+    }
+  };
+
+  const handleSyncAllDeliveries = async () => {
+    setSyncingCourier(true);
+    setSyncMessage('');
+    try {
+      const res = await fetch('/api/admin/icarry/sync-all', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        setSyncMessage(data.message || 'Delivery statuses updated.');
+        fetchOrders();
+      } else {
+        alert(data.error || 'Failed to sync courier delivery statuses.');
+      }
+    } catch (err) {
+      console.error('Courier sync error:', err);
+    } finally {
+      setSyncingCourier(false);
     }
   };
 
@@ -258,8 +284,34 @@ export default function OrdersPage() {
   return (
     <div>
       <div className="admin-page-header">
-        <h1 className="admin-page-title">Orders</h1>
-        <button className="admin-btn-primary" onClick={fetchOrders}>Refresh Lists</button>
+        <div>
+          <h1 className="admin-page-title">Orders</h1>
+          {syncMessage && <p style={{ fontSize: '0.8rem', color: '#d4af37', margin: '4px 0 0 0' }}>{syncMessage}</p>}
+        </div>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <button
+            className="admin-btn-secondary"
+            onClick={handleSyncAllDeliveries}
+            disabled={syncingCourier}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '9px 16px',
+              fontSize: '0.78rem',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              background: 'rgba(212, 175, 55, 0.12)',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              color: '#d4af37',
+              borderRadius: '3px',
+              cursor: syncingCourier ? 'not-allowed' : 'pointer'
+            }}
+          >
+            <span>{syncingCourier ? 'Syncing Parcels...' : '🔄 Sync Live Courier Statuses'}</span>
+          </button>
+          <button className="admin-btn-primary" onClick={fetchOrders}>Refresh Lists</button>
+        </div>
       </div>
 
       <div className="admin-filters">

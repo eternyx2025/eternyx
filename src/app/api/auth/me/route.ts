@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { customerSessionOptions, SessionData } from '@/lib/session';
 import { customerService } from '@/services/customerService';
 
 export const dynamic = 'force-dynamic';
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   try {
     const res = NextResponse.json({ ok: true });
-    const session = await getIronSession<SessionData>(request, res, sessionOptions);
+    const session = await getIronSession<SessionData>(request, res, customerSessionOptions);
 
     if (!session.customerId) {
       return NextResponse.json({ loggedIn: false });
@@ -33,7 +33,11 @@ export async function GET(request: NextRequest) {
       email: customer.email,
       name: customer.name,
       phone: customer.phone || '',
-      address: savedAddress
+      hasPassword: Boolean(customer.password_hash),
+      address: savedAddress,
+      orders: orders,
+      spent: customer.spent || customer.total_spend || 0,
+      orderCount: orders.length,
     });
   } catch (error) {
     console.error('Customer check session API error:', error);

@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
     proxyClientMaxBodySize: '150mb',
   },
   images: {
+    qualities: [75, 100],
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'eternyxfragrance.com',
+      },
       {
         protocol: 'https',
         hostname: 'drive.google.com',

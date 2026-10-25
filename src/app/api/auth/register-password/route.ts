@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
-import { sessionOptions, SessionData } from '@/lib/session';
+import { customerSessionOptions, SessionData } from '@/lib/session';
 import { customerService } from '@/services/customerService';
 
 export const dynamic = 'force-dynamic';
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     // Set the cookie session for the registered customer
     const res = NextResponse.json({ success: true, customer });
-    const session = await getIronSession<SessionData>(request, res, sessionOptions);
+    const session = await getIronSession<SessionData>(request, res, customerSessionOptions);
     session.customerId = customer.id;
     session.customerEmail = customer.email;
     session.customerName = customer.name;
