@@ -19,8 +19,9 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [announcementIndex, setAnnouncementIndex] = useState(0);
-  const { setIsCartOpen, cartCount } = useCart();
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [applySuccessMsg, setApplySuccessMsg] = useState<string | null>(null);
+  const { setIsCartOpen, cartCount, appliedCoupon, applyCoupon } = useCart();
   const { customer, isLoggedIn, openAuthModal, logout } = useCustomerAuth();
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -29,6 +30,20 @@ export default function Navbar() {
   const close = () => {
     setIsMenuOpen(false);
     setIsCategoriesOpen(false);
+  };
+
+  const handleCopyCoupon = (code: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2500);
+  };
+
+  const handleAutoApply = (code: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    applyCoupon(code);
+    setApplySuccessMsg(`Coupon ${code} applied! Discount will reflect at checkout.`);
+    setTimeout(() => setApplySuccessMsg(null), 3500);
   };
 
   useEffect(() => {
@@ -52,13 +67,6 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setAnnouncementIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     if (isMenuOpen || isSearchOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -73,20 +81,53 @@ export default function Navbar() {
     return null;
   }
 
+  const tickerContent = (
+    <>
+      <span className="ticker-item">
+        <span className="ticker-sparkle">✦</span>
+        <span>EXCLUSIVE OFFER:</span>
+        <span className="ticker-coupon-pill" onClick={(e) => handleCopyCoupon('NEW50', e)} title="Click to copy NEW50">
+          <strong>NEW50</strong>
+          <span className="ticker-badge-action">{copiedCode === 'NEW50' ? '✓ COPIED' : 'COPY'}</span>
+        </span>
+        <span className="ticker-highlight">50% OFF ENTIRE ORDER</span>
+        <button
+          className={`ticker-apply-btn ${appliedCoupon === 'NEW50' ? 'applied' : ''}`}
+          onClick={(e) => handleAutoApply('NEW50', e)}
+        >
+          {appliedCoupon === 'NEW50' ? '✓ APPLIED' : 'APPLY NOW'}
+        </button>
+      </span>
+      <span className="ticker-dot">•</span>
+      <span className="ticker-item">
+        <span className="ticker-icon">🚚</span>
+        <span>COMPLIMENTARY GLOBAL EXPRESS SHIPPING ON ALL ORDERS</span>
+      </span>
+      <span className="ticker-dot">•</span>
+      <span className="ticker-item">
+        <span className="ticker-sparkle">✦</span>
+        <span>EXPERIENCE TAILORED BESPOKE LUXURY PERFUMERY</span>
+      </span>
+      <span className="ticker-dot">•</span>
+    </>
+  );
+
   return (
     <>
+      {/* Toast Notification when coupon is applied */}
+      {applySuccessMsg && (
+        <div className="coupon-toast">
+          <span className="toast-icon">✨</span>
+          <span>{applySuccessMsg}</span>
+        </div>
+      )}
+
       <header className={`header-wrapper ${isScrolled ? 'scrolled' : ''}`}>
-        {/* Slim Dynamic Announcement Bar */}
-        <div className="announcement-bar">
-          <div className="announcement-track">
-            {ANNOUNCEMENTS.map((text, idx) => (
-              <span
-                key={text}
-                className={`announcement-message ${idx === announcementIndex ? 'active' : ''}`}
-              >
-                {text}
-              </span>
-            ))}
+        {/* Continuous Luxury Marquee Bar */}
+        <div className="announcement-bar marquee-wrapper">
+          <div className="marquee-track">
+            <div className="marquee-group">{tickerContent}</div>
+            <div className="marquee-group" aria-hidden="true">{tickerContent}</div>
           </div>
         </div>
 

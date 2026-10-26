@@ -23,6 +23,9 @@ interface CartContextType {
   setIsCartOpen: (isOpen: boolean) => void;
   cartCount: number;
   cartTotal: number;
+  appliedCoupon: string | null;
+  applyCoupon: (code: string) => void;
+  removeCoupon: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,9 +33,10 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [appliedCoupon, setAppliedCouponState] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Load cart and coupon from localStorage on mount
   useEffect(() => {
     const storedCart = localStorage.getItem('eternyx_cart');
     if (storedCart) {
@@ -41,6 +45,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         console.error('Failed to parse cart items:', err);
       }
+    }
+    const storedCoupon = localStorage.getItem('eternyx_applied_coupon');
+    if (storedCoupon) {
+      setAppliedCouponState(storedCoupon);
     }
     setMounted(true);
   }, []);
@@ -51,6 +59,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('eternyx_cart', JSON.stringify(cartItems));
     }
   }, [cartItems, mounted]);
+
+  const applyCoupon = (code: string) => {
+    const clean = code.trim().toUpperCase();
+    setAppliedCouponState(clean);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('eternyx_applied_coupon', clean);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCouponState(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('eternyx_applied_coupon');
+    }
+  };
 
   const addToCart = (
     product: { name: string; category: string; price: string | number; image: string },
@@ -134,7 +157,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         isCartOpen,
         setIsCartOpen,
         cartCount,
-        cartTotal
+        cartTotal,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon
       }}
     >
       {children}

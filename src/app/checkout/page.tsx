@@ -14,7 +14,7 @@ interface DiscountType {
 function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { cartItems, cartTotal, clearCart, updateQuantity, removeFromCart } = useCart();
+  const { cartItems, cartTotal, clearCart, updateQuantity, removeFromCart, appliedCoupon } = useCart();
 
   // Redirect if cart is empty and checkout is not completed successfully
   useEffect(() => {
@@ -94,10 +94,12 @@ function CheckoutContent() {
     checkSession();
   }, []);
 
-  // Handle promo code from URL query parameter or auto-apply available coupon
+  // Handle promo code from CartContext, URL query parameter, or auto-apply available coupon
   useEffect(() => {
     const promoFromUrl = searchParams.get('promo');
-    if (promoFromUrl) {
+    if (appliedCoupon) {
+      applyPromoCode(appliedCoupon.toUpperCase());
+    } else if (promoFromUrl) {
       applyPromoCode(promoFromUrl.toUpperCase());
     } else {
       // Auto-fetch and apply active promotional code
@@ -116,7 +118,7 @@ function CheckoutContent() {
       }
       fetchAutoApplyPromo();
     }
-  }, [searchParams]);
+  }, [searchParams, appliedCoupon]);
 
   // Apply promo helper
   const applyPromoCode = async (code: string) => {
