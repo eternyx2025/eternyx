@@ -43,117 +43,76 @@ const productDetails: Record<string, {
   heartNotes: string[];
   baseNotes: string[];
   sizes: string[];
-  reviews: { author: string; rating: number; text: string; date: string }[];
 }> = {
   'CANDY': {
     description: 'Some women are remembered. Others are craved. CANDY by ETERNYX was created for her — the woman who is sweet yet powerful, delicate yet magnetic, impossible to forget. It opens with a luscious burst of juicy pear, pink pepper, and soft orange blossom — bright, playful, and instantly captivating. A first impression as irresistible as a smile. At its heart, rich coffee melts into jasmine and bitter almond — warm, sensual, and beautifully addictive. This is where CANDY reveals its depth — feminine, modern, and endlessly alluring. Then comes the seduction. A creamy base of vanilla, patchouli, cedarwood, and cashmere wood wraps the skin in luxurious warmth — soft, lingering, and unforgettable. A trail that leaves them wanting more. CANDY isn\'t just a fragrance. It\'s an experience — sweet, sophisticated, and utterly addictive. For the woman who owns her softness and turns it into power.',
     topNotes: ['Pear', 'Pink Pepper', 'Orange Blossom'],
     heartNotes: ['Coffee', 'Jasmine', 'Bitter Almond'],
     baseNotes: ['Vanilla', 'Patchouli', 'Cedarwood', 'Cashmere Wood'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Emma R.', rating: 5, text: 'So warm and delicious! The vanilla and coffee blend beautifully. I get so many compliments.', date: 'Apr 2026' },
-      { author: 'Sarah H.', rating: 5, text: 'Perfect sweet fragrance without being childish. The sillage is fantastic and it lasts all day.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'AFTER MEET': {
     description: 'Some men are remembered for what they say. The rare few are remembered for how they made you feel. AFTER MEET by ETERNYX was created for the second kind — the man who leaves a mark that lingers. It opens with a bright, confident rush of lemon and delicate orange blossom — crisp, clean, and instantly captivating. This is your first impression, sharp and effortless. As it unfolds, an aromatic heart of lavender, rosemary, and warm nutmeg takes hold — refined, bold, and undeniably masculine. It\'s the depth beneath the surface, the character people can\'t quite forget. Then comes the signature. A warm, distinctive base of tonka bean, rich teakwood, and juicy litchi wraps the skin in smooth, magnetic warmth — the scent trail that stays in the room long after you\'ve gone. AFTER MEET isn\'t just a fragrance. It\'s the impression you leave behind. Bold, memorable, and unmistakably you. For the man who understands that presence is the ultimate power.',
     topNotes: ['Lemon', 'Orange Blossom'],
     heartNotes: ['Lavender', 'Rosemary', 'Nutmeg'],
     baseNotes: ['Tonka Bean', 'Teakwood', 'Litchi'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'David K.', rating: 5, text: 'A great clean, professional scent. Perfect for the office and morning meetings.', date: 'Apr 2026' },
-      { author: 'Michael B.', rating: 4, text: 'Crisp lemon opening and a smooth teakwood base. Lasts around 8 hours on my skin.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'AZURA': {
     description: 'There\'s a certain calm in confidence — the kind that feels as fresh and boundless as the open sea. AZURA by ETERNYX was created to capture it. It opens with a crisp, vibrant burst of apple, bergamot, lemon, and a touch of cinnamon — juicy, bright, and instantly energizing. Like a deep breath of ocean air, it awakens the senses. At its heart, cool aquatic notes flow into orange blossom and juicy plum — fresh, smooth, and effortlessly modern. This is the soul of AZURA — clean, elegant, and endlessly refreshing. Then comes the depth. A sensual base of musk, ambergris, driftwood, and patchouli grounds the fragrance in warm, magnetic sophistication — leaving a trail that\'s fresh yet unforgettable. AZURA isn\'t just a fragrance. It\'s the feeling of freedom, confidence, and modern elegance — bottled for the man who owns every day. Fresh. Vibrant. Timeless.',
     topNotes: ['Apple', 'Bergamot', 'Lemon', 'Cinnamon'],
     heartNotes: ['Aquatic Notes', 'Orange Blossom', 'Plum'],
     baseNotes: ['Musk', 'Ambergris', 'Driftwood', 'Patchouli'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Liam N.', rating: 5, text: 'The best fresh fragrance I own. Feels like a breeze of fresh ocean air. Super clean.', date: 'Apr 2026' },
-      { author: 'Chris M.', rating: 5, text: 'Vibrant and juicy opening. Perfect for warm summer days and casual wear.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'MEMORABLE': {
     description: 'Some scents fade. This one becomes a memory. MEMORABLE by ETERNYX blends airy saffron, warm amber, and refined woods into a sophisticated unisex signature. For those who turn every moment into something unforgettable. The most powerful memories aren\'t seen — they\'re felt. A scent in the air. A presence that lingers. MEMORABLE by ETERNYX was created to capture exactly that. It opens with an airy elegance of saffron and jasmine — soft, luminous, and instantly captivating. A first impression that feels both delicate and powerful. At its heart, amberwood and a smooth ambergris accord unfold — warm, refined, and beautifully balanced. This is where MEMORABLE reveals its soul — sophisticated, sensual, and endlessly alluring. Then comes the depth. A grounding base of fir resin and cedarwood settles into the skin — rich, woody, and magnetic. A trail that lingers long after you\'ve gone, turning moments into memories. MEMORABLE isn\'t just a fragrance. It\'s the feeling you leave behind — elegant, timeless, and impossible to forget. Designed for everyone who dares to be unforgettable.',
     topNotes: ['Saffron', 'Jasmine'],
     heartNotes: ['Amberwood', 'Ambergris Accord'],
     baseNotes: ['Fir Resin', 'Cedarwood'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Alex P.', rating: 5, text: 'Incredible unisex fragrance. The saffron and amberwood combination is elegant and mysterious.', date: 'Apr 2026' },
-      { author: 'Jordan T.', rating: 5, text: 'This is a masterpiece. It projects incredibly well and leaves a wonderful trail.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'CHERRY BLOW': {
     description: 'Confidence is the most beautiful thing a woman can wear. CHERRY BLOW by ETERNYX was created to celebrate it — bold, feminine, and impossibly luxurious. It opens with a rich, inviting blend of almond, coffee, bergamot, and lemon — warm yet bright, indulgent yet fresh. A first impression that\'s as captivating as it is confident. At its heart, a lavish bouquet of jasmine sambac, tuberose, and orange blossom blooms — sensual, elegant, and undeniably feminine. This is the soul of CHERRY BLOW — floral, refined, and endlessly alluring. Then comes the seduction. A creamy base of tonka bean, cocoa, vanilla, and sandalwood wraps the skin in luxurious warmth — smooth, addictive, and unforgettable. A trail that leaves a lasting impression wherever you go. CHERRY BLOW isn\'t just a fragrance. It\'s a statement of elegance and power — the scent of a woman who knows exactly who she is. Bold. Beautiful. Unforgettable.',
     topNotes: ['Almond', 'Coffee', 'Bergamot', 'Lemon'],
     heartNotes: ['Jasmine Sambac', 'Tuberose', 'Orange Blossom'],
     baseNotes: ['Tonka Bean', 'Cocoa', 'Vanilla', 'Sandalwood'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Sophia L.', rating: 5, text: 'Rich, dark, and beautifully sweet. The tuberose and almond blend is so luxurious.', date: 'Apr 2026' },
-      { author: 'Olivia G.', rating: 5, text: 'Absolutely stunning evening scent. Bold, feminine, and turns heads everywhere.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'SOVARE': {
     description: 'Charisma isn\'t taught. It\'s felt the moment you walk in. SOVARE by ETERNYX was created for the man who carries it naturally — bold, energetic, and effortlessly commanding. It opens with a vibrant rush of blood mandarin, grapefruit, and cool mint — juicy, electric, and instantly alive. This is energy in its purest form, the spark that turns heads. At its heart, cinnamon, rose, and warm spices unfold — rich, refined, and undeniably masculine. It\'s the perfect balance of fire and elegance, the character that keeps people intrigued. Then comes the power. A bold base of leather, amber, and smooth woods settles into the skin — confident, sensual, and magnetic. A trail that speaks of strength and sophistication. SOVARE isn\'t just a fragrance. It\'s charisma bottled — the scent of a man who owns every moment. Vibrant. Powerful. Unforgettable.',
     topNotes: ['Blood Mandarin', 'Grapefruit', 'Mint'],
     heartNotes: ['Cinnamon', 'Rose', 'Spices'],
     baseNotes: ['Leather', 'Amber', 'Woody Notes'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Marcus V.', rating: 5, text: 'Bold, spicy mandarin and smooth leather. It makes me feel confident and commanding.', date: 'Apr 2026' },
-      { author: 'Tyler D.', rating: 4, text: 'A very unique leather scent. Excellent sillage and lasts all evening.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'DREAM DROP LET': {
     description: 'There\'s a certain freedom in knowing exactly who you are. No noise. No pretending. Just quiet, effortless confidence. DREAM DROP LET by ETERNYX was created for that man. It opens with a sparkling rush of bergamot and warm pepper — fresh, vibrant, and instantly invigorating. It\'s the feeling of a new morning, full of possibility. At its heart, lavender, geranium, and patchouli weave together — aromatic, smooth, and beautifully balanced. This is where character lives — masculine, versatile, and impossible to ignore. Then the foundation settles in. Ambroxan, cedarwood, and labdanum create a rich, woody warmth that clings to the skin — sophisticated, magnetic, and timeless. A scent that feels like second nature. DREAM DROP LET isn\'t just a fragrance. It\'s the essence of freedom and quiet confidence — a signature for the man who moves through life with purpose. Fresh. Masculine. Unforgettable.',
     topNotes: ['Bergamot', 'Pepper'],
     heartNotes: ['Lavender', 'Geranium', 'Patchouli'],
     baseNotes: ['Ambroxan', 'Cedarwood', 'Labdanum'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Ethan W.', rating: 5, text: 'Fresh, woody, and versatile. Great for everyday wear and special occasions alike.', date: 'Apr 2026' },
-      { author: 'Ryan J.', rating: 5, text: 'The lavender and cedarwood combination is extremely clean. A true signature scent.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'DARK THINKER': {
     description: 'Some people speak. The powerful ones think. DARK THINKER by ETERNYX was created for the individual of depth — the quiet intellect, the observer, the one whose presence says more than words ever could. It opens with a fresh breath of bergamot and cool green notes — crisp, natural, and grounding. Like the first step into a forest at dawn, it awakens the senses and sets the tone. At its heart lies a rich blend of cedarwood, patchouli, and warm spices — earthy, complex, and beautifully balanced. This is where mystery lives — layered, thoughtful, and impossible to fully define. Then comes the depth. A powerful base of amber, vetiver, and musk grounds the fragrance in raw, sensual warmth — bold, memorable, and magnetic. It lingers on the skin like a thought you can\'t shake. DARK THINKER isn\'t just a fragrance. It\'s the scent of depth and quiet power — designed for everyone who dares to be different. Because true confidence has no gender.',
     topNotes: ['Bergamot', 'Green Notes'],
     heartNotes: ['Cedarwood', 'Patchouli', 'Spices'],
     baseNotes: ['Amber', 'Vetiver', 'Musk'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Taylor R.', rating: 5, text: 'An earthy, intellectual scent. The green notes and vetiver feel very sophisticated.', date: 'Apr 2026' },
-      { author: 'Morgan K.', rating: 5, text: 'Beautifully balanced unisex fragrance. Mysterious, woody, and very elegant.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'DARK REVENGE': {
     description: 'There\'s power in mystery. In the man who says little but leaves everyone wondering. DARK REVENGE by ETERNYX was made for him — the one who commands attention without ever asking for it. It opens with a sharp, spicy burst of cardamom — intense, confident, and instantly commanding. This is the entrance. The moment heads turn. At its core, a rich toffee accord melts into the composition — sweet, smooth, and dangerously addictive. It\'s warmth wrapped in seduction, the kind of scent that lingers in someone\'s memory long after you\'ve left. Then comes the depth. A powerful base of amberwood grounds the fragrance in raw, masculine warmth — sensual, bold, and impossible to ignore. DARK REVENGE isn\'t just a fragrance. It\'s your after-dark signature. The scent of confidence, control, and quiet dominance. For the man who doesn\'t chase attention — he commands it.',
     topNotes: ['Cardamom'],
     heartNotes: ['Toffee Accord'],
     baseNotes: ['Amberwood'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'James S.', rating: 5, text: 'Seductive and rich. The cardamom and sweet toffee notes are addictive.', date: 'Apr 2026' },
-      { author: 'Robert L.', rating: 5, text: 'My go-to evening fragrance. Bold, warm, and gets lots of attention.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   },
   'MY STORA': {
     description: 'Some men chase the moment. Others become it. MY STORA by ETERNYX is the scent of motion, confidence, and effortless energy — crafted for the man who never slows down. One spray, and the world notices. There\'s a certain kind of man who walks into a room and changes its rhythm. He doesn\'t announce himself — he simply arrives. MY STORA was created for him. It opens like the first breath of morning — crisp apple, sparkling grapefruit, and sun-warmed mandarin awakening the senses. This is energy you can feel, a freshness that mirrors the spirit of someone always ready for the next adventure. As the hours unfold, a refined heart of violet leaf, soft lavender, and spiced cardamom emerges — aromatic, modern, and quietly powerful. It\'s the moment confidence settles in and becomes second nature. Then comes the lasting impression. A smooth foundation of cedarwood, sensual musk, and warm amber lingers on the skin — grounded, magnetic, unforgettable. MY STORA isn\'t just a fragrance. It\'s the feeling of being fully alive — sporty yet sophisticated, bold yet effortlessly elegant. For the man who lives every day like it matters.',
     topNotes: ['Apple', 'Grapefruit', 'Mandarin'],
     heartNotes: ['Violet Leaf', 'Lavender', 'Cardamom'],
     baseNotes: ['Cedarwood', 'Musk', 'Amber'],
-    sizes: ['100ml'],
-    reviews: [
-      { author: 'Daniel C.', rating: 5, text: 'Energetic, fresh, and sporty. The apple and grapefruit notes are very uplifting.', date: 'Apr 2026' },
-      { author: 'Jason P.', rating: 5, text: 'Great performance for a fresh scent. Very versatile and clean.', date: 'Mar 2026' },
-    ]
+    sizes: ['100ml']
   }
 };
 
@@ -244,7 +203,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
       : fallbackDetails.sizes;
   }, [product, fallbackDetails.sizes]);
 
-  // 2. Fetch reviews from Database or fallback
+  // 2. Fetch reviews from Database (only show authentic approved reviews)
   useEffect(() => {
     if (!product) return;
 
@@ -254,20 +213,20 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
         if (Array.isArray(data) && data.length > 0) {
           const mappedReviews = data.map((r: any) => ({
             author: r.customer,
-            rating: Number(r.rating),
+            rating: Number(r.rating) || 5,
             text: r.comment,
             date: r.date || new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
           }));
           setReviews(mappedReviews);
         } else {
-          setReviews(fallbackDetails.reviews);
+          setReviews([]);
         }
       })
       .catch((err) => {
         console.error('Failed to fetch product reviews:', err);
-        setReviews(fallbackDetails.reviews);
+        setReviews([]);
       });
-  }, [product, fallbackDetails]);
+  }, [product]);
 
   // Bypass Lenis scrolling
   useEffect(() => {
@@ -656,35 +615,41 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             </div>
           )}
 
-          {/* Divider */}
-          <div className="pm-divider" style={{ marginTop: '30px' }} />
-
-          {/* Reviews */}
-          <div className="pm-reviews">
-            <p className="pm-section-label">Customer Reviews</p>
-            <div className="pm-review-summary">
-              <span className="pm-review-score">5.0</span>
-              <div>
-                <div className="pm-stars">★★★★★</div>
-                <span className="pm-review-count">Based on {reviews.length} reviews</span>
-              </div>
-            </div>
-            <div className="pm-review-list">
-              {reviews.map((r, i) => (
-                <div key={i} className="pm-review-card">
-                  <div className="pm-review-header">
-                    <div className="pm-review-avatar">{r.author ? r.author[0] : 'C'}</div>
-                    <div>
-                      <p className="pm-review-author">{r.author || 'Verified Customer'}</p>
-                      <span className="pm-review-date">{r.date}</span>
+          {/* Reviews - only displayed if real verified customer reviews exist */}
+          {reviews.length > 0 && (
+            <>
+              <div className="pm-divider" style={{ marginTop: '30px' }} />
+              <div className="pm-reviews">
+                <p className="pm-section-label">Customer Reviews</p>
+                <div className="pm-review-summary">
+                  <span className="pm-review-score">
+                    {(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length).toFixed(1)}
+                  </span>
+                  <div>
+                    <div className="pm-stars">
+                      {'★'.repeat(Math.max(1, Math.round(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length)))}
                     </div>
-                    <div className="pm-review-stars">{'★'.repeat(r.rating)}</div>
+                    <span className="pm-review-count">Based on {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}</span>
                   </div>
-                  <p className="pm-review-text">{r.text}</p>
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="pm-review-list">
+                  {reviews.map((r, i) => (
+                    <div key={i} className="pm-review-card">
+                      <div className="pm-review-header">
+                        <div className="pm-review-avatar">{r.author ? r.author[0] : 'C'}</div>
+                        <div>
+                          <p className="pm-review-author">{r.author || 'Verified Customer'}</p>
+                          <span className="pm-review-date">{r.date}</span>
+                        </div>
+                        <div className="pm-review-stars">{'★'.repeat(r.rating || 5)}</div>
+                      </div>
+                      <p className="pm-review-text">{r.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
@@ -18,6 +18,27 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [activeTab, setActiveTab] = useState<'journey' | 'specs' | 'faqs' | 'objections'>('journey');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [dbReviews, setDbReviews] = useState<{ author: string; rating: number; text: string; date: string }[]>([]);
+
+  useEffect(() => {
+    if (!product?.name) return;
+    fetch(`/api/reviews?productName=${encodeURIComponent(product.name)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map((r: any) => ({
+            author: r.customer,
+            rating: Number(r.rating) || 5,
+            text: r.comment,
+            date: r.date || new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+          }));
+          setDbReviews(mapped);
+        } else {
+          setDbReviews([]);
+        }
+      })
+      .catch(() => setDbReviews([]));
+  }, [product?.name]);
 
   // Compile all images
   const allImages = [
@@ -178,10 +199,16 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
             <span className="pd-discount-badge">60% OFF</span>
           </div>
 
-          <div className="pd-rating-strip">
-            <div className="pd-stars">★★★★★</div>
-            <span className="pd-rating-text">5.0 (24 Verified Customer Reviews)</span>
-          </div>
+          {dbReviews.length > 0 && (
+            <div className="pd-rating-strip">
+              <div className="pd-stars">
+                {'★'.repeat(Math.max(1, Math.round(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length)))}
+              </div>
+              <span className="pd-rating-text">
+                {(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length).toFixed(1)} ({dbReviews.length} Verified Customer {dbReviews.length === 1 ? 'Review' : 'Reviews'})
+              </span>
+            </div>
+          )}
 
           {/* Short Premium Hook */}
           {richData?.hook && (
@@ -426,66 +453,44 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         </section>
       )}
 
-      {/* Verified Reviews Section */}
-      <section className="pd-reviews-section">
-        <div className="pd-review-header">
-          <div>
-            <p className="pd-review-eyebrow">Client Feedback</p>
-            <h2 className="pd-review-title">Verified Reviews</h2>
-          </div>
-          <div className="pd-review-score-box">
-            <span className="pd-score-num">5.0</span>
+      {/* Verified Reviews Section - only shown if authentic reviews exist */}
+      {dbReviews.length > 0 && (
+        <section className="pd-reviews-section">
+          <div className="pd-review-header">
             <div>
-              <div className="pd-stars">★★★★★</div>
-              <span className="pd-score-sub">Based on 24 authenticated purchases</span>
+              <p className="pd-review-eyebrow">Client Feedback</p>
+              <h2 className="pd-review-title">Verified Reviews</h2>
             </div>
-          </div>
-        </div>
-
-        <div className="pd-reviews-grid">
-          <div className="pd-review-card">
-            <div className="review-top">
-              <span className="reviewer-avatar">A</span>
+            <div className="pd-review-score-box">
+              <span className="pd-score-num">
+                {(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length).toFixed(1)}
+              </span>
               <div>
-                <strong className="reviewer-name">Aarav M.</strong>
-                <span className="reviewer-meta">Verified Buyer • Mumbai</span>
+                <div className="pd-stars">
+                  {'★'.repeat(Math.max(1, Math.round(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length)))}
+                </div>
+                <span className="pd-score-sub">Based on {dbReviews.length} authenticated {dbReviews.length === 1 ? 'review' : 'reviews'}</span>
               </div>
-              <span className="review-stars">★★★★★</span>
             </div>
-            <p className="review-text">
-              &ldquo;The longevity is unreal. I sprayed {product.name} at 8 AM before a board meeting and could still subtly smell the rich dry-down at 7 PM. Incredible value for ₹599.&rdquo;
-            </p>
           </div>
 
-          <div className="pd-review-card">
-            <div className="review-top">
-              <span className="reviewer-avatar">P</span>
-              <div>
-                <strong className="reviewer-name">Pooja S.</strong>
-                <span className="reviewer-meta">Verified Buyer • Bangalore</span>
+          <div className="pd-reviews-grid">
+            {dbReviews.map((r, i) => (
+              <div key={i} className="pd-review-card">
+                <div className="review-top">
+                  <span className="reviewer-avatar">{r.author ? r.author[0] : 'C'}</span>
+                  <div>
+                    <strong className="reviewer-name">{r.author || 'Verified Customer'}</strong>
+                    <span className="reviewer-meta">{r.date}</span>
+                  </div>
+                  <span className="review-stars">{'★'.repeat(r.rating || 5)}</span>
+                </div>
+                <p className="review-text">&ldquo;{r.text}&rdquo;</p>
               </div>
-              <span className="review-stars">★★★★★</span>
-            </div>
-            <p className="review-text">
-              &ldquo;Warm, refined, and smells like an international luxury brand that costs 10x more. The bottle packaging is sleek and minimalistic.&rdquo;
-            </p>
+            ))}
           </div>
-
-          <div className="pd-review-card">
-            <div className="review-top">
-              <span className="reviewer-avatar">R</span>
-              <div>
-                <strong className="reviewer-name">Rohan K.</strong>
-                <span className="reviewer-meta">Verified Buyer • Delhi NCR</span>
-              </div>
-              <span className="review-stars">★★★★★</span>
-            </div>
-            <p className="review-text">
-              &ldquo;Got so many compliments on my first day wearing it. Truly a memorable signature scent. Smooth delivery in 2 days.&rdquo;
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Styled JSX for the Product Detail Page */}
       <style jsx>{`
