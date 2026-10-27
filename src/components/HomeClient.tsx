@@ -12,6 +12,28 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function formatImageUrl(url?: string): string {
+  if (!url) return '';
+  if (url.includes('drive.google.com/thumbnail?id=')) {
+    const match = url.match(/[?&]id=([^&]+)/);
+    if (match && match[1]) {
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
+    }
+  }
+  return url;
+}
+
+function formatVideoUrl(url?: string): string {
+  if (!url) return '';
+  if (url.includes('drive.google.com/file/d/')) {
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+    }
+  }
+  return url;
+}
+
 function TextReveal({ text, className = '' }: { text: string; className?: string }) {
   if (!text) return null;
   return (
@@ -45,16 +67,35 @@ function ReelCard({ reel }: { reel: any }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [useFallbackImage, setUseFallbackImage] = useState(false);
+  const cardId = useRef(`reel-${Math.random().toString(36).substring(2, 9)}`);
 
   // Helper to determine if the video is a direct play video link (like an .mp4 or /api/video/)
   const isDirectVideo = (url: string) => {
     if (!url || url === '#') return false;
     if (url.includes('instagram.com') || url.includes('facebook.com') || url.includes('tiktok.com') || url.includes('youtube.com') || url.includes('youtu.be')) return false;
-    return url.startsWith('http') || url.startsWith('/') || url.endsWith('.mp4');
+    return url.startsWith('http') || url.startsWith('/') || url.endsWith('.mp4') || url.includes('drive.google.com');
   };
 
   const hasDirectVideo = isDirectVideo(reel.video);
+  const formattedVideoSrc = formatVideoUrl(reel.video);
+  const formattedImageSrc = formatImageUrl(reel.image);
+
+  // Listen for other reels playing so only ONE reel plays with sound at a time
+  useEffect(() => {
+    const handleOtherReel = (e: CustomEvent) => {
+      if (e.detail?.id !== cardId.current && videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.muted = true;
+        setIsPlaying(false);
+        setIsMuted(true);
+      }
+    };
+
+    window.addEventListener('eternyx-reel-play' as any, handleOtherReel);
+    return () => window.removeEventListener('eternyx-reel-play' as any, handleOtherReel);
+  }, []);
 
   useEffect(() => {
     if (!videoRef.current || !hasDirectVideo || useFallbackImage) return;
@@ -65,10 +106,13 @@ function ReelCard({ reel }: { reel: any }) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Autoplay silently on scroll
             videoEl.play().then(() => setIsPlaying(true)).catch(() => {});
           } else {
             videoEl.pause();
+            videoEl.muted = true;
             setIsPlaying(false);
+            setIsMuted(true);
           }
         });
       },
@@ -79,12 +123,39 @@ function ReelCard({ reel }: { reel: any }) {
     return () => observer.disconnect();
   }, [hasDirectVideo, useFallbackImage]);
 
-  const togglePlay = () => {
-    if (!videoRef.current || !hasDirectVideo) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+  // When user clicks the reel: PLAY WITH AUDIO!
+  const togglePlayWithAudio = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!hasDirectVideo) {
+      if (reel.video && reel.video !== '#') {
+        window.open(reel.video, '_blank', 'noopener,noreferrer');
+      }
+      return;
+    }
+
+    if (!videoRef.current) return;
+    const videoEl = videoRef.current;
+
+    // Broadcast event to pause/mute all other playing reels
+    window.dispatchEvent(new CustomEvent('eternyx-reel-play', { detail: { id: cardId.current } }));
+
+    if (videoEl.paused) {
+      videoEl.muted = false;
+      videoEl.volume = 1.0;
+      videoEl.play().then(() => {
+        setIsPlaying(true);
+        setIsMuted(false);
+      }).catch((err) => {
+        console.warn('Playback error:', err);
+      });
+    } else if (isMuted) {
+      // If currently playing in silent mode, clicking immediately UNMUTES audio!
+      videoEl.muted = false;
+      videoEl.volume = 1.0;
+      setIsMuted(false);
     } else {
-      videoRef.current.pause();
+      // If already playing with audio, click toggles pause
+      videoEl.pause();
       setIsPlaying(false);
     }
   };
@@ -94,16 +165,48 @@ function ReelCard({ reel }: { reel: any }) {
       className="reel-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={togglePlay}
+      onClick={togglePlayWithAudio}
       style={{ display: 'block', position: 'relative', cursor: 'pointer' }}
     >
       <div className="reel-thumb">
+        {/* Audio badge in top corner */}
+        {hasDirectVideo && !useFallbackImage && (
+          <div className={`reel-sound-badge ${isPlaying && !isMuted ? 'active' : ''}`}>
+            {isPlaying && !isMuted ? (
+              <>
+                <div className="reel-sound-bars">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span>SOUND ON</span>
+              </>
+            ) : isPlaying && isMuted ? (
+              <>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+                <span>TAP FOR SOUND</span>
+              </>
+            ) : (
+              <>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21"/>
+                </svg>
+                <span>PLAY</span>
+              </>
+            )}
+          </div>
+        )}
+
         {hasDirectVideo && !useFallbackImage ? (
           <video
             ref={videoRef}
-            src={reel.video}
+            src={formattedVideoSrc}
             loop
-            muted
+            muted={isMuted}
             playsInline
             preload="metadata"
             onError={() => setUseFallbackImage(true)}
@@ -139,9 +242,9 @@ function ReelCard({ reel }: { reel: any }) {
               overflow: 'hidden'
             }}
           >
-            {reel.image ? (
+            {formattedImageSrc ? (
               <img
-                src={reel.image}
+                src={formattedImageSrc}
                 alt={reel.handle}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 referrerPolicy="no-referrer"
@@ -178,8 +281,8 @@ function ReelCard({ reel }: { reel: any }) {
           <div 
             className="reel-play" 
             style={{ 
-              opacity: isPlaying ? 0 : 0.85,
-              transform: isPlaying ? 'scale(0.8)' : 'scale(1)', 
+              opacity: isPlaying && !isMuted ? 0 : 0.9,
+              transform: isPlaying && !isMuted ? 'scale(0.8)' : 'scale(1)', 
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               alignSelf: 'center',
               marginTop: 'auto',
@@ -867,17 +970,14 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
                 }}
               >
                 <Image 
-                  src={isMobile && banner.mobile_image_url ? banner.mobile_image_url : banner.image_url} 
+                  src={formatImageUrl(isMobile && banner.mobile_image_url ? banner.mobile_image_url : banner.image_url)} 
                   alt={`Eternyx Banner ${index + 1}`} 
                   fill
                   style={{ objectFit: 'cover' }}
                   quality={100}
+                  unoptimized={true}
                   priority={index === 0}
                   referrerPolicy="no-referrer"
-                  unoptimized={
-                    (banner.image_url?.includes('drive.google.com') || banner.image_url?.includes('googleusercontent.com')) ||
-                    (banner.mobile_image_url?.includes('drive.google.com') || banner.mobile_image_url?.includes('googleusercontent.com'))
-                  }
                 />
               </div>
             ))}
@@ -947,13 +1047,13 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
                   <div className="product-card-img">
                     {product.image ? (
                       <Image
-                        src={product.image}
+                        src={formatImageUrl(product.image)}
                         alt={product.name}
                         width={280}
                         height={320}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         referrerPolicy="no-referrer"
-                        unoptimized={product.image?.includes('drive.google.com') || product.image?.includes('googleusercontent.com')}
+                        unoptimized={true}
                       />
                     ) : (
                       <div className="product-card-placeholder">
@@ -965,22 +1065,37 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
                   <div className="product-card-info">
                     <p className="product-card-category">{product.category}</p>
                     <h3 className="product-card-name">{product.name}</h3>
-                    <p className="product-card-price">{product.price}</p>
+                    
+                    {/* Savings with Coupon */}
+                    <p className="product-savings">(Saving ₹650.00 with NEW50)</p>
+                    
+                    {/* Price Row: Final Price with Coupon + Cut Original Price */}
+                    <div className="product-price-row">
+                      <span className="product-final-price">₹649</span>
+                      <span className="product-cut-price">{product.price.startsWith('₹') ? product.price : `₹${product.price}`}</span>
+                    </div>
+
+                    {/* Star Rating Badge */}
+                    <div className="product-rating-pill">
+                      <span className="rating-star">★</span>
+                      <span>4.8</span>
+                    </div>
+
+                    {/* Single Full-Width Action Button */}
                     <div className="product-card-actions">
-                      <button className="btn-shop-now">Shop Now</button>
                       <button 
-                        className="btn-add-cart"
+                        className="btn-add-cart full-width"
                         onClick={(e) => {
                           e.stopPropagation();
                           addToCart(product, '100 ml', 1, { x: e.clientX, y: e.clientY });
                         }}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
                           <line x1="3" y1="6" x2="21" y2="6"/>
                           <path d="M16 10a4 4 0 01-8 0"/>
                         </svg>
-                        Add to Cart
+                        ADD TO CART
                       </button>
                     </div>
                   </div>
@@ -1076,13 +1191,13 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
                       <div className="product-card-img">
                         {product.image ? (
                           <Image
-                            src={product.image}
+                            src={formatImageUrl(product.image)}
                             alt={product.name}
                             width={320}
                             height={360}
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             referrerPolicy="no-referrer"
-                            unoptimized={Boolean(product.image?.includes('drive.google.com') || product.image?.includes('googleusercontent.com'))}
+                            unoptimized={true}
                           />
                         ) : (
                           <div className="product-card-placeholder">
@@ -1094,22 +1209,37 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
                       <div className="product-card-info">
                         <p className="product-card-category">{product.category}</p>
                         <h3 className="product-card-name">{product.name}</h3>
-                        <p className="product-card-price">{product.price}</p>
+                        
+                        {/* Savings with Coupon */}
+                        <p className="product-savings">(Saving ₹650.00 with NEW50)</p>
+                        
+                        {/* Price Row: Final Price with Coupon + Cut Original Price */}
+                        <div className="product-price-row">
+                          <span className="product-final-price">₹649</span>
+                          <span className="product-cut-price">{product.price.startsWith('₹') ? product.price : `₹${product.price}`}</span>
+                        </div>
+
+                        {/* Star Rating Badge */}
+                        <div className="product-rating-pill">
+                          <span className="rating-star">★</span>
+                          <span>4.8</span>
+                        </div>
+
+                        {/* Single Full-Width Action Button */}
                         <div className="product-card-actions">
-                          <button className="btn-shop-now">Discover</button>
                           <button 
-                            className="btn-add-cart"
+                            className="btn-add-cart full-width"
                             onClick={(e) => {
                               e.stopPropagation();
                               addToCart(product, '100 ml', 1, { x: e.clientX, y: e.clientY });
                             }}
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
                               <line x1="3" y1="6" x2="21" y2="6"/>
                               <path d="M16 10a4 4 0 01-8 0"/>
                             </svg>
-                            Add to Cart
+                            ADD TO CART
                           </button>
                         </div>
                       </div>

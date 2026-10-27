@@ -21,6 +21,17 @@ export interface Product {
   additional_images?: string[];
 }
 
+function formatImageUrl(url?: string): string {
+  if (!url) return '';
+  if (url.includes('drive.google.com/thumbnail?id=')) {
+    const match = url.match(/[?&]id=([^&]+)/);
+    if (match && match[1]) {
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
+    }
+  }
+  return url;
+}
+
 interface ProductModalProps {
   product: Product | null;
   onClose: () => void;
@@ -347,7 +358,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             {product.badge && <span className="product-badge">{product.badge}</span>}
             {(activeImage || product.image) ? (
               <Image
-                src={activeImage || product.image}
+                src={formatImageUrl(activeImage || product.image)}
                 alt={
                   (richProduct?.image_alt && richProduct.image_alt[allImages.indexOf(activeImage || product.image)]) ||
                   `${product.name} Eau de Parfum by ETERNYX`
@@ -357,6 +368,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 style={{ width: '100%', minWidth: '100%', maxWidth: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center bottom', display: 'block', transition: 'opacity 0.3s ease' }}
                 key={activeImage}
                 referrerPolicy="no-referrer"
+                unoptimized={true}
               />
             ) : (
               <div className="pm-no-image-placeholder">
@@ -376,7 +388,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   onClick={() => setActiveImage(img)}
                 >
                   <img
-                    src={img}
+                    src={formatImageUrl(img)}
                     alt={
                       (richProduct?.image_alt && richProduct.image_alt[idx]) ||
                       `${product.name} thumbnail ${idx + 1}`
@@ -413,15 +425,26 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
         <div className="pm-details-col" ref={detailsColRef}>
           <p className="pm-category">{product.category}</p>
           <h2 className="pm-name">{product.name}</h2>
-          <p className="pm-price">
-            {typeof product.price === 'number'
-              ? `₹${product.price}`
-              : product.price?.startsWith('$')
-              ? product.price.replace('$', '₹')
-              : product.price?.startsWith('₹')
-              ? product.price
-              : `₹${product.price}`}
-          </p>
+          {/* Savings with Coupon */}
+          <p className="pm-savings">(Saving ₹650.00 with NEW50)</p>
+
+          {/* Pricing Row: Final Price with Coupon + Cut Original Price */}
+          <div className="pm-price-row">
+            <span className="pm-final-price">₹649</span>
+            <span className="pm-cut-price">
+              {typeof product.price === 'number'
+                ? `₹${product.price}`
+                : product.price?.startsWith('$')
+                ? product.price.replace('$', '₹')
+                : product.price?.startsWith('₹')
+                ? product.price
+                : `₹${product.price}`}
+            </span>
+            <div className="pm-rating-badge">
+              <span className="rating-star">★</span>
+              <span>4.8</span>
+            </div>
+          </div>
 
           {/* Tagline / Hook */}
           {richProduct && richProduct.hook && (

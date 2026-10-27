@@ -8,6 +8,17 @@ import { useSearchParams, useRouter } from 'next/navigation';
 
 import { DEFAULT_CATEGORIES } from '@/lib/types';
 
+function formatImageUrl(url?: string): string {
+  if (!url) return '';
+  if (url.includes('drive.google.com/thumbnail?id=')) {
+    const match = url.match(/[?&]id=([^&]+)/);
+    if (match && match[1]) {
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
+    }
+  }
+  return url;
+}
+
 function ShopContent() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>(['All', ...DEFAULT_CATEGORIES]);
@@ -164,13 +175,13 @@ function ShopContent() {
                   <div className="product-card-img">
                     {product.image ? (
                       <Image
-                        src={product.image}
+                        src={formatImageUrl(product.image)}
                         alt={product.name}
                         width={400}
                         height={460}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         referrerPolicy="no-referrer"
-                        unoptimized={Boolean(product.image?.includes('drive.google.com') || product.image?.includes('googleusercontent.com'))}
+                        unoptimized={true}
                       />
                     ) : (
                       <div className="product-card-placeholder">
@@ -182,19 +193,34 @@ function ShopContent() {
                   <div className="product-card-info">
                     <p className="product-card-category">{product.category}</p>
                     <h3 className="product-card-name">{product.name}</h3>
-                    <p className="product-card-price">{product.price}</p>
+                    
+                    {/* Savings with Coupon */}
+                    <p className="product-savings">(Saving ₹650.00 with NEW50)</p>
+                    
+                    {/* Price Row: Final Price with Coupon + Cut Original Price */}
+                    <div className="product-price-row">
+                      <span className="product-final-price">₹649</span>
+                      <span className="product-cut-price">{product.price.startsWith('₹') ? product.price : `₹${product.price}`}</span>
+                    </div>
+
+                    {/* Star Rating Badge */}
+                    <div className="product-rating-pill">
+                      <span className="rating-star">★</span>
+                      <span>4.8</span>
+                    </div>
+
+                    {/* Single Full-Width Action Button */}
                     <div className="product-card-actions">
-                      <button className="btn-shop-now">Discover</button>
                       <button
-                        className="btn-add-cart"
+                        className="btn-add-cart full-width"
                         onClick={(e) => handleAddToCart(e, product)}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                           <line x1="3" y1="6" x2="21" y2="6" />
                           <path d="M16 10a4 4 0 01-8 0" />
                         </svg>
-                        Add to Cart
+                        ADD TO CART
                       </button>
                     </div>
                   </div>
