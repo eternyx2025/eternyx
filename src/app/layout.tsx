@@ -15,6 +15,16 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://eternyxfragrance.com'),
   title: "ETERNYX | Silence is Luxury",
   description: "A professional luxury perfume brand website.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png' },
+    ],
+  },
 };
 
 export default function RootLayout({

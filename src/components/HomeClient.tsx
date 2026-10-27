@@ -123,9 +123,12 @@ function ReelCard({ reel }: { reel: any }) {
     return () => observer.disconnect();
   }, [hasDirectVideo, useFallbackImage]);
 
-  // When user clicks the reel: PLAY WITH AUDIO!
-  const togglePlayWithAudio = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  // When user clicks the reel or sound badge: PLAY WITH AUDIO!
+  const togglePlayWithAudio = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     if (!hasDirectVideo) {
       if (reel.video && reel.video !== '#') {
         window.open(reel.video, '_blank', 'noopener,noreferrer');
@@ -139,24 +142,34 @@ function ReelCard({ reel }: { reel: any }) {
     // Broadcast event to pause/mute all other playing reels
     window.dispatchEvent(new CustomEvent('eternyx-reel-play', { detail: { id: cardId.current } }));
 
-    if (videoEl.paused) {
+    if (videoEl.paused || isMuted) {
+      // Force audio on and play
       videoEl.muted = false;
       videoEl.volume = 1.0;
-      videoEl.play().then(() => {
+      const playPromise = videoEl.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setIsMuted(false);
+          })
+          .catch((err) => {
+            console.warn('Playback error:', err);
+            videoEl.muted = false;
+            videoEl.play().catch(() => {});
+            setIsPlaying(true);
+            setIsMuted(false);
+          });
+      } else {
         setIsPlaying(true);
         setIsMuted(false);
-      }).catch((err) => {
-        console.warn('Playback error:', err);
-      });
-    } else if (isMuted) {
-      // If currently playing in silent mode, clicking immediately UNMUTES audio!
-      videoEl.muted = false;
-      videoEl.volume = 1.0;
-      setIsMuted(false);
+      }
     } else {
-      // If already playing with audio, click toggles pause
+      // If already playing with audio, toggle mute / pause
       videoEl.pause();
+      videoEl.muted = true;
       setIsPlaying(false);
+      setIsMuted(true);
     }
   };
 
@@ -169,9 +182,17 @@ function ReelCard({ reel }: { reel: any }) {
       style={{ display: 'block', position: 'relative', cursor: 'pointer' }}
     >
       <div className="reel-thumb">
-        {/* Audio badge in top corner */}
+        {/* Audio badge in top corner - interactive button */}
         {hasDirectVideo && !useFallbackImage && (
-          <div className={`reel-sound-badge ${isPlaying && !isMuted ? 'active' : ''}`}>
+          <button
+            type="button"
+            className={`reel-sound-badge ${isPlaying && !isMuted ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              togglePlayWithAudio(e);
+            }}
+            aria-label={isPlaying && !isMuted ? 'Mute sound' : 'Unmute sound'}
+          >
             {isPlaying && !isMuted ? (
               <>
                 <div className="reel-sound-bars">
@@ -181,7 +202,7 @@ function ReelCard({ reel }: { reel: any }) {
                 </div>
                 <span>SOUND ON</span>
               </>
-            ) : isPlaying && isMuted ? (
+            ) : (
               <>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -190,15 +211,8 @@ function ReelCard({ reel }: { reel: any }) {
                 </svg>
                 <span>TAP FOR SOUND</span>
               </>
-            ) : (
-              <>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21"/>
-                </svg>
-                <span>PLAY</span>
-              </>
             )}
-          </div>
+          </button>
         )}
 
         {hasDirectVideo && !useFallbackImage ? (
@@ -206,9 +220,8 @@ function ReelCard({ reel }: { reel: any }) {
             ref={videoRef}
             src={formattedVideoSrc}
             loop
-            muted={isMuted}
             playsInline
-            preload="metadata"
+            preload="auto"
             onError={() => setUseFallbackImage(true)}
             style={{
               width: '100%',
@@ -281,8 +294,8 @@ function ReelCard({ reel }: { reel: any }) {
           <div 
             className="reel-play" 
             style={{ 
-              opacity: isPlaying && !isMuted ? 0 : 0.9,
-              transform: isPlaying && !isMuted ? 'scale(0.8)' : 'scale(1)', 
+              opacity: isPlaying ? 0 : 0.9,
+              transform: isPlaying ? 'scale(0.8)' : 'scale(1)', 
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               alignSelf: 'center',
               marginTop: 'auto',
@@ -772,7 +785,7 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
     const FRICTION    = 0.88;
     const WHEEL_ACCEL = 0.9;
     const MAX_VEL     = 70;
-    const DRAG_THRESH = 2;
+    const DRAG_THRESH = 12;
     const THROW_MULT  = 1.8;
 
     let velocityX     = 0;
@@ -818,7 +831,7 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
     };
 
     const onPointerDown = (e: PointerEvent) => {
-      if ((e.target as HTMLElement).closest('button, a')) return;
+      if ((e.target as HTMLElement).closest('button, a, .reel-sound-badge')) return;
       isPointerDown = true;
       hasDragged    = false;
       pointerStartX = e.clientX;

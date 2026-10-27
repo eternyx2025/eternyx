@@ -2021,26 +2021,35 @@ body.is-scrolling .reel-card {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
-  background: rgba(10, 10, 10, 0.7);
+  background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   color: #fff;
-  z-index: 5;
-  pointer-events: none;
-  transition: all 0.3s ease;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.reel-sound-badge:hover {
+  background: rgba(200, 165, 100, 0.4);
+  border-color: rgba(200, 165, 100, 0.9);
+  color: #fff;
+  transform: scale(1.05);
 }
 
 .reel-sound-badge.active {
-  background: rgba(200, 165, 100, 0.3);
-  border-color: rgba(200, 165, 100, 0.7);
-  color: #e8d08d;
-  box-shadow: 0 0 14px rgba(200, 165, 100, 0.35);
+  background: rgba(200, 165, 100, 0.35);
+  border-color: rgba(200, 165, 100, 0.85);
+  color: #fcedb8;
+  box-shadow: 0 0 16px rgba(200, 165, 100, 0.45);
 }
 
 .reel-sound-bars {
