@@ -5,6 +5,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { useCart } from '@/context/CartContext';
 import richProducts from '@/data/products.json';
+import WriteReviewModal from './WriteReviewModal';
 
 export interface Product {
   id?: string;
@@ -139,6 +140,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   
   const [selectedSize, setSelectedSize] = useState('100 ml');
   const [reviews, setReviews] = useState<{ author: string; rating: number; text: string; date: string }[]>([]);
+  const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
   const { addToCart, setIsCartOpen } = useCart();
   const [activeImage, setActiveImage] = useState('');
   
@@ -204,7 +206,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   }, [product, fallbackDetails.sizes]);
 
   // 2. Fetch reviews from Database (only show authentic approved reviews)
-  useEffect(() => {
+  const fetchReviews = () => {
     if (!product) return;
 
     fetch(`/api/reviews?productName=${encodeURIComponent(product.name)}`)
@@ -226,6 +228,10 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
         console.error('Failed to fetch product reviews:', err);
         setReviews([]);
       });
+  };
+
+  useEffect(() => {
+    fetchReviews();
   }, [product]);
 
   // Bypass Lenis scrolling
@@ -615,44 +621,95 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             </div>
           )}
 
-          {/* Reviews - only displayed if real verified customer reviews exist */}
-          {reviews.length > 0 && (
-            <>
-              <div className="pm-divider" style={{ marginTop: '30px' }} />
-              <div className="pm-reviews">
-                <p className="pm-section-label">Customer Reviews</p>
-                <div className="pm-review-summary">
-                  <span className="pm-review-score">
-                    {(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length).toFixed(1)}
-                  </span>
-                  <div>
-                    <div className="pm-stars">
-                      {'★'.repeat(Math.max(1, Math.round(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length)))}
-                    </div>
-                    <span className="pm-review-count">Based on {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}</span>
+          {/* Client Feedback & Reviews Section */}
+          <div className="pm-divider" style={{ marginTop: '30px', marginBottom: '24px' }} />
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+            <p className="pm-section-label" style={{ margin: 0 }}>Client Impressions</p>
+            <button
+              type="button"
+              onClick={() => setIsWriteReviewOpen(true)}
+              style={{
+                background: 'rgba(200, 165, 100, 0.12)',
+                border: '1px solid rgba(200, 165, 100, 0.4)',
+                color: '#e8cf91',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                fontSize: '0.72rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.25s',
+              }}
+            >
+              ✦ Write a Review
+            </button>
+          </div>
+
+          {reviews.length > 0 ? (
+            <div className="pm-reviews" style={{ marginTop: 0 }}>
+              <div className="pm-review-summary">
+                <span className="pm-review-score">
+                  {(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length).toFixed(1)}
+                </span>
+                <div>
+                  <div className="pm-stars">
+                    {'★'.repeat(Math.max(1, Math.round(reviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / reviews.length)))}
                   </div>
-                </div>
-                <div className="pm-review-list">
-                  {reviews.map((r, i) => (
-                    <div key={i} className="pm-review-card">
-                      <div className="pm-review-header">
-                        <div className="pm-review-avatar">{r.author ? r.author[0] : 'C'}</div>
-                        <div>
-                          <p className="pm-review-author">{r.author || 'Verified Customer'}</p>
-                          <span className="pm-review-date">{r.date}</span>
-                        </div>
-                        <div className="pm-review-stars">{'★'.repeat(r.rating || 5)}</div>
-                      </div>
-                      <p className="pm-review-text">{r.text}</p>
-                    </div>
-                  ))}
+                  <span className="pm-review-count">Based on {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}</span>
                 </div>
               </div>
-            </>
+              <div className="pm-review-list">
+                {reviews.map((r, i) => (
+                  <div key={i} className="pm-review-card">
+                    <div className="pm-review-header">
+                      <div className="pm-review-avatar">{r.author ? r.author[0] : 'C'}</div>
+                      <div>
+                        <p className="pm-review-author">{r.author || 'Verified Customer'}</p>
+                        <span className="pm-review-date">{r.date}</span>
+                      </div>
+                      <div className="pm-review-stars">{'★'.repeat(r.rating || 5)}</div>
+                    </div>
+                    <p className="pm-review-text">{r.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div 
+              style={{ 
+                padding: '24px 20px', 
+                background: 'rgba(255, 255, 255, 0.02)', 
+                border: '1px solid rgba(255, 255, 255, 0.06)', 
+                borderRadius: '10px', 
+                textAlign: 'center' 
+              }}
+            >
+              <p style={{ color: 'rgba(255, 255, 255, 0.55)', fontSize: '0.82rem', marginBottom: '8px' }}>
+                No reviews yet for this fragrance.
+              </p>
+              <p style={{ color: 'rgba(200, 165, 100, 0.85)', fontSize: '0.75rem', letterSpacing: '0.05em' }}>
+                Be the first to share your olfactory experience.
+              </p>
+            </div>
           )}
         </div>
 
       </div>
+
+      {/* Write a Review Modal */}
+      {product && (
+        <WriteReviewModal
+          productName={product.name}
+          productId={product.id}
+          isOpen={isWriteReviewOpen}
+          onClose={() => setIsWriteReviewOpen(false)}
+          onReviewSubmitted={() => {
+            fetchReviews();
+          }}
+        />
+      )}
     </div>
   );
 }

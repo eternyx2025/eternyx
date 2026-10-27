@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/lib/types';
+import WriteReviewModal from './WriteReviewModal';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -19,8 +20,9 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
   const [activeTab, setActiveTab] = useState<'journey' | 'specs' | 'faqs' | 'objections'>('journey');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [dbReviews, setDbReviews] = useState<{ author: string; rating: number; text: string; date: string }[]>([]);
+  const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
 
-  useEffect(() => {
+  const fetchReviews = () => {
     if (!product?.name) return;
     fetch(`/api/reviews?productName=${encodeURIComponent(product.name)}`)
       .then((res) => res.json())
@@ -38,6 +40,10 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
       })
       .catch(() => setDbReviews([]));
+  };
+
+  useEffect(() => {
+    fetchReviews();
   }, [product?.name]);
 
   // Compile all images
@@ -453,27 +459,50 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         </section>
       )}
 
-      {/* Verified Reviews Section - only shown if authentic reviews exist */}
-      {dbReviews.length > 0 && (
-        <section className="pd-reviews-section">
-          <div className="pd-review-header">
-            <div>
-              <p className="pd-review-eyebrow">Client Feedback</p>
-              <h2 className="pd-review-title">Verified Reviews</h2>
-            </div>
-            <div className="pd-review-score-box">
-              <span className="pd-score-num">
-                {(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length).toFixed(1)}
-              </span>
-              <div>
-                <div className="pd-stars">
-                  {'★'.repeat(Math.max(1, Math.round(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length)))}
-                </div>
-                <span className="pd-score-sub">Based on {dbReviews.length} authenticated {dbReviews.length === 1 ? 'review' : 'reviews'}</span>
-              </div>
-            </div>
+      {/* Verified Reviews Section */}
+      <section className="pd-reviews-section">
+        <div className="pd-review-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p className="pd-review-eyebrow">Client Feedback</p>
+            <h2 className="pd-review-title">Verified Reviews</h2>
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+            {dbReviews.length > 0 && (
+              <div className="pd-review-score-box">
+                <span className="pd-score-num">
+                  {(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length).toFixed(1)}
+                </span>
+                <div>
+                  <div className="pd-stars">
+                    {'★'.repeat(Math.max(1, Math.round(dbReviews.reduce((acc, curr) => acc + (curr.rating || 5), 0) / dbReviews.length)))}
+                  </div>
+                  <span className="pd-score-sub">Based on {dbReviews.length} authenticated {dbReviews.length === 1 ? 'review' : 'reviews'}</span>
+                </div>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setIsWriteReviewOpen(true)}
+              style={{
+                background: 'rgba(200, 165, 100, 0.12)',
+                border: '1px solid rgba(200, 165, 100, 0.45)',
+                color: '#e8cf91',
+                padding: '10px 20px',
+                borderRadius: '24px',
+                fontSize: '0.78rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.25s',
+              }}
+            >
+              ✦ Write a Review
+            </button>
+          </div>
+        </div>
 
+        {dbReviews.length > 0 ? (
           <div className="pd-reviews-grid">
             {dbReviews.map((r, i) => (
               <div key={i} className="pd-review-card">
@@ -489,8 +518,37 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
               </div>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <div 
+            style={{ 
+              padding: '36px 20px', 
+              background: 'rgba(255, 255, 255, 0.02)', 
+              border: '1px solid rgba(255, 255, 255, 0.06)', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              marginTop: '28px'
+            }}
+          >
+            <p style={{ color: 'rgba(255, 255, 255, 0.55)', fontSize: '0.9rem', marginBottom: '8px' }}>
+              No reviews yet for this fragrance.
+            </p>
+            <p style={{ color: 'rgba(200, 165, 100, 0.85)', fontSize: '0.8rem', letterSpacing: '0.05em' }}>
+              Be the first to share your experience with {product.name}.
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* Write a Review Modal */}
+      <WriteReviewModal
+        productName={product.name}
+        productId={product.id}
+        isOpen={isWriteReviewOpen}
+        onClose={() => setIsWriteReviewOpen(false)}
+        onReviewSubmitted={() => {
+          fetchReviews();
+        }}
+      />
 
       {/* Styled JSX for the Product Detail Page */}
       <style jsx>{`
