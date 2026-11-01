@@ -4,6 +4,43 @@ import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
+const MEDIA_MAP: Record<string, string> = {
+  // Products
+  '534bd0f0.webp': 'images/product-candy.png',
+  '895050de.webp': 'images/product-after-meet.png',
+  'd0add914.webp': 'images/product-azura.png',
+  '504cfcb2.webp': 'images/product-memorable.png',
+  'a251a97d.webp': 'images/product-cherry-blow.png',
+  '110c5e42.webp': 'images/product-sovare.png',
+  'a9f0d8ee.webp': 'images/product-dream-drop-let.png',
+  'bd8b7428.webp': 'images/product-dark-thinker.png',
+  '1a6fbd15.webp': 'images/product-dark-revenge.png',
+  'c888d1f5.webp': 'images/product-my-stora.png',
+  // Banners & Philosophy
+  'e9e8bbb0.webp': 'images/banner-2.png',
+  '2421cf91.webp': 'images/banner-2.png',
+  '4c8cc411.webp': 'images/banner-3.png',
+  'f99e04c3.webp': 'images/banner-3.png',
+  'd9fb8480.webp': 'images/brand-statement.png',
+  // Reels / Videos
+  'e375ee38.mp4': 'videos/reel-placeholder.mp4',
+  'b3cbf283.mp4': 'videos/reel-placeholder.mp4',
+  '38fbde1b.mp4': 'videos/reel-placeholder.mp4',
+};
+
+function getPublicDir(): string {
+  const candidates = [
+    path.join(process.cwd(), 'public'),
+    path.join('/root/eternyx', 'public'),
+    path.join('/var/www/eternyx', 'public'),
+    path.resolve('./public'),
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return path.join(process.cwd(), 'public');
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ filename: string }> }
@@ -17,22 +54,34 @@ export async function GET(
     // Prevent directory traversal attacks
     const sanitizedFilename = path.basename(filename);
     const rangeHeader = request.headers.get('range');
+    const publicDir = getPublicDir();
+
+    // 1. Direct match in uploads or public directories
     const candidatePaths = [
-      path.join(process.cwd(), 'public', 'uploads', sanitizedFilename),
-      path.join(process.cwd(), 'public', 'uploads_backup', sanitizedFilename),
-      path.join('/root/eternyx', 'public', 'uploads', sanitizedFilename),
-      path.join('/root/eternyx', 'public', 'uploads_backup', sanitizedFilename),
-      path.join('/var/www/eternyx', 'public', 'uploads', sanitizedFilename),
-      path.join('/var/www/eternyx', 'public', 'uploads_backup', sanitizedFilename),
+      path.join(publicDir, 'uploads', sanitizedFilename),
+      path.join(publicDir, 'uploads_backup', sanitizedFilename),
+      path.join(publicDir, 'images', sanitizedFilename),
+      path.join(publicDir, 'videos', sanitizedFilename),
     ];
 
     let filePath = candidatePaths.find(p => fs.existsSync(p));
 
-    // Fallback placeholder image if upload file is missing
+    // 2. Mapped fallback to original high-res assets
+    if (!filePath && MEDIA_MAP[sanitizedFilename]) {
+      const mapped = path.join(publicDir, MEDIA_MAP[sanitizedFilename]);
+      if (fs.existsSync(mapped)) {
+        filePath = mapped;
+      }
+    }
+
+    // 3. Fallback placeholder if file still missing
     if (!filePath) {
-      const fallbackPlaceholder = path.join(process.cwd(), 'public', 'images', 'product-candy.png');
-      if (fs.existsSync(fallbackPlaceholder)) {
-        filePath = fallbackPlaceholder;
+      const isVideoReq = sanitizedFilename.endsWith('.mp4') || sanitizedFilename.endsWith('.webm');
+      const genericFallback = isVideoReq
+        ? path.join(publicDir, 'videos', 'reel-placeholder.mp4')
+        : path.join(publicDir, 'images', 'product-candy.png');
+      if (fs.existsSync(genericFallback)) {
+        filePath = genericFallback;
       }
     }
 
@@ -42,7 +91,7 @@ export async function GET(
 
     const stat = fs.statSync(filePath);
     const fileSize = stat.size;
-    const ext = path.extname(sanitizedFilename).toLowerCase();
+    const ext = path.extname(filePath).toLowerCase();
 
     let contentType = 'application/octet-stream';
     if (ext === '.mp4') contentType = 'video/mp4';
@@ -52,7 +101,6 @@ export async function GET(
     else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
     else if (ext === '.png') contentType = 'image/png';
     else if (ext === '.gif') contentType = 'image/gif';
-
 
     // Support streaming/seeking for videos with HTTP 206 Partial Content
     if (rangeHeader && fileSize > 0) {
@@ -91,7 +139,7 @@ export async function GET(
       });
     }
 
-    // Full file stream
+    // Full file stream with caching
     const fileStream = fs.createReadStream(filePath);
     const webStream = new ReadableStream({
       start(controller) {
