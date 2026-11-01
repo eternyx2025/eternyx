@@ -104,7 +104,7 @@ export async function POST(request: Request) {
 
           url = isVideo
             ? `/api/video/${fileId}`
-            : `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+            : `https://lh3.googleusercontent.com/d/${fileId}=w2000`;
 
           console.log('✓ Successfully uploaded to Google Drive:', url);
         }
@@ -115,7 +115,8 @@ export async function POST(request: Request) {
 
     // 2. Fallback to saving locally in public/uploads/
     if (!url) {
-      const uploadDir = path.join(process.cwd(), 'public/uploads');
+      const baseDir = fs.existsSync('/root/eternyx') ? '/root/eternyx' : process.cwd();
+      const uploadDir = path.join(baseDir, 'public', 'uploads');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }

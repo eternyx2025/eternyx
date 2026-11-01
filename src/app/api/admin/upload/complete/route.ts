@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
     const url = isVideo
       ? `/api/video/${fileId}`
-      : `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+      : `https://lh3.googleusercontent.com/d/${fileId}=w2000`;
 
     return NextResponse.json({
       url,
