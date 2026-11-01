@@ -16,6 +16,7 @@ export async function GET(
 
     // Prevent directory traversal attacks
     const sanitizedFilename = path.basename(filename);
+    const rangeHeader = request.headers.get('range');
     const candidatePaths = [
       path.join(process.cwd(), 'public', 'uploads', sanitizedFilename),
       path.join(process.cwd(), 'public', 'uploads_backup', sanitizedFilename),
@@ -33,6 +34,10 @@ export async function GET(
       if (fs.existsSync(fallbackPlaceholder)) {
         filePath = fallbackPlaceholder;
       }
+    }
+
+    if (!filePath) {
+      return new NextResponse('File Not Found', { status: 404 });
     }
 
     const stat = fs.statSync(filePath);
