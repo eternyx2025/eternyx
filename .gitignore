@@ -44,6 +44,6 @@ next-env.d.ts
 eternyx-uplods-*.json
 client_secret_*.json
 
-# Uploads directory (persisted on server disk)
-/public/uploads/*
-!/public/uploads/.gitkeep
+# Uploads directory
+/public/uploads/*.mp4
+/public/uploads/*.mov

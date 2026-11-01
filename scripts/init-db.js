@@ -249,6 +249,16 @@ async function initDB() {
     const sizes = p.sizes ? JSON.stringify(p.sizes) : '[]';
     const additionalImages = p.additional_images ? JSON.stringify(p.additional_images) : '[]';
     
+    let imgUrl = p.image_url || '';
+    if (!imgUrl) {
+      let slug = (p.name || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
+      if (slug === 'dream-droplet') slug = 'dream-drop-let';
+      const localFile = path.join(__dirname, '../public/images', `product-${slug}.png`);
+      if (fs.existsSync(localFile)) {
+        imgUrl = `/images/product-${slug}.png`;
+      }
+    }
+
     await connection.execute(
       `INSERT INTO products (id, name, description, price, category, volume, image_url, position, visible, badge, top_notes, heart_notes, base_notes, sizes, additional_images)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -259,7 +269,7 @@ async function initDB() {
         p.price || 0, 
         p.category || '', 
         p.volume || '', 
-        p.image_url || '', 
+        imgUrl, 
         p.position || 0, 
         p.visible ? 1 : 0, 
         p.badge || null, 

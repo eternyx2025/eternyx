@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/lib/types';
 import WriteReviewModal from './WriteReviewModal';
+import { formatImageUrl } from '@/lib/formatImageUrl';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -46,11 +47,20 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
     fetchReviews();
   }, [product?.name]);
 
-  // Compile all images
-  const allImages = [
+  // Compile all images with Google Drive URL format support and fallback
+  const rawImages = [
     product.image_url,
     ...(product.additional_images || [])
   ].filter(Boolean) as string[];
+
+  const slug = (product.name || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
+  const fallbackImg = `/images/product-${slug}.png`;
+
+  const allImages = (
+    rawImages.length > 0 
+      ? rawImages.map(formatImageUrl) 
+      : [fallbackImg]
+  ).filter(Boolean);
 
   const altTexts = richData?.image_alt || [
     `ETERNYX ${product.name} Eau de Parfum 100ml bottle`,

@@ -7,17 +7,7 @@ import { useCart } from '@/context/CartContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 import { DEFAULT_CATEGORIES } from '@/lib/types';
-
-function formatImageUrl(url?: string): string {
-  if (!url) return '';
-  if (url.includes('drive.google.com/thumbnail?id=')) {
-    const match = url.match(/[?&]id=([^&]+)/);
-    if (match && match[1]) {
-      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
-    }
-  }
-  return url;
-}
+import { formatImageUrl } from '@/lib/formatImageUrl';
 
 function ShopContent() {
   const [products, setProducts] = useState<Product[]>([]);

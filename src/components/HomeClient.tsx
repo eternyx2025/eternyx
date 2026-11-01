@@ -7,21 +7,12 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import ProductModal, { Product } from '@/components/ProductModal';
 import { useCart } from '@/context/CartContext';
 import { PhilosophyConfig, DEFAULT_PHILOSOPHY } from '@/lib/types';
+import { formatImageUrl } from '@/lib/formatImageUrl';
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-function formatImageUrl(url?: string): string {
-  if (!url) return '';
-  if (url.includes('drive.google.com/thumbnail?id=')) {
-    const match = url.match(/[?&]id=([^&]+)/);
-    if (match && match[1]) {
-      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
-    }
-  }
-  return url;
-}
 
 function formatVideoUrl(url?: string): string {
   if (!url) return '';
@@ -351,11 +342,11 @@ export default function HomeClient({ initialBanners, initialProducts, initialRee
   ];
 
   const LOCAL_PRODUCTS = [
-    { name: "CANDY", category: "Eau de Parfum", price: "₹599", image: "", badge: "BESTSELLER" },
-    { name: "AFTER MEET", category: "Eau de Parfum", price: "₹599", image: "", badge: "NEW" },
-    { name: "AZURA", category: "Eau de Parfum", price: "₹599", image: "", badge: null },
-    { name: "MEMORABLE", category: "Eau de Parfum", price: "₹599", image: "", badge: "SIGNATURE" },
-    { name: "CHERRY BLOW", category: "Eau de Parfum", price: "₹599", image: "", badge: "LUXURY" },
+    { name: "CANDY", category: "Eau de Parfum", price: "₹599", image: "/images/product-candy.png", badge: "BESTSELLER" },
+    { name: "AFTER MEET", category: "Eau de Parfum", price: "₹599", image: "/images/product-after-meet.png", badge: "NEW" },
+    { name: "AZURA", category: "Eau de Parfum", price: "₹599", image: "/images/product-azura.png", badge: null },
+    { name: "MEMORABLE", category: "Eau de Parfum", price: "₹599", image: "/images/product-memorable.png", badge: "SIGNATURE" },
+    { name: "CHERRY BLOW", category: "Eau de Parfum", price: "₹599", image: "/images/product-cherry-blow.png", badge: "LUXURY" },
   ];
 
   const [banners, setBanners] = useState<{ image_url: string; mobile_image_url: string }[]>(

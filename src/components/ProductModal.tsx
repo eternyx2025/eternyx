@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { useCart } from '@/context/CartContext';
 import richProducts from '@/data/products.json';
 import WriteReviewModal from './WriteReviewModal';
+import { formatImageUrl } from '@/lib/formatImageUrl';
 
 export interface Product {
   id?: string;
@@ -22,16 +23,6 @@ export interface Product {
   additional_images?: string[];
 }
 
-function formatImageUrl(url?: string): string {
-  if (!url) return '';
-  if (url.includes('drive.google.com/thumbnail?id=')) {
-    const match = url.match(/[?&]id=([^&]+)/);
-    if (match && match[1]) {
-      return `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
-    }
-  }
-  return url;
-}
 
 interface ProductModalProps {
   product: Product | null;
