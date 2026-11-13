@@ -47,3 +47,7 @@ client_secret_*.json
 # Uploads directory
 /public/uploads/*.mp4
 /public/uploads/*.mov
+
+# Database dumps
+*.sql.gz
+*.sql

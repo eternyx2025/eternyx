@@ -19,12 +19,19 @@ export default function ProductsPage() {
   const [formName, setFormName] = useState('');
   const [formDescription, setFormDescription] = useState('');
   const [formPrice, setFormPrice] = useState(180);
+  const [formComparePrice, setFormComparePrice] = useState<number | ''>('');
   const [formCategory, setFormCategory] = useState('MENS');
+  const [formGender, setFormGender] = useState('UNISEX');
+  const [formNoteProfile, setFormNoteProfile] = useState('');
   const [formVolume, setFormVolume] = useState('100 ml');
   const [formImageUrl, setFormImageUrl] = useState('');
   const [formAdditionalImages, setFormAdditionalImages] = useState<string[]>([]);
   const [formBadge, setFormBadge] = useState('');
   const [formVisible, setFormVisible] = useState(true);
+  const [formIsBestseller, setFormIsBestseller] = useState(false);
+  const [formIsNewLaunch, setFormIsNewLaunch] = useState(false);
+  const [formIsTrending, setFormIsTrending] = useState(false);
+  const [formIsGifting, setFormIsGifting] = useState(false);
 
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -122,23 +129,37 @@ export default function ProductsPage() {
       setFormName(product.name);
       setFormDescription(product.description || '');
       setFormPrice(product.price);
+      setFormComparePrice(product.compare_at_price ?? '');
       setFormCategory((product.category || 'MENS').toUpperCase().trim());
+      setFormGender(product.gender || 'UNISEX');
+      setFormNoteProfile(product.note_profile || '');
       setFormVolume(product.volume || '100 ml');
       setFormImageUrl(product.image_url || '');
       setFormAdditionalImages(product.additional_images || []);
       setFormBadge(product.badge || '');
       setFormVisible(product.visible);
+      setFormIsBestseller(Boolean(product.is_bestseller));
+      setFormIsNewLaunch(Boolean(product.is_new_launch));
+      setFormIsTrending(Boolean(product.is_trending));
+      setFormIsGifting(Boolean(product.is_gifting));
     } else {
       setEditingProduct(null);
       setFormName('');
       setFormDescription('');
       setFormPrice(180);
+      setFormComparePrice('');
       setFormCategory(categories[0] || 'MENS');
+      setFormGender('UNISEX');
+      setFormNoteProfile('');
       setFormVolume('100 ml');
       setFormImageUrl('');
       setFormAdditionalImages([]);
       setFormBadge('');
       setFormVisible(true);
+      setFormIsBestseller(false);
+      setFormIsNewLaunch(false);
+      setFormIsTrending(false);
+      setFormIsGifting(false);
     }
     setIsDrawerOpen(true);
   };
@@ -220,12 +241,19 @@ export default function ProductsPage() {
       name: formName,
       description: formDescription,
       price: Number(formPrice),
+      compare_at_price: formComparePrice !== '' ? Number(formComparePrice) : null,
       category: formCategory,
+      gender: formGender,
+      note_profile: formNoteProfile.trim() || null,
       volume: formVolume,
       image_url: formImageUrl,
       additional_images: formAdditionalImages,
       badge: formBadge.trim() || null,
       visible: formVisible,
+      is_bestseller: formIsBestseller,
+      is_new_launch: formIsNewLaunch,
+      is_trending: formIsTrending,
+      is_gifting: formIsGifting,
     };
 
     try {
@@ -413,14 +441,83 @@ export default function ProductsPage() {
               </div>
 
               <div className="form-group">
-                <label>Badge</label>
+                <label>Compare at Price / MRP (₹)</label>
                 <input 
-                  type="text" 
-                  value={formBadge} 
-                  onChange={(e) => setFormBadge(e.target.value)} 
-                  placeholder="e.g. Bestseller, New (Optional)"
+                  type="number" 
+                  value={formComparePrice} 
+                  onChange={(e) => setFormComparePrice(e.target.value ? Number(e.target.value) : '')} 
+                  placeholder="e.g. 1699 (for strikethrough discount)"
                 />
               </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Gender Tag</label>
+                <select 
+                  value={formGender} 
+                  onChange={(e) => setFormGender(e.target.value)}
+                >
+                  <option value="UNISEX" style={{ background: '#0d0d0d', color: '#fff' }}>UNISEX</option>
+                  <option value="HIM" style={{ background: '#0d0d0d', color: '#fff' }}>HIM / MEN</option>
+                  <option value="HER" style={{ background: '#0d0d0d', color: '#fff' }}>HER / WOMEN</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Note Profile</label>
+                <input 
+                  type="text" 
+                  value={formNoteProfile} 
+                  onChange={(e) => setFormNoteProfile(e.target.value)} 
+                  placeholder="e.g. Gourmand, Vanilla, Floral"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Campaign Badge (Optional)</label>
+              <input 
+                type="text" 
+                value={formBadge} 
+                onChange={(e) => setFormBadge(e.target.value)} 
+                placeholder="e.g. NEW LAUNCH, TRENDING, CUSTOMISABLE"
+              />
+            </div>
+
+            <div className="form-row" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', margin: '14px 0' }}>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', cursor: 'pointer', color: '#fff' }}>
+                <input 
+                  type="checkbox" 
+                  checked={formIsBestseller} 
+                  onChange={(e) => setFormIsBestseller(e.target.checked)} 
+                />
+                Best Seller
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', cursor: 'pointer', color: '#fff' }}>
+                <input 
+                  type="checkbox" 
+                  checked={formIsNewLaunch} 
+                  onChange={(e) => setFormIsNewLaunch(e.target.checked)} 
+                />
+                New Launch
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', cursor: 'pointer', color: '#fff' }}>
+                <input 
+                  type="checkbox" 
+                  checked={formIsTrending} 
+                  onChange={(e) => setFormIsTrending(e.target.checked)} 
+                />
+                Trending / Season Favorite
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', cursor: 'pointer', color: '#fff' }}>
+                <input 
+                  type="checkbox" 
+                  checked={formIsGifting} 
+                  onChange={(e) => setFormIsGifting(e.target.checked)} 
+                />
+                Gifting Edit Set
+              </label>
             </div>
 
             <div className="form-group">

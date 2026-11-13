@@ -7,6 +7,16 @@ function parseProduct(p: any): Product {
     ...p,
     visible: Boolean(p.visible),
     price: Number(p.price),
+    compare_at_price: p.compare_at_price !== undefined && p.compare_at_price !== null ? Number(p.compare_at_price) : undefined,
+    gender: p.gender || 'UNISEX',
+    note_profile: p.note_profile || '',
+    rating: p.rating ? Number(p.rating) : 4.8,
+    review_count: p.review_count ? Number(p.review_count) : 0,
+    is_trending: Boolean(p.is_trending),
+    is_new_launch: Boolean(p.is_new_launch),
+    is_bestseller: Boolean(p.is_bestseller),
+    is_gifting: Boolean(p.is_gifting),
+    gifting_category: p.gifting_category || '',
     top_notes: typeof p.top_notes === 'string' ? JSON.parse(p.top_notes) : (p.top_notes || []),
     heart_notes: typeof p.heart_notes === 'string' ? JSON.parse(p.heart_notes) : (p.heart_notes || []),
     base_notes: typeof p.base_notes === 'string' ? JSON.parse(p.base_notes) : (p.base_notes || []),
@@ -84,7 +94,7 @@ export const productService = {
     for (const [key, rawValue] of Object.entries(data)) {
       if (key !== 'id' && key !== 'created_at' && rawValue !== undefined) {
         fields.push(`${key} = ?`);
-        if (key === 'visible') {
+        if (key === 'visible' || ['is_trending', 'is_new_launch', 'is_bestseller', 'is_gifting'].includes(key)) {
           values.push(rawValue ? 1 : 0);
         } else if (['top_notes', 'heart_notes', 'base_notes', 'sizes', 'additional_images'].includes(key)) {
           values.push(Array.isArray(rawValue) ? JSON.stringify(rawValue) : (typeof rawValue === 'string' ? rawValue : '[]'));

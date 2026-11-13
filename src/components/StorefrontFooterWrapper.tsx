@@ -1,12 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import Footer from './Footer';
+import FraganoteFooter from './fraganote/FraganoteFooter';
 
 export default function StorefrontFooterWrapper() {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
 
   if (isAdmin) return null;
-  return <Footer />;
+  return <FraganoteFooter />;
 }

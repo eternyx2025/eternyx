@@ -543,9 +543,9 @@ export default function AuthModal() {
         .auth-modal-backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.82);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          background: rgba(26, 22, 23, 0.65);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           z-index: 99999;
           display: flex;
           align-items: center;
@@ -558,15 +558,15 @@ export default function AuthModal() {
           to { opacity: 1; }
         }
         .auth-modal-box {
-          background: #0d0d0d;
-          border: 1px solid rgba(212, 175, 55, 0.35);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.12);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          box-shadow: 0 20px 50px rgba(26, 22, 23, 0.15);
+          border-radius: 8px;
           width: 100%;
           max-width: 440px;
           padding: 36px 32px;
           position: relative;
-          color: #e5e5e5;
+          color: #1A1617;
           animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideUp {
@@ -579,7 +579,7 @@ export default function AuthModal() {
           right: 18px;
           background: transparent;
           border: none;
-          color: #888;
+          color: #7A6E6A;
           cursor: pointer;
           padding: 6px;
           display: flex;
@@ -588,7 +588,7 @@ export default function AuthModal() {
           transition: color 0.2s;
         }
         .auth-close-btn:hover {
-          color: #d4af37;
+          color: #1A1617;
         }
         .auth-header {
           text-align: center;
@@ -598,26 +598,27 @@ export default function AuthModal() {
           display: block;
           font-size: 0.65rem;
           letter-spacing: 0.3em;
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
           margin-bottom: 4px;
         }
         .auth-logo {
           font-size: 1.8rem;
           font-family: Georgia, serif;
-          font-weight: 300;
-          letter-spacing: 0.2em;
-          color: #fff;
+          font-weight: 400;
+          letter-spacing: 0.15em;
+          color: #1A1617;
           margin: 0 0 4px 0;
         }
         .auth-subtitle {
-          font-size: 0.7rem;
-          letter-spacing: 0.18em;
-          color: #777;
+          font-size: 0.72rem;
+          letter-spacing: 0.15em;
+          color: #7A6E6A;
           margin: 0;
         }
         .auth-tabs {
           display: flex;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid #EDE1DC;
           margin-bottom: 24px;
         }
         .auth-tab {
@@ -626,16 +627,17 @@ export default function AuthModal() {
           border: none;
           padding: 12px 0;
           font-size: 0.8rem;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #777;
+          color: #7A6E6A;
           cursor: pointer;
           position: relative;
           transition: all 0.2s;
+          font-weight: 500;
         }
         .auth-tab.active {
-          color: #d4af37;
-          font-weight: 500;
+          color: #1A1617;
+          font-weight: 600;
         }
         .auth-tab.active::after {
           content: '';
@@ -644,8 +646,8 @@ export default function AuthModal() {
           left: 0;
           right: 0;
           height: 2px;
-          background: #d4af37;
-          box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+          background: #D99458;
+          box-shadow: 0 0 10px rgba(217, 148, 88, 0.4);
         }
         .auth-alert {
           padding: 10px 14px;
@@ -655,14 +657,14 @@ export default function AuthModal() {
           line-height: 1.4;
         }
         .auth-alert.error {
-          background: rgba(229, 62, 62, 0.12);
-          border: 1px solid rgba(229, 62, 62, 0.35);
-          color: #fc8181;
+          background: rgba(229, 62, 62, 0.08);
+          border: 1px solid rgba(229, 62, 62, 0.25);
+          color: #c53030;
         }
         .auth-alert.success {
-          background: rgba(72, 187, 120, 0.12);
-          border: 1px solid rgba(72, 187, 120, 0.35);
-          color: #68d391;
+          background: rgba(72, 187, 120, 0.08);
+          border: 1px solid rgba(72, 187, 120, 0.25);
+          color: #276749;
         }
         .auth-form {
           display: flex;
@@ -675,10 +677,11 @@ export default function AuthModal() {
           gap: 6px;
         }
         .form-group label {
-          font-size: 0.74rem;
+          font-size: 0.72rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #999;
+          color: #7A6E6A;
+          font-weight: 600;
         }
         .label-row {
           display: flex;
@@ -689,24 +692,24 @@ export default function AuthModal() {
           background: none;
           border: none;
           font-size: 0.74rem;
-          color: #d4af37;
+          color: #B66D31;
           cursor: pointer;
           padding: 0;
           text-decoration: underline;
+          font-weight: 500;
         }
         .form-group input {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-radius: 3px;
-          padding: 12px 14px;
-          color: #fff;
+          background: #FFFFFF;
+          border: 1.5px solid #EDE1DC;
+          border-radius: 4px;
+          padding: 11px 14px;
+          color: #1A1617;
           font-size: 0.88rem;
           transition: border-color 0.2s;
           outline: none;
         }
         .form-group input:focus {
-          border-color: #d4af37;
-          background: rgba(255, 255, 255, 0.06);
+          border-color: #D99458;
         }
         .input-password-wrap {
           position: relative;
@@ -722,7 +725,7 @@ export default function AuthModal() {
           right: 10px;
           background: transparent;
           border: none;
-          color: #777;
+          color: #7A6E6A;
           cursor: pointer;
           padding: 4px;
           display: flex;
@@ -730,33 +733,32 @@ export default function AuthModal() {
           justify-content: center;
         }
         .eye-toggle:hover {
-          color: #d4af37;
+          color: #1A1617;
         }
         .otp-input-code {
           font-family: monospace;
           font-size: 1.3rem !important;
           letter-spacing: 8px;
           text-align: center;
-          color: #d4af37 !important;
+          color: #B66D31 !important;
           font-weight: 700;
         }
         .btn-gold-submit {
-          background: linear-gradient(135deg, #d4af37 0%, #aa8528 100%);
-          color: #000;
+          background: #1A1617;
+          color: #FAF6F4;
           border: none;
           padding: 13px 20px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.82rem;
           font-weight: 600;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: background 0.2s;
           margin-top: 6px;
         }
         .btn-gold-submit:hover:not(:disabled) {
-          box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
-          transform: translateY(-1px);
+          background: #2D2527;
         }
         .btn-gold-submit:disabled {
           opacity: 0.6;
@@ -766,7 +768,7 @@ export default function AuthModal() {
           display: flex;
           align-items: center;
           margin: 6px 0;
-          color: #555;
+          color: #7A6E6A;
           font-size: 0.72rem;
         }
         .auth-divider::before,
@@ -774,33 +776,34 @@ export default function AuthModal() {
           content: '';
           flex: 1;
           height: 1px;
-          background: rgba(255, 255, 255, 0.08);
+          background: #EDE1DC;
         }
         .auth-divider span {
           padding: 0 12px;
           letter-spacing: 0.1em;
         }
         .btn-ghost-secondary {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
+          background: #FAF6F4;
+          border: 1.5px solid #EDE1DC;
+          color: #1A1617;
           padding: 11px 16px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.78rem;
-          font-weight: 500;
+          font-weight: 600;
           letter-spacing: 0.08em;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background 0.2s;
+          transition: all 0.2s;
         }
         .btn-ghost-secondary:hover {
-          background: rgba(212, 175, 55, 0.1);
+          background: #FFFFFF;
+          border-color: #D99458;
         }
         .auth-hint {
-          font-size: 0.72rem;
-          color: #777;
+          font-size: 0.74rem;
+          color: #7A6E6A;
           text-align: center;
           margin: 0;
           line-height: 1.4;
@@ -808,7 +811,7 @@ export default function AuthModal() {
         .btn-link-back {
           background: none;
           border: none;
-          color: #888;
+          color: #7A6E6A;
           font-size: 0.75rem;
           cursor: pointer;
           padding: 6px;
@@ -816,26 +819,26 @@ export default function AuthModal() {
           transition: color 0.2s;
         }
         .btn-link-back:hover {
-          color: #d4af37;
+          color: #1A1617;
         }
         .section-title {
           font-family: Georgia, serif;
-          font-size: 1.15rem;
+          font-size: 1.25rem;
           font-weight: 400;
-          color: #fff;
+          color: #1A1617;
           margin: 0 0 6px 0;
           text-align: center;
         }
         .section-desc {
-          font-size: 0.78rem;
-          color: #888;
+          font-size: 0.82rem;
+          color: #7A6E6A;
           line-height: 1.5;
           text-align: center;
           margin: 0 0 12px 0;
         }
         .auth-terms {
-          font-size: 0.68rem;
-          color: #666;
+          font-size: 0.72rem;
+          color: #7A6E6A;
           line-height: 1.4;
           text-align: center;
           margin-top: 6px;

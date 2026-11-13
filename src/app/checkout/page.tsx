@@ -495,30 +495,29 @@ function CheckoutContent() {
         <style jsx>{`
           .checkout-success-view {
             min-height: 100vh;
-            background: #0a0a0a;
-            color: #fff;
+            background: #FAF6F4;
+            color: #1A1617;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 120px 24px 80px 24px;
+            padding: 130px 24px 80px 24px;
           }
           .success-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            max-width: 460px;
+            background: #FFFFFF;
+            border: 1px solid #EDE1DC;
+            max-width: 480px;
             width: 100%;
             padding: 40px;
-            border-radius: 8px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 40px rgba(26, 22, 23, 0.06);
           }
           .success-icon-container {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: rgba(212, 175, 55, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(217, 148, 88, 0.12);
+            border: 1px solid rgba(217, 148, 88, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -526,22 +525,22 @@ function CheckoutContent() {
           }
           h2 {
             font-family: var(--font-serif);
-            font-weight: 300;
+            font-weight: 500;
             font-size: 1.8rem;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.05em;
             margin-bottom: 12px;
-            color: #fff;
+            color: #1A1617;
           }
           .success-sub {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.88rem;
+            color: #7A6E6A;
             margin-bottom: 30px;
             font-style: italic;
           }
           .receipt-box {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 4px;
+            background: #FAF6F4;
+            border: 1px solid #EDE1DC;
+            border-radius: 10px;
             padding: 20px;
             margin-bottom: 30px;
             text-align: left;
@@ -551,47 +550,51 @@ function CheckoutContent() {
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid #EDE1DC;
           }
           .receipt-line:last-child {
             border-bottom: none;
           }
           .receipt-line .label {
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.4);
+            color: #7A6E6A;
+            font-weight: 600;
           }
           .receipt-line .value {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-family: monospace;
-            color: #fff;
+            color: #1A1617;
+            font-weight: 600;
           }
           .receipt-line .value.tracking {
-            color: #d4af37;
+            color: #D99458;
             font-family: var(--font-sans);
-            font-size: 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
           }
           .save-account-box {
-            background: rgba(212, 175, 55, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 4px;
+            background: #FAF6F4;
+            border: 1px solid #EDE1DC;
+            border-radius: 10px;
             padding: 20px;
             text-align: left;
             margin-bottom: 30px;
           }
           .save-account-box h3 {
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            color: #fff;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            color: #1A1617;
             margin-bottom: 8px;
             text-transform: none;
+            font-weight: 600;
             font-family: var(--font-sans);
           }
           .save-account-box p {
-            font-size: 0.72rem;
-            color: rgba(255, 255, 255, 0.55);
-            line-height: 1.4;
+            font-size: 0.75rem;
+            color: #4A403E;
+            line-height: 1.5;
             margin-bottom: 15px;
           }
           .input-group {
@@ -600,63 +603,67 @@ function CheckoutContent() {
           }
           .input-group input {
             flex: 1;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
+            background: #FFFFFF;
+            border: 1px solid #EDE1DC;
+            color: #1A1617;
             padding: 10px 14px;
-            font-size: 0.8rem;
-            border-radius: 2px;
+            font-size: 0.82rem;
+            border-radius: 6px;
           }
           .input-group input:focus {
             outline: none;
-            border-color: #d4af37;
+            border-color: #D99458;
           }
           .input-group button {
-            background: #d4af37;
-            color: #000;
-            border: none;
+            background: #1A1617;
+            color: #FAF6F4;
+            border: 1px solid #1A1617;
             padding: 0 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             cursor: pointer;
-            border-radius: 2px;
-            transition: opacity 0.2s;
+            border-radius: 6px;
+            transition: all 0.25s;
           }
           .input-group button:hover {
-            opacity: 0.9;
+            background: #D99458;
+            border-color: #D99458;
+            color: #1A1617;
           }
           .save-success {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.75rem;
-            color: #d4af37;
+            color: #047857;
             padding: 8px 0;
+            font-weight: 600;
           }
           .error-msg {
             font-size: 0.75rem;
-            color: #ef4444;
+            color: #dc2626;
             margin-bottom: 10px;
           }
           .back-store-btn {
-            background: transparent;
-            border: 1px solid #d4af37;
-            color: #d4af37;
+            background: #1A1617;
+            border: 1px solid #1A1617;
+            color: #FAF6F4;
             width: 100%;
             padding: 14px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s;
-            border-radius: 2px;
+            border-radius: 8px;
           }
           .back-store-btn:hover {
-            background: #d4af37;
-            color: #000;
+            background: #2D2527;
+            border-color: #D99458;
+            color: #FFFFFF;
           }
         `}</style>
       </div>
@@ -664,8 +671,9 @@ function CheckoutContent() {
   }
 
   return (
-    <div className="checkout-container">
-      <div className="checkout-header">
+    <div className="checkout-page-wrapper">
+      <div className="checkout-container">
+        <div className="checkout-header">
         <button className="back-btn" onClick={() => router.push('/')}>
           &larr; Return to Perfumery
         </button>
@@ -842,12 +850,13 @@ function CheckoutContent() {
                     <div 
                       onClick={() => setPaymentMethod('razorpay')}
                       style={{
-                        border: paymentMethod === 'razorpay' ? '1px solid #d4af37' : '1px solid #282828',
-                        background: paymentMethod === 'razorpay' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                        border: paymentMethod === 'razorpay' ? '1.5px solid #D99458' : '1px solid #EDE1DC',
+                        background: paymentMethod === 'razorpay' ? 'rgba(217, 148, 88, 0.08)' : '#FFFFFF',
                         padding: '14px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 8px rgba(26, 22, 23, 0.02)',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
@@ -856,14 +865,14 @@ function CheckoutContent() {
                           name="paymentMethod" 
                           checked={paymentMethod === 'razorpay'} 
                           onChange={() => setPaymentMethod('razorpay')}
-                          style={{ accentColor: '#d4af37', cursor: 'pointer' }}
+                          style={{ accentColor: '#D99458', cursor: 'pointer' }}
                         />
-                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#fff' }}>Online Payment</span>
+                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1A1617' }}>Online Payment</span>
                       </div>
-                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#888', lineHeight: 1.4 }}>
+                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#7A6E6A', lineHeight: 1.4 }}>
                         UPI, Cards, NetBanking
                       </p>
-                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(76, 175, 80, 0.15)', color: '#81c784', padding: '2px 6px', borderRadius: '2px', letterSpacing: '0.05em', fontWeight: 600 }}>
+                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(16, 185, 129, 0.12)', color: '#047857', padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.05em', fontWeight: 700 }}>
                         INSTANT DISPATCH
                       </span>
                     </div>
@@ -872,12 +881,13 @@ function CheckoutContent() {
                     <div 
                       onClick={() => setPaymentMethod('cod')}
                       style={{
-                        border: paymentMethod === 'cod' ? '1px solid #d4af37' : '1px solid #282828',
-                        background: paymentMethod === 'cod' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                        border: paymentMethod === 'cod' ? '1.5px solid #D99458' : '1px solid #EDE1DC',
+                        background: paymentMethod === 'cod' ? 'rgba(217, 148, 88, 0.08)' : '#FFFFFF',
                         padding: '14px 16px',
-                        borderRadius: '4px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 8px rgba(26, 22, 23, 0.02)',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
@@ -886,14 +896,14 @@ function CheckoutContent() {
                           name="paymentMethod" 
                           checked={paymentMethod === 'cod'} 
                           onChange={() => setPaymentMethod('cod')}
-                          style={{ accentColor: '#d4af37', cursor: 'pointer' }}
+                          style={{ accentColor: '#D99458', cursor: 'pointer' }}
                         />
-                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#fff' }}>Cash on Delivery</span>
+                        <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1A1617' }}>Cash on Delivery</span>
                       </div>
-                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#888', lineHeight: 1.4 }}>
+                      <p style={{ margin: '4px 0 0 22px', fontSize: '0.72rem', color: '#7A6E6A', lineHeight: 1.4 }}>
                         Pay cash or UPI upon delivery
                       </p>
-                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(212, 175, 55, 0.15)', color: '#d4af37', padding: '2px 6px', borderRadius: '2px', letterSpacing: '0.05em', fontWeight: 600 }}>
+                      <span style={{ display: 'inline-block', margin: '6px 0 0 22px', fontSize: '0.62rem', background: 'rgba(217, 148, 88, 0.15)', color: '#B66D31', padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.05em', fontWeight: 700 }}>
                         PAY AT DOORSTEP
                       </span>
                     </div>
@@ -1038,69 +1048,76 @@ function CheckoutContent() {
           </div>
         </div>
       </div>
+    </div>
 
       <style jsx>{`
-        .checkout-container {
+        .checkout-page-wrapper {
           min-height: 100vh;
+          background-color: #FAF6F4;
+          width: 100%;
+        }
+        .checkout-container {
           max-width: 1100px;
           margin: 0 auto;
-          padding: 115px 24px 60px 24px;
-          background: #0a0a0a;
-          color: #fff;
+          padding: 130px 24px 70px 24px;
+          background: transparent;
+          color: #1A1617;
         }
         .checkout-header {
           display: flex;
           flex-direction: column;
           gap: 10px;
-          margin-bottom: 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+          margin-bottom: 28px;
+          border-bottom: 1px solid #EDE1DC;
           padding-bottom: 20px;
         }
         .back-btn {
           align-self: flex-start;
           background: none;
           border: none;
-          color: rgba(255, 255, 255, 0.4);
-          font-size: 0.7rem;
-          font-weight: 500;
+          color: #7A6E6A;
+          font-size: 0.72rem;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.1em;
           cursor: pointer;
           transition: color 0.2s;
           padding: 0;
         }
         .back-btn:hover {
-          color: #d4af37;
+          color: #D99458;
         }
         h1 {
           font-family: var(--font-serif);
-          font-weight: 300;
-          font-size: 1.8rem;
-          letter-spacing: 0.08em;
+          font-weight: 500;
+          font-size: 1.9rem;
+          letter-spacing: -0.01em;
           margin: 0;
+          color: #1A1617;
         }
         .checkout-progress {
           display: flex;
           align-items: center;
           gap: 10px;
           margin-top: 6px;
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
         }
         .progress-step {
-          color: rgba(255, 255, 255, 0.3);
+          color: #7A6E6A;
+          font-weight: 500;
         }
         .progress-step.completed {
-          color: rgba(255, 255, 255, 0.5);
+          color: #4A403E;
           text-decoration: line-through;
         }
         .progress-step.active {
-          color: #d4af37;
-          font-weight: 600;
+          color: #D99458;
+          font-weight: 700;
         }
         .progress-separator {
-          color: rgba(255, 255, 255, 0.15);
+          color: #EDE1DC;
         }
         .checkout-grid {
           display: grid;
@@ -1114,18 +1131,17 @@ function CheckoutContent() {
           gap: 24px;
         }
         .auth-card, .shipping-card, .summary-card {
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          padding: 24px;
-          border-radius: 6px;
-          backdrop-filter: blur(16px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          padding: 26px;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(26, 22, 23, 0.03);
         }
         .auth-card-header, .shipping-card-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid #EDE1DC;
           padding-bottom: 12px;
           margin-bottom: 18px;
           flex-wrap: wrap;
@@ -1133,42 +1149,44 @@ function CheckoutContent() {
         }
         h2 {
           font-family: var(--font-serif);
-          font-size: 1.05rem;
-          font-weight: 300;
-          letter-spacing: 0.08em;
-          color: #fff;
+          font-size: 1.15rem;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          color: #1A1617;
           margin: 0;
         }
         .text-link-btn {
           background: none;
           border: none;
-          color: #d4af37;
-          font-size: 0.68rem;
+          color: #D99458;
+          font-size: 0.72rem;
+          font-weight: 600;
           text-decoration: underline;
           cursor: pointer;
           font-family: inherit;
           padding: 0;
         }
         .text-link-btn:hover {
-          color: #fff;
+          color: #1A1617;
         }
         .subtext {
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.78rem;
+          color: #7A6E6A;
           margin-top: -10px;
           margin-bottom: 18px;
-          line-height: 1.4;
+          line-height: 1.5;
         }
         .auth-status {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 0.68rem;
-          color: rgba(255, 255, 255, 0.6);
-          background: rgba(212, 175, 55, 0.05);
-          border: 1px solid rgba(212, 175, 55, 0.15);
-          padding: 4px 10px;
+          font-size: 0.72rem;
+          color: #1A1617;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          padding: 4px 12px;
           border-radius: 20px;
+          font-weight: 500;
         }
         .logout-btn {
           background: none;
@@ -1181,21 +1199,21 @@ function CheckoutContent() {
           margin-left: 6px;
         }
         .logout-btn:hover {
-          color: #f87171;
+          color: #dc2626;
         }
         .error-banner {
           background: rgba(239, 68, 68, 0.08);
           border: 1px solid rgba(239, 68, 68, 0.2);
-          color: #f87171;
+          color: #dc2626;
           padding: 10px 14px;
-          font-size: 0.75rem;
-          border-radius: 2px;
+          font-size: 0.78rem;
+          border-radius: 6px;
           margin-bottom: 16px;
         }
         .checkout-form {
           display: flex;
           flex-direction: column;
-          gap: 15px;
+          gap: 16px;
         }
         .field-group {
           display: flex;
@@ -1203,19 +1221,19 @@ function CheckoutContent() {
           gap: 6px;
         }
         .field-group label {
-          font-size: 0.6rem;
+          font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.4);
-          font-weight: 500;
+          color: #7A6E6A;
+          font-weight: 600;
         }
         .field-group input {
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: #fff;
-          padding: 10px 12px;
-          font-size: 0.8rem;
-          border-radius: 2px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          color: #1A1617;
+          padding: 11px 14px;
+          font-size: 0.85rem;
+          border-radius: 6px;
           width: 100%;
           box-sizing: border-box;
           font-family: inherit;
@@ -1223,14 +1241,13 @@ function CheckoutContent() {
         }
         .field-group input:focus {
           outline: none;
-          border-color: #d4af37;
-          background: rgba(255, 255, 255, 0.02);
-          box-shadow: 0 0 8px rgba(212, 175, 55, 0.1);
+          border-color: #D99458;
+          box-shadow: 0 0 0 2px rgba(217, 148, 88, 0.15);
         }
         .field-group input:disabled {
           opacity: 0.6;
           cursor: not-allowed;
-          background: rgba(255, 255, 255, 0.02);
+          background: #FAF6F4;
         }
         .row-group {
           display: flex;
@@ -1243,43 +1260,42 @@ function CheckoutContent() {
           display: flex;
           align-items: center;
           gap: 10px;
-          background: rgba(212, 175, 55, 0.03);
-          border: 1px solid rgba(212, 175, 55, 0.1);
-          padding: 12px;
-          border-radius: 2px;
-          font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.7);
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          padding: 12px 14px;
+          border-radius: 8px;
+          font-size: 0.74rem;
+          color: #4A403E;
+          font-weight: 500;
           margin-top: 5px;
         }
         .action-btn {
-          background: #d4af37;
-          color: #000;
-          border: none;
-          padding: 12px;
-          font-size: 0.75rem;
-          font-weight: 600;
+          background: #1A1617;
+          color: #FAF6F4;
+          border: 1px solid #1A1617;
+          padding: 14px;
+          font-size: 0.78rem;
+          font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          border-radius: 2px;
+          transition: all 0.25s ease;
+          border-radius: 8px;
           text-align: center;
           width: 100%;
         }
         .action-btn:hover:not(:disabled) {
-          background: #f3d060;
-          box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
-          transform: translateY(-1px);
-        }
-        .action-btn:active:not(:disabled) {
-          transform: translateY(0);
+          background: #2D2527;
+          color: #FFFFFF;
+          border-color: #D99458;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.15);
         }
         .action-btn:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
         .action-btn.checkout-pay {
-          margin-top: 5px;
+          margin-top: 6px;
         }
 
         /* Right Column - Summary Styling */
@@ -1288,14 +1304,14 @@ function CheckoutContent() {
           top: 115px;
         }
         .summary-card h2 {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid #EDE1DC;
           padding-bottom: 12px;
           margin-bottom: 18px;
         }
         .summary-items {
           display: flex;
           flex-direction: column;
-          gap: 16px;
+          gap: 14px;
           margin-bottom: 20px;
           max-height: 340px;
           overflow-y: auto;
@@ -1305,21 +1321,21 @@ function CheckoutContent() {
           display: flex;
           align-items: flex-start;
           gap: 12px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+          padding-bottom: 14px;
+          border-bottom: 1px solid #EDE1DC;
         }
         .summary-item:last-child {
           border-bottom: none;
           padding-bottom: 0;
         }
         .item-thumbnail {
-          width: 45px;
-          height: 55px;
-          border-radius: 2px;
-          background: #111;
+          width: 48px;
+          height: 60px;
+          border-radius: 6px;
+          background: #FAF6F4;
           overflow: hidden;
           flex-shrink: 0;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid #EDE1DC;
         }
         .item-thumbnail img {
           width: 100%;
@@ -1338,12 +1354,12 @@ function CheckoutContent() {
           gap: 10px;
         }
         .item-info h3 {
-          font-size: 0.8rem;
+          font-size: 0.84rem;
           font-family: var(--font-sans);
-          font-weight: 500;
-          letter-spacing: 0.02em;
+          font-weight: 600;
+          letter-spacing: 0.01em;
           margin: 0;
-          color: #fff;
+          color: #1A1617;
           text-transform: none;
           white-space: nowrap;
           overflow: hidden;
@@ -1351,9 +1367,10 @@ function CheckoutContent() {
           max-width: 180px;
         }
         .item-meta {
-          font-size: 0.62rem;
-          color: rgba(255, 255, 255, 0.45);
+          font-size: 0.68rem;
+          color: #7A6E6A;
           margin: 2px 0 6px 0;
+          font-weight: 500;
         }
         .item-controls-row {
           display: flex;
@@ -1363,46 +1380,48 @@ function CheckoutContent() {
         .qty-selector {
           display: flex;
           align-items: center;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 2px;
-          height: 22px;
+          border: 1px solid #EDE1DC;
+          background: #FAF6F4;
+          border-radius: 6px;
+          height: 24px;
           width: fit-content;
         }
         .qty-btn {
           background: none;
           border: none;
-          color: rgba(255, 255, 255, 0.5);
-          width: 20px;
+          color: #1A1617;
+          width: 22px;
           height: 100%;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
+          font-weight: 600;
           transition: all 0.2s;
         }
         .qty-btn:hover {
-          color: #fff;
-          background: rgba(255, 255, 255, 0.05);
+          color: #D99458;
+          background: #EDE1DC;
         }
         .qty-value {
-          font-size: 0.7rem;
-          color: #fff;
+          font-size: 0.75rem;
+          color: #1A1617;
+          font-weight: 600;
           padding: 0 6px;
           min-width: 12px;
           text-align: center;
         }
         .item-price {
-          font-size: 0.8rem;
+          font-size: 0.88rem;
           font-family: var(--font-serif);
-          color: #fff;
-          font-weight: 300;
+          color: #1A1617;
+          font-weight: 600;
         }
         .item-remove-btn {
           background: none;
           border: none;
-          color: rgba(255, 255, 255, 0.25);
+          color: #8F8480;
           cursor: pointer;
           padding: 2px;
           transition: all 0.2s;
@@ -1422,55 +1441,59 @@ function CheckoutContent() {
         }
         .promo-box input {
           flex: 1;
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          color: #fff;
-          padding: 8px 10px;
-          font-size: 0.72rem;
-          border-radius: 2px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          color: #1A1617;
+          padding: 9px 12px;
+          font-size: 0.75rem;
+          border-radius: 6px;
           text-transform: uppercase;
+          font-weight: 600;
         }
         .promo-box input:focus {
           outline: none;
-          border-color: rgba(212, 175, 55, 0.3);
+          border-color: #D99458;
         }
         .promo-btn {
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #fff;
-          padding: 8px 12px;
-          font-size: 0.68rem;
+          background: #1A1617;
+          border: 1px solid #1A1617;
+          color: #FAF6F4;
+          padding: 9px 16px;
+          font-size: 0.7rem;
           text-transform: uppercase;
+          font-weight: 700;
           cursor: pointer;
-          border-radius: 2px;
+          border-radius: 6px;
           transition: all 0.2s;
         }
         .promo-btn:hover:not(:disabled) {
-          background: #fff;
-          color: #000;
-          border-color: #fff;
+          background: #D99458;
+          border-color: #D99458;
+          color: #1A1617;
         }
         .promo-btn.remove {
           border-color: rgba(239, 68, 68, 0.3);
-          color: #f87171;
+          color: #ef4444;
+          background: #FFFFFF;
         }
         .promo-btn.remove:hover {
           background: rgba(239, 68, 68, 0.05);
         }
         .promo-error {
-          font-size: 0.68rem;
-          color: #ef4444;
+          font-size: 0.72rem;
+          color: #dc2626;
           margin-bottom: 10px;
         }
         .promo-success {
-          font-size: 0.68rem;
-          color: #d4af37;
+          font-size: 0.72rem;
+          color: #047857;
           margin-bottom: 10px;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.02em;
+          font-weight: 600;
         }
         .price-breakdown {
-          border-top: 1px solid rgba(255, 255, 255, 0.04);
-          padding-top: 15px;
+          border-top: 1px solid #EDE1DC;
+          padding-top: 16px;
           display: flex;
           flex-direction: column;
           gap: 10px;
@@ -1478,29 +1501,31 @@ function CheckoutContent() {
         .breakdown-row {
           display: flex;
           justify-content: space-between;
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.78rem;
+          color: #7A6E6A;
+          font-weight: 500;
         }
         .breakdown-row.discount {
-          color: #d4af37;
+          color: #047857;
+          font-weight: 600;
         }
         .breakdown-row .shipping-text {
-          color: rgba(255, 255, 255, 0.85);
-          font-style: italic;
+          color: #1A1617;
+          font-weight: 600;
         }
         .breakdown-row.total {
-          border-top: 1px solid rgba(255, 255, 255, 0.04);
+          border-top: 1px solid #EDE1DC;
           padding-top: 12px;
           margin-top: 4px;
-          font-size: 0.82rem;
-          color: #fff;
-          font-weight: 500;
+          font-size: 0.88rem;
+          color: #1A1617;
+          font-weight: 700;
         }
         .total-price {
           font-family: var(--font-serif);
-          font-size: 1.3rem;
-          color: #d4af37;
-          font-weight: 300;
+          font-size: 1.35rem;
+          color: #1A1617;
+          font-weight: 700;
         }
 
         @media (max-width: 900px) {
@@ -1545,14 +1570,14 @@ export default function CheckoutPage() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #0a0a0a;
-            color: #fff;
+            background: #FAF6F4;
+            color: #1A1617;
           }
           .spinner {
             width: 40px;
             height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #d4af37;
+            border: 2px solid #EDE1DC;
+            border-top: 2px solid #D99458;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;

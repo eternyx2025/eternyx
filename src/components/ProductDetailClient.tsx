@@ -109,8 +109,9 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
   const crossSells = richData?.cross_sells || [];
 
   return (
-    <div className="pd-container">
-      {/* Breadcrumb Navigation */}
+    <div className="pd-page-wrapper">
+      <div className="pd-container">
+        {/* Breadcrumb Navigation */}
       <nav className="pd-breadcrumb" aria-label="Breadcrumb">
         <Link href="/">Home</Link>
         <span className="separator">/</span>
@@ -494,10 +495,10 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
               type="button"
               onClick={() => setIsWriteReviewOpen(true)}
               style={{
-                background: 'rgba(200, 165, 100, 0.12)',
-                border: '1px solid rgba(200, 165, 100, 0.45)',
-                color: '#e8cf91',
-                padding: '10px 20px',
+                background: '#FFFFFF',
+                border: '1px solid #EDE1DC',
+                color: '#1A1617',
+                padding: '10px 22px',
                 borderRadius: '24px',
                 fontSize: '0.78rem',
                 letterSpacing: '0.12em',
@@ -505,6 +506,7 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.25s',
+                boxShadow: '0 2px 8px rgba(26, 22, 23, 0.04)',
               }}
             >
               ✦ Write a Review
@@ -532,17 +534,17 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
           <div 
             style={{ 
               padding: '36px 20px', 
-              background: 'rgba(255, 255, 255, 0.02)', 
-              border: '1px solid rgba(255, 255, 255, 0.06)', 
+              background: '#FFFFFF', 
+              border: '1px solid #EDE1DC', 
               borderRadius: '12px', 
               textAlign: 'center',
               marginTop: '28px'
             }}
           >
-            <p style={{ color: 'rgba(255, 255, 255, 0.55)', fontSize: '0.9rem', marginBottom: '8px' }}>
+            <p style={{ color: '#7A6E6A', fontSize: '0.9rem', marginBottom: '8px' }}>
               No reviews yet for this fragrance.
             </p>
-            <p style={{ color: 'rgba(200, 165, 100, 0.85)', fontSize: '0.8rem', letterSpacing: '0.05em' }}>
+            <p style={{ color: '#D99458', fontSize: '0.8rem', letterSpacing: '0.05em', fontWeight: 600 }}>
               Be the first to share your experience with {product.name}.
             </p>
           </div>
@@ -562,42 +564,49 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
 
       {/* Styled JSX for the Product Detail Page */}
       <style jsx>{`
+        .pd-page-wrapper {
+          background-color: #FAF6F4;
+          min-height: 100vh;
+          width: 100%;
+        }
+
         .pd-container {
           max-width: 1240px;
           margin: 0 auto;
           padding: 130px 24px 100px 24px;
-          color: #ffffff;
-          background: #0a0a0a;
+          color: #1A1617;
+          background: transparent;
         }
 
         .pd-breadcrumb {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 0.7rem;
-          letter-spacing: 0.15em;
+          font-size: 0.72rem;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
           margin-bottom: 40px;
         }
 
         .pd-breadcrumb a {
-          color: rgba(255, 255, 255, 0.6);
+          color: #1A1617;
           text-decoration: none;
+          font-weight: 500;
           transition: color 0.2s ease;
         }
 
         .pd-breadcrumb a:hover {
-          color: #d4af37;
+          color: #D99458;
         }
 
         .pd-breadcrumb .separator {
-          color: rgba(255, 255, 255, 0.2);
+          color: #EDE1DC;
         }
 
         .pd-breadcrumb .current {
-          color: #d4af37;
-          font-weight: 500;
+          color: #D99458;
+          font-weight: 600;
         }
 
         .pd-grid {
@@ -616,25 +625,26 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
 
         .pd-main-image-wrap {
           position: relative;
-          background: #0d0d0d;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 12px;
           overflow: hidden;
           width: 100%;
           aspect-ratio: 4 / 5;
+          box-shadow: 0 10px 30px rgba(26, 22, 23, 0.04);
         }
 
         .pd-badge {
           position: absolute;
           top: 18px;
           left: 18px;
-          background: #d4af37;
-          color: #000;
+          background: #1A1617;
+          color: #FAF6F4;
           font-size: 0.65rem;
           font-weight: 700;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          padding: 4px 12px;
+          padding: 5px 12px;
           border-radius: 20px;
           z-index: 2;
         }
@@ -644,7 +654,7 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
           height: 100%;
           object-fit: cover;
           object-position: center bottom;
-          background: #080808;
+          background: #FAF6F4;
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -662,20 +672,21 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         .pd-thumb-btn {
           width: 72px;
           height: 86px;
-          background: #000;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 8px;
           cursor: pointer;
           padding: 0;
           overflow: hidden;
-          opacity: 0.5;
+          opacity: 0.6;
           transition: all 0.25s ease;
           flex-shrink: 0;
         }
 
         .pd-thumb-btn.active, .pd-thumb-btn:hover {
           opacity: 1;
-          border-color: #d4af37;
+          border-color: #D99458;
+          box-shadow: 0 4px 12px rgba(217, 148, 88, 0.2);
           transform: translateY(-2px);
         }
 
@@ -686,25 +697,27 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-pyramid-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 12px;
           padding: 26px;
+          box-shadow: 0 6px 20px rgba(26, 22, 23, 0.03);
         }
 
         .pd-card-eyebrow {
-          font-size: 0.6rem;
+          font-size: 0.62rem;
           text-transform: uppercase;
-          letter-spacing: 0.25em;
-          color: #d4af37;
+          letter-spacing: 0.22em;
+          color: #D99458;
           margin-bottom: 6px;
+          font-weight: 600;
         }
 
         .pd-card-title {
           font-family: var(--font-serif);
           font-size: 1.3rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
           margin-bottom: 18px;
         }
 
@@ -721,10 +734,11 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-note-level {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
+          font-weight: 600;
           width: 50px;
           flex-shrink: 0;
         }
@@ -737,11 +751,12 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
 
         .pd-tag {
           font-size: 0.72rem;
-          color: rgba(255, 255, 255, 0.85);
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          padding: 4px 10px;
-          border-radius: 3px;
+          color: #1A1617;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          padding: 5px 12px;
+          border-radius: 6px;
+          font-weight: 500;
         }
 
         .pd-info-col {
@@ -750,22 +765,22 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-category {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
-          letter-spacing: 0.3em;
-          color: #d4af37;
+          letter-spacing: 0.25em;
+          color: #D99458;
           margin-bottom: 10px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         .pd-title {
           font-family: var(--font-serif);
           font-size: clamp(2.2rem, 4vw, 3.2rem);
-          font-weight: 300;
-          color: #ffffff;
-          line-height: 1.1;
-          letter-spacing: 0.03em;
-          margin-bottom: 18px;
+          font-weight: 500;
+          color: #1A1617;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          margin-bottom: 16px;
         }
 
         .pd-price-row {
@@ -776,27 +791,27 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-price {
-          font-size: 2rem;
-          font-weight: 500;
-          color: #ffffff;
+          font-size: 2.1rem;
+          font-weight: 600;
+          color: #1A1617;
           letter-spacing: -0.02em;
         }
 
         .pd-mrp-strike {
           font-size: 1.1rem;
-          color: rgba(255, 255, 255, 0.35);
+          color: #8F8480;
           text-decoration: line-through;
         }
 
         .pd-discount-badge {
-          background: rgba(212, 175, 55, 0.15);
-          color: #d4af37;
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          font-size: 0.65rem;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          padding: 3px 8px;
-          border-radius: 3px;
+          background: rgba(217, 148, 88, 0.16);
+          color: #B66D31;
+          border: 1px solid rgba(217, 148, 88, 0.35);
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          padding: 4px 10px;
+          border-radius: 6px;
         }
 
         .pd-rating-strip {
@@ -807,37 +822,40 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-stars {
-          color: #d4af37;
-          font-size: 0.95rem;
+          color: #D99458;
+          font-size: 1rem;
           letter-spacing: 0.1em;
         }
 
         .pd-rating-text {
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.78rem;
+          color: #7A6E6A;
+          font-weight: 500;
         }
 
         .pd-hook-box {
-          background: rgba(212, 175, 55, 0.04);
-          border-left: 3px solid #d4af37;
-          padding: 14px 18px;
-          border-radius: 0 4px 4px 0;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-left: 3px solid #D99458;
+          padding: 16px 20px;
+          border-radius: 0 8px 8px 0;
           margin-bottom: 24px;
+          box-shadow: 0 4px 14px rgba(26, 22, 23, 0.03);
         }
 
         .pd-hook-text {
           font-family: var(--font-serif);
           font-size: 1.05rem;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.9);
+          color: #1A1617;
           font-style: italic;
         }
 
         .pd-description {
-          font-size: 0.88rem;
-          line-height: 1.85;
-          color: rgba(255, 255, 255, 0.6);
-          font-weight: 300;
+          font-size: 0.9rem;
+          line-height: 1.8;
+          color: #4A403E;
+          font-weight: 400;
           margin-bottom: 28px;
         }
 
@@ -846,10 +864,11 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-sublabel {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: rgba(255, 255, 255, 0.4);
+          letter-spacing: 0.18em;
+          color: #7A6E6A;
+          font-weight: 600;
           margin-bottom: 10px;
         }
 
@@ -860,12 +879,13 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-occasion-chip {
-          font-size: 0.7rem;
-          color: rgba(212, 175, 55, 0.9);
-          background: rgba(212, 175, 55, 0.06);
-          border: 1px solid rgba(212, 175, 55, 0.2);
-          padding: 5px 12px;
+          font-size: 0.72rem;
+          color: #1A1617;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          padding: 6px 14px;
           border-radius: 20px;
+          font-weight: 500;
         }
 
         .pd-size-section {
@@ -878,15 +898,23 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-size-pill {
-          padding: 10px 20px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid #d4af37;
-          color: #d4af37;
-          font-size: 0.75rem;
-          letter-spacing: 0.1em;
+          padding: 11px 22px;
+          background: #FFFFFF;
+          border: 1.5px solid #EDE1DC;
+          color: #1A1617;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
           text-transform: uppercase;
-          border-radius: 3px;
+          border-radius: 8px;
           cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .pd-size-pill.active, .pd-size-pill:hover {
+          background: #1A1617;
+          border-color: #1A1617;
+          color: #FAF6F4;
         }
 
         .pd-action-row {
@@ -898,16 +926,16 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         .pd-qty-control {
           display: flex;
           align-items: center;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
-          padding: 0 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 8px;
+          padding: 0 6px;
         }
 
         .pd-qty-control button {
           background: none;
           border: none;
-          color: #fff;
+          color: #1A1617;
           font-size: 1.1rem;
           width: 36px;
           height: 48px;
@@ -916,27 +944,28 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-qty-control button:hover {
-          color: #d4af37;
+          color: #D99458;
         }
 
         .pd-qty-control span {
-          font-size: 0.85rem;
-          font-weight: 500;
-          min-width: 24px;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #1A1617;
+          min-width: 26px;
           text-align: center;
         }
 
         .pd-btn-cart {
           flex: 1;
           padding: 15px 20px;
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
-          font-size: 0.72rem;
-          font-weight: 500;
+          background: #1A1617;
+          border: 1px solid #1A1617;
+          color: #FAF6F4;
+          font-size: 0.75rem;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          border-radius: 4px;
+          letter-spacing: 0.15em;
+          border-radius: 8px;
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -946,39 +975,44 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-btn-cart:hover {
-          background: rgba(212, 175, 55, 0.2);
-          border-color: #d4af37;
+          background: #2D2527;
+          border-color: #D99458;
+          color: #FFFFFF;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.15);
         }
 
         .pd-btn-buy {
           flex: 1.2;
           padding: 15px 24px;
-          background: #d4af37;
-          border: 1px solid #d4af37;
-          color: #000;
-          font-size: 0.72rem;
-          font-weight: 600;
+          background: #D99458;
+          border: 1px solid #D99458;
+          color: #1A1617;
+          font-size: 0.75rem;
+          font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          border-radius: 4px;
+          letter-spacing: 0.15em;
+          border-radius: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
         }
 
         .pd-btn-buy:hover {
-          background: #ffffff;
-          border-color: #ffffff;
+          background: #c78347;
+          border-color: #c78347;
+          color: #FFFFFF;
+          box-shadow: 0 4px 16px rgba(217, 148, 88, 0.3);
         }
 
         .pd-trust-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 12px;
-          background: rgba(255, 255, 255, 0.015);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 10px;
           padding: 18px;
           margin-bottom: 30px;
+          box-shadow: 0 4px 14px rgba(26, 22, 23, 0.03);
         }
 
         .pd-trust-item {
@@ -992,51 +1026,55 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .trust-label {
-          font-size: 0.72rem;
-          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.75rem;
+          color: #4A403E;
+          font-weight: 500;
         }
 
         .pd-upsell-box {
-          background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.12) 100%);
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px dashed #D99458;
+          border-radius: 10px;
           padding: 20px;
           margin-bottom: 30px;
+          box-shadow: 0 4px 14px rgba(217, 148, 88, 0.06);
         }
 
         .pd-upsell-tag {
           display: inline-block;
-          background: #d4af37;
-          color: #000;
-          font-size: 0.58rem;
+          background: #D99458;
+          color: #1A1617;
+          font-size: 0.62rem;
           font-weight: 700;
-          letter-spacing: 0.15em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
-          padding: 3px 8px;
-          border-radius: 3px;
+          padding: 4px 10px;
+          border-radius: 4px;
           margin-bottom: 10px;
         }
 
         .pd-upsell-body {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.85);
-          font-weight: 300;
+          color: #1A1617;
+          font-weight: 400;
         }
 
         .pd-highlights-box {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 10px;
           padding: 22px;
+          box-shadow: 0 4px 14px rgba(26, 22, 23, 0.03);
         }
 
         .pd-box-heading {
           font-size: 0.75rem;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: #d4af37;
+          letter-spacing: 0.18em;
+          color: #D99458;
           margin-bottom: 14px;
+          font-weight: 600;
         }
 
         .pd-bullets-list {
@@ -1048,22 +1086,22 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-bullets-list li {
-          font-size: 0.78rem;
+          font-size: 0.82rem;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.65);
+          color: #4A403E;
         }
 
         /* Tabs Section */
         .pd-tabs-section {
           margin-bottom: 90px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
           padding-top: 50px;
         }
 
         .pd-tabs-nav {
           display: flex;
           gap: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid #EDE1DC;
           padding-bottom: 16px;
           overflow-x: auto;
           margin-bottom: 35px;
@@ -1072,21 +1110,23 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         .pd-tab-btn {
           background: none;
           border: none;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
           font-size: 0.75rem;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          padding: 8px 16px;
+          letter-spacing: 0.18em;
+          padding: 10px 18px;
           cursor: pointer;
           transition: all 0.25s ease;
           white-space: nowrap;
-          border-radius: 3px;
+          border-radius: 6px;
         }
 
         .pd-tab-btn.active, .pd-tab-btn:hover {
-          color: #ffffff;
-          background: rgba(212, 175, 55, 0.1);
-          color: #d4af37;
+          color: #1A1617;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          box-shadow: 0 2px 8px rgba(26, 22, 23, 0.04);
         }
 
         .pd-journey-grid {
@@ -1096,40 +1136,42 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-journey-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 12px;
           padding: 28px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .journey-phase {
           font-size: 0.65rem;
-          color: #d4af37;
-          letter-spacing: 0.2em;
+          color: #D99458;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
           margin-bottom: 10px;
-          font-weight: 600;
+          font-weight: 700;
         }
 
         .pd-journey-card h4 {
           font-family: var(--font-serif);
           font-size: 1.25rem;
-          color: #fff;
+          color: #1A1617;
           margin-bottom: 12px;
-          font-weight: 300;
+          font-weight: 500;
         }
 
         .pd-journey-card p {
-          font-size: 0.8rem;
+          font-size: 0.84rem;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.55);
+          color: #4A403E;
         }
 
         .pd-specs-table-wrap {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 12px;
           overflow: hidden;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .pd-specs-table {
@@ -1138,7 +1180,7 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-specs-table tr {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid #EDE1DC;
         }
 
         .pd-specs-table tr:last-child {
@@ -1147,17 +1189,19 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
 
         .spec-label {
           padding: 16px 24px;
-          font-size: 0.7rem;
+          font-size: 0.72rem;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
+          font-weight: 600;
           width: 35%;
+          background: #FAF6F4;
         }
 
         .spec-value {
           padding: 16px 24px;
-          font-size: 0.78rem;
-          color: rgba(255, 255, 255, 0.85);
-          font-weight: 400;
+          font-size: 0.82rem;
+          color: #1A1617;
+          font-weight: 500;
         }
 
         .pd-faqs-wrap {
@@ -1167,10 +1211,11 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-faq-item {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 10px;
           overflow: hidden;
+          box-shadow: 0 2px 10px rgba(26, 22, 23, 0.02);
         }
 
         .pd-faq-q {
@@ -1179,8 +1224,9 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
           border: none;
           padding: 18px 24px;
           text-align: left;
-          color: #fff;
-          font-size: 0.85rem;
+          color: #1A1617;
+          font-size: 0.88rem;
+          font-weight: 600;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -1189,23 +1235,24 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-faq-q:hover {
-          background: rgba(255, 255, 255, 0.03);
+          background: #FAF6F4;
         }
 
         .faq-toggle-sign {
-          color: #d4af37;
+          color: #D99458;
           font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .pd-faq-a {
           padding: 0 24px 20px 24px;
-          border-top: 1px solid rgba(255, 255, 255, 0.03);
+          border-top: 1px solid #EDE1DC;
         }
 
         .pd-faq-a p {
-          font-size: 0.8rem;
+          font-size: 0.84rem;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.55);
+          color: #4A403E;
           margin-top: 14px;
         }
 
@@ -1216,23 +1263,24 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-obj-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 10px;
           padding: 20px 24px;
+          box-shadow: 0 2px 10px rgba(26, 22, 23, 0.02);
         }
 
         .pd-obj-q {
-          font-size: 0.85rem;
-          font-weight: 500;
-          color: #ffffff;
+          font-size: 0.88rem;
+          font-weight: 600;
+          color: #1A1617;
           margin-bottom: 8px;
         }
 
         .pd-obj-a {
-          font-size: 0.78rem;
+          font-size: 0.82rem;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.6);
+          color: #4A403E;
         }
 
         /* Cross-Sell Section */
@@ -1242,18 +1290,19 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-cross-eyebrow {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
-          letter-spacing: 0.3em;
-          color: #d4af37;
+          letter-spacing: 0.25em;
+          color: #D99458;
           margin-bottom: 10px;
+          font-weight: 600;
         }
 
         .pd-cross-title {
           font-family: var(--font-serif);
           font-size: 2rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
           margin-bottom: 35px;
         }
 
@@ -1268,41 +1317,45 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
           display: flex;
           align-items: center;
           gap: 12px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           padding: 14px 22px;
           border-radius: 40px;
           transition: all 0.3s ease;
+          box-shadow: 0 2px 10px rgba(26, 22, 23, 0.03);
         }
 
         .pd-cross-card:hover {
-          border-color: #d4af37;
-          background: rgba(212, 175, 55, 0.05);
+          border-color: #D99458;
+          background: #FAF6F4;
+          transform: translateY(-2px);
         }
 
         .cross-icon {
-          color: #d4af37;
-          font-size: 0.75rem;
+          color: #D99458;
+          font-size: 0.8rem;
         }
 
         .cross-name {
-          font-size: 0.78rem;
-          font-weight: 500;
-          letter-spacing: 0.05em;
+          font-size: 0.82rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          color: #1A1617;
         }
 
         .cross-explore-link {
-          font-size: 0.7rem;
-          color: #d4af37;
+          font-size: 0.72rem;
+          color: #D99458;
           text-decoration: none;
           letter-spacing: 0.1em;
           text-transform: uppercase;
+          font-weight: 600;
           margin-left: 6px;
         }
 
         /* Reviews Section */
         .pd-reviews-section {
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
           padding-top: 60px;
         }
 
@@ -1316,18 +1369,19 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-review-eyebrow {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
-          letter-spacing: 0.3em;
-          color: #d4af37;
+          letter-spacing: 0.25em;
+          color: #D99458;
           margin-bottom: 8px;
+          font-weight: 600;
         }
 
         .pd-review-title {
           font-family: var(--font-serif);
           font-size: 2rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
         }
 
         .pd-review-score-box {
@@ -1339,16 +1393,17 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         .pd-score-num {
           font-family: var(--font-serif);
           font-size: 3rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
           line-height: 1;
         }
 
         .pd-score-sub {
-          font-size: 0.7rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.75rem;
+          color: #7A6E6A;
           text-transform: uppercase;
           letter-spacing: 0.1em;
+          font-weight: 600;
         }
 
         .pd-reviews-grid {
@@ -1358,10 +1413,11 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .pd-review-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 12px;
           padding: 24px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .review-top {
@@ -1372,42 +1428,43 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
         }
 
         .reviewer-avatar {
-          width: 34px;
-          height: 34px;
-          background: rgba(212, 175, 55, 0.15);
-          border: 1px solid rgba(212, 175, 55, 0.3);
+          width: 36px;
+          height: 36px;
+          background: rgba(217, 148, 88, 0.15);
+          border: 1px solid rgba(217, 148, 88, 0.3);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.8rem;
-          color: #d4af37;
-          font-weight: 600;
+          font-size: 0.85rem;
+          color: #B66D31;
+          font-weight: 700;
         }
 
         .reviewer-name {
           display: block;
-          font-size: 0.82rem;
-          color: #fff;
+          font-size: 0.85rem;
+          color: #1A1617;
+          font-weight: 600;
         }
 
         .reviewer-meta {
           display: block;
-          font-size: 0.65rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.68rem;
+          color: #7A6E6A;
         }
 
         .review-stars {
           margin-left: auto;
-          color: #d4af37;
-          font-size: 0.8rem;
+          color: #D99458;
+          font-size: 0.85rem;
         }
 
         .review-text {
-          font-size: 0.82rem;
+          font-size: 0.85rem;
           line-height: 1.7;
-          color: rgba(255, 255, 255, 0.6);
-          font-weight: 300;
+          color: #4A403E;
+          font-weight: 400;
           font-style: italic;
         }
 
@@ -1427,6 +1484,7 @@ export default function ProductDetailClient({ product, richData }: ProductDetail
           }
         }
       `}</style>
+    </div>
     </div>
   );
 }

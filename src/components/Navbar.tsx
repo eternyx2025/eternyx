@@ -7,10 +7,17 @@ import { useCart } from '@/context/CartContext';
 import { useCustomerAuth } from '@/context/CustomerAuthContext';
 import { DEFAULT_CATEGORIES } from '@/lib/types';
 
-const ANNOUNCEMENTS = [
-  'COMPLIMENTARY SHIPPING GLOBALLY ON ALL ORDERS',
-  'SILENCE IS LUXURY • DISCOVER THE ALCHEMY COLLECTION',
-  'EXPERIENCE TAILORED BESPOKE PERFUMERY'
+interface NavAnnouncement {
+  text: string;
+  code?: string;
+  link?: string;
+}
+
+const DEFAULT_NAV_ANNOUNCEMENTS: NavAnnouncement[] = [
+  { text: 'Festive Gifting Starts Here. Early Festive Prices Are Live.', code: '', link: '/shop' },
+  { text: 'Get Additional ₹50 OFF. Use Code: FESTIVE50', code: 'FESTIVE50', link: '/shop' },
+  { text: 'Complimentary Luxury Samples with Every Order', code: '', link: '/shop' },
+  { text: 'Free Express Shipping Across India', code: '', link: '/shop' }
 ];
 
 export default function Navbar() {
@@ -26,6 +33,7 @@ export default function Navbar() {
   const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
+  const [announcements, setAnnouncements] = useState<NavAnnouncement[]>(DEFAULT_NAV_ANNOUNCEMENTS);
 
   const close = () => {
     setIsMenuOpen(false);
@@ -36,7 +44,12 @@ export default function Navbar() {
     e.stopPropagation();
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2500);
+    applyCoupon(code);
+    setApplySuccessMsg(`Coupon ${code} copied & applied!`);
+    setTimeout(() => {
+      setCopiedCode(null);
+      setApplySuccessMsg(null);
+    }, 3000);
   };
 
   const handleAutoApply = (code: string, e: React.MouseEvent) => {
@@ -45,6 +58,17 @@ export default function Navbar() {
     setApplySuccessMsg(`Coupon ${code} applied! Discount will reflect at checkout.`);
     setTimeout(() => setApplySuccessMsg(null), 3500);
   };
+
+  useEffect(() => {
+    fetch('/api/homepage')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.data?.announcements?.length > 0) {
+          setAnnouncements(data.data.announcements);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch('/api/categories')
@@ -83,32 +107,25 @@ export default function Navbar() {
 
   const tickerContent = (
     <>
-      <span className="ticker-item">
-        <span className="ticker-sparkle">✦</span>
-        <span>EXCLUSIVE OFFER:</span>
-        <span className="ticker-coupon-pill" onClick={(e) => handleCopyCoupon('NEW50', e)} title="Click to copy NEW50">
-          <strong>NEW50</strong>
-          <span className="ticker-badge-action">{copiedCode === 'NEW50' ? '✓ COPIED' : 'COPY'}</span>
+      {announcements.map((item, idx) => (
+        <span key={idx} className="ticker-item">
+          <span className="ticker-sparkle">✦</span>
+          <span>{item.text}</span>
+          {item.code ? (
+            <span
+              className="ticker-coupon-pill"
+              onClick={(e) => handleCopyCoupon(item.code!, e)}
+              title={`Click to copy & apply ${item.code}`}
+            >
+              <strong>{item.code}</strong>
+              <span className="ticker-badge-action">
+                {copiedCode === item.code || appliedCoupon === item.code ? '✓ APPLIED' : 'APPLY'}
+              </span>
+            </span>
+          ) : null}
+          <span className="ticker-dot">•</span>
         </span>
-        <span className="ticker-highlight">50% OFF ENTIRE ORDER</span>
-        <button
-          className={`ticker-apply-btn ${appliedCoupon === 'NEW50' ? 'applied' : ''}`}
-          onClick={(e) => handleAutoApply('NEW50', e)}
-        >
-          {appliedCoupon === 'NEW50' ? '✓ APPLIED' : 'APPLY NOW'}
-        </button>
-      </span>
-      <span className="ticker-dot">•</span>
-      <span className="ticker-item">
-        <span className="ticker-icon">🚚</span>
-        <span>COMPLIMENTARY GLOBAL EXPRESS SHIPPING ON ALL ORDERS</span>
-      </span>
-      <span className="ticker-dot">•</span>
-      <span className="ticker-item">
-        <span className="ticker-sparkle">✦</span>
-        <span>EXPERIENCE TAILORED BESPOKE LUXURY PERFUMERY</span>
-      </span>
-      <span className="ticker-dot">•</span>
+      ))}
     </>
   );
 
@@ -144,8 +161,35 @@ export default function Navbar() {
           </button>
 
           <div className="nav-links">
-            <Link href="/shop" className="nav-link">Shop</Link>
-            <Link href="/alchemy" className="nav-link">The Alchemy</Link>
+            <Link href="/" className="nav-link">Home</Link>
+            <div className="nav-dropdown-wrapper" onMouseLeave={() => setIsCategoriesOpen(false)}>
+              <button
+                type="button"
+                className="nav-link dropdown-toggle"
+                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+              >
+                Shop ▾
+              </button>
+              {isCategoriesOpen && (
+                <div className="nav-categories-dropdown">
+                  <Link href="/shop" className="dropdown-cat-item" onClick={close}>
+                    All Fragrances
+                  </Link>
+                  {categories.map((cat, idx) => (
+                    <Link
+                      key={idx}
+                      href={`/shop?category=${encodeURIComponent(cat)}`}
+                      className="dropdown-cat-item"
+                      onClick={close}
+                    >
+                      {cat}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            <Link href="/story" className="nav-link">About Us</Link>
+            <Link href="/track" className="nav-link">Track My Order</Link>
           </div>
 
           <Link href="/" className="nav-logo" onClick={close}>
@@ -153,8 +197,6 @@ export default function Navbar() {
           </Link>
 
           <div className="nav-icons">
-            <Link href="/story" className="nav-link desktop-only">Our Story</Link>
-            <Link href="/bespoke" className="nav-link desktop-only">Bespoke</Link>
             <button aria-label="Search" onClick={() => setIsSearchOpen(true)} className="nav-icon-btn">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <circle cx="11" cy="11" r="8" />

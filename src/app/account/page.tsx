@@ -95,8 +95,8 @@ export default function CustomerAccountPage() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #080808;
-            color: #d4af37;
+            background: #FAF6F4;
+            color: #1A1617;
             gap: 16px;
             font-size: 0.85rem;
             letter-spacing: 0.15em;
@@ -105,8 +105,8 @@ export default function CustomerAccountPage() {
           .loading-spinner {
             width: 36px;
             height: 36px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-top-color: #d4af37;
+            border: 2px solid rgba(217, 148, 88, 0.25);
+            border-top-color: #D99458;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
           }
@@ -147,36 +147,37 @@ export default function CustomerAccountPage() {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #080808;
+            background: #FAF6F4;
             padding: 120px 24px 80px 24px;
-            color: #fff;
+            color: #1A1617;
           }
           .guest-card {
-            background: #0d0d0d;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.1);
+            background: #FFFFFF;
+            border: 1px solid #EDE1DC;
+            box-shadow: 0 12px 40px rgba(26, 22, 23, 0.05);
             padding: 50px 40px;
             text-align: center;
             max-width: 520px;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 6px;
           }
           .guest-seal {
             font-size: 0.7rem;
             letter-spacing: 0.25em;
-            color: #d4af37;
+            color: #B66D31;
+            font-weight: 600;
             display: block;
             margin-bottom: 12px;
           }
           .guest-card h1 {
             font-family: Georgia, serif;
             font-size: 1.9rem;
-            font-weight: 300;
+            font-weight: 400;
             margin: 0 0 14px 0;
-            color: #fff;
+            color: #1A1617;
           }
           .guest-card p {
-            color: #888;
+            color: #7A6E6A;
             font-size: 0.88rem;
             line-height: 1.6;
             margin-bottom: 30px;
@@ -188,8 +189,8 @@ export default function CustomerAccountPage() {
             margin-bottom: 24px;
           }
           .btn-gold-account {
-            background: linear-gradient(135deg, #d4af37 0%, #aa8528 100%);
-            color: #000;
+            background: #1A1617;
+            color: #FAF6F4;
             border: none;
             padding: 14px 24px;
             font-size: 0.82rem;
@@ -197,30 +198,32 @@ export default function CustomerAccountPage() {
             letter-spacing: 0.12em;
             text-transform: uppercase;
             cursor: pointer;
-            border-radius: 3px;
+            border-radius: 4px;
             transition: all 0.2s;
           }
           .btn-gold-account:hover {
-            box-shadow: 0 0 16px rgba(212, 175, 55, 0.5);
+            background: #2D2527;
+            box-shadow: 0 4px 14px rgba(26, 22, 23, 0.2);
           }
           .btn-ghost-account {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: #d4af37;
+            background: #FFFFFF;
+            border: 1.5px solid #EDE1DC;
+            color: #1A1617;
             padding: 13px 24px;
             font-size: 0.8rem;
             font-weight: 500;
             letter-spacing: 0.08em;
             cursor: pointer;
-            border-radius: 3px;
+            border-radius: 4px;
             transition: all 0.2s;
           }
           .btn-ghost-account:hover {
-            background: rgba(212, 175, 55, 0.1);
+            border-color: #D99458;
+            background: #FAF6F4;
           }
           .guest-note {
             font-size: 0.74rem !important;
-            color: #666 !important;
+            color: #7A6E6A !important;
             margin: 0 !important;
           }
         `}</style>
@@ -313,9 +316,9 @@ export default function CustomerAccountPage() {
                             {order.status || 'Processing'}
                           </span>
                           <span className="payment-pill" style={{
-                            background: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.12)' : 'rgba(255, 255, 255, 0.04)',
-                            borderColor: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 255, 255, 0.1)',
-                            color: order.payment_method === 'COD' ? '#d4af37' : '#bbb'
+                            background: order.payment_method === 'COD' ? 'rgba(217, 148, 88, 0.12)' : '#FFFFFF',
+                            borderColor: order.payment_method === 'COD' ? 'rgba(217, 148, 88, 0.35)' : '#EDE1DC',
+                            color: order.payment_method === 'COD' ? '#B66D31' : '#7A6E6A'
                           }}>
                             {order.payment_method === 'COD' 
                               ? (order.payment_status === 'Paid' ? '💵 COD (Paid)' : '💵 Cash on Delivery') 
@@ -524,8 +527,8 @@ export default function CustomerAccountPage() {
       <style jsx>{`
         .account-page {
           min-height: 100vh;
-          background: #080808;
-          color: #e5e5e5;
+          background: #FAF6F4;
+          color: #1A1617;
           padding: 120px 24px 80px 24px;
         }
         .account-container {
@@ -539,13 +542,14 @@ export default function CustomerAccountPage() {
           flex-wrap: wrap;
           gap: 24px;
           padding-bottom: 30px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid #EDE1DC;
           margin-bottom: 32px;
         }
         .client-badge {
           font-size: 0.68rem;
           letter-spacing: 0.25em;
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
           text-transform: uppercase;
           display: block;
           margin-bottom: 6px;
@@ -553,13 +557,13 @@ export default function CustomerAccountPage() {
         .client-name {
           font-family: Georgia, serif;
           font-size: 2.2rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 400;
+          color: #1A1617;
           margin: 0 0 6px 0;
         }
         .client-contact {
           font-size: 0.85rem;
-          color: #888;
+          color: #7A6E6A;
           margin: 0;
         }
         .header-right {
@@ -569,31 +573,32 @@ export default function CustomerAccountPage() {
           flex-wrap: wrap;
         }
         .stat-pill {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(212, 175, 55, 0.25);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           padding: 8px 16px;
-          border-radius: 4px;
+          border-radius: 6px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          box-shadow: 0 2px 8px rgba(26, 22, 23, 0.02);
         }
         .stat-num {
           font-size: 1.1rem;
-          font-weight: 600;
-          color: #d4af37;
+          font-weight: 700;
+          color: #B66D31;
         }
         .stat-lbl {
           font-size: 0.68rem;
           letter-spacing: 0.06em;
-          color: #888;
+          color: #7A6E6A;
           text-transform: uppercase;
         }
         .btn-signout {
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: #aaa;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          color: #7A6E6A;
           padding: 10px 18px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.78rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -601,13 +606,14 @@ export default function CustomerAccountPage() {
           transition: all 0.2s;
         }
         .btn-signout:hover {
-          color: #fc8181;
-          border-color: rgba(229, 62, 62, 0.4);
+          color: #e53e3e;
+          border-color: #feb2b2;
+          background: #FFF5F5;
         }
         .account-nav-tabs {
           display: flex;
           gap: 12px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid #EDE1DC;
           margin-bottom: 32px;
           overflow-x: auto;
         }
@@ -618,7 +624,7 @@ export default function CustomerAccountPage() {
           font-size: 0.82rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #777;
+          color: #7A6E6A;
           cursor: pointer;
           position: relative;
           display: flex;
@@ -628,8 +634,8 @@ export default function CustomerAccountPage() {
           white-space: nowrap;
         }
         .tab-btn.active {
-          color: #d4af37;
-          font-weight: 500;
+          color: #1A1617;
+          font-weight: 600;
         }
         .tab-btn.active::after {
           content: '';
@@ -638,13 +644,14 @@ export default function CustomerAccountPage() {
           left: 0;
           right: 0;
           height: 2px;
-          background: #d4af37;
-          box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+          background: #D99458;
+          box-shadow: 0 0 10px rgba(217, 148, 88, 0.4);
         }
         .tab-count {
-          background: rgba(212, 175, 55, 0.15);
-          color: #d4af37;
+          background: rgba(217, 148, 88, 0.15);
+          color: #B66D31;
           font-size: 0.7rem;
+          font-weight: 600;
           padding: 2px 8px;
           border-radius: 999px;
         }
@@ -654,19 +661,21 @@ export default function CustomerAccountPage() {
           gap: 24px;
         }
         .order-card {
-          background: #0d0d0d;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 6px;
           overflow: hidden;
-          transition: border-color 0.2s;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
         .order-card:hover {
-          border-color: rgba(212, 175, 55, 0.35);
+          border-color: #D99458;
+          box-shadow: 0 6px 20px rgba(217, 148, 88, 0.08);
         }
         .order-card-header {
           padding: 20px 24px;
-          background: rgba(255, 255, 255, 0.02);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          background: #FAF6F4;
+          border-bottom: 1px solid #EDE1DC;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -681,19 +690,19 @@ export default function CustomerAccountPage() {
         }
         .order-ref {
           font-size: 0.72rem;
-          color: #777;
+          color: #7A6E6A;
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
         .order-id {
           font-family: monospace;
-          font-weight: 600;
-          color: #d4af37;
+          font-weight: 700;
+          color: #B66D31;
           font-size: 0.95rem;
         }
         .order-date {
           font-size: 0.8rem;
-          color: #888;
+          color: #7A6E6A;
         }
         .order-badges-group {
           display: flex;
@@ -707,28 +716,29 @@ export default function CustomerAccountPage() {
           font-weight: 600;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          background: rgba(212, 175, 55, 0.15);
-          color: #d4af37;
-          border: 1px solid rgba(212, 175, 55, 0.3);
+          background: rgba(217, 148, 88, 0.12);
+          color: #B66D31;
+          border: 1px solid rgba(217, 148, 88, 0.3);
         }
         .status-pill.delivered {
-          background: rgba(72, 187, 120, 0.15);
-          color: #68d391;
+          background: rgba(72, 187, 120, 0.12);
+          color: #2f855a;
           border-color: rgba(72, 187, 120, 0.35);
         }
         .payment-pill {
           padding: 5px 12px;
           border-radius: 999px;
           font-size: 0.72rem;
-          color: #999;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #7A6E6A;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
         }
         .order-items-list {
           padding: 20px 24px;
           display: flex;
           flex-direction: column;
           gap: 16px;
+          background: #FFFFFF;
         }
         .order-item-row {
           display: flex;
@@ -739,14 +749,15 @@ export default function CustomerAccountPage() {
           width: 52px;
           height: 52px;
           object-fit: cover;
-          border-radius: 3px;
-          background: #141414;
+          border-radius: 4px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
         }
         .order-item-img.placeholder {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #d4af37;
+          color: #D99458;
           font-size: 0.9rem;
         }
         .order-item-meta {
@@ -755,27 +766,27 @@ export default function CustomerAccountPage() {
         .order-item-meta h4 {
           margin: 0 0 3px 0;
           font-size: 0.92rem;
-          font-weight: 400;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
         }
         .order-item-size {
           font-size: 0.75rem;
-          color: #888;
+          color: #7A6E6A;
           display: block;
         }
         .order-item-qty {
           font-size: 0.78rem;
-          color: #aaa;
+          color: #4A403E;
         }
         .order-item-subtotal {
           font-size: 0.92rem;
-          font-weight: 500;
-          color: #d4af37;
+          font-weight: 600;
+          color: #1A1617;
         }
         .order-card-footer {
           padding: 16px 24px;
-          background: rgba(255, 255, 255, 0.015);
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          background: #FAF6F4;
+          border-top: 1px solid #EDE1DC;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -790,124 +801,131 @@ export default function CustomerAccountPage() {
           font-size: 0.7rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #888;
+          color: #7A6E6A;
         }
         .total-val {
           font-size: 1.15rem;
-          font-weight: 600;
-          color: #fff;
+          font-weight: 700;
+          color: #1A1617;
         }
         .btn-track-order {
           display: flex;
           align-items: center;
           gap: 8px;
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
+          background: #FFFFFF;
+          border: 1.5px solid #EDE1DC;
+          color: #1A1617;
           padding: 10px 18px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.78rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           text-decoration: none;
-          font-weight: 500;
+          font-weight: 600;
           transition: all 0.2s;
         }
         .btn-track-order:hover {
-          background: #d4af37;
-          color: #000;
-          box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+          background: #1A1617;
+          color: #FAF6F4;
+          border-color: #1A1617;
+          box-shadow: 0 4px 12px rgba(26, 22, 23, 0.15);
         }
         .empty-orders-card {
           padding: 60px 24px;
           text-align: center;
-          background: #0d0d0d;
-          border: 1px dashed rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px dashed #EDE1DC;
+          border-radius: 6px;
         }
         .empty-icon {
           font-size: 2rem;
-          color: #d4af37;
+          color: #D99458;
           margin-bottom: 12px;
         }
         .empty-orders-card h3 {
           font-family: Georgia, serif;
           font-size: 1.4rem;
-          font-weight: 300;
+          font-weight: 400;
           margin: 0 0 8px 0;
-          color: #fff;
+          color: #1A1617;
         }
         .empty-orders-card p {
-          color: #888;
+          color: #7A6E6A;
           font-size: 0.88rem;
           max-width: 400px;
           margin: 0 auto 24px auto;
         }
         .btn-explore {
           display: inline-block;
-          background: #d4af37;
-          color: #000;
+          background: #1A1617;
+          color: #FAF6F4;
           padding: 12px 24px;
           font-size: 0.78rem;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           text-decoration: none;
-          border-radius: 2px;
+          border-radius: 4px;
+          transition: background 0.2s;
+        }
+        .btn-explore:hover {
+          background: #2D2527;
         }
         .address-card, .security-card {
-          background: #0d0d0d;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 6px;
           padding: 32px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
         .address-card h3, .security-card h3 {
           font-family: Georgia, serif;
           font-size: 1.3rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 400;
+          color: #1A1617;
           margin: 0 0 6px 0;
         }
         .card-sub {
           font-size: 0.84rem;
-          color: #888;
+          color: #7A6E6A;
           line-height: 1.5;
           margin: 0 0 24px 0;
         }
         .address-box {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(212, 175, 55, 0.2);
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
           padding: 20px;
-          border-radius: 4px;
+          border-radius: 6px;
           margin-bottom: 20px;
         }
         .address-recipient {
-          color: #fff;
+          color: #1A1617;
           font-size: 0.92rem;
           margin: 0 0 6px 0;
         }
         .address-line {
-          color: #aaa;
+          color: #4A403E;
           font-size: 0.86rem;
           margin: 0 0 4px 0;
         }
         .address-phone {
-          color: #d4af37;
+          color: #B66D31;
           font-size: 0.82rem;
+          font-weight: 500;
           margin: 12px 0 0 0;
         }
         .no-address-box {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px dashed rgba(255, 255, 255, 0.1);
+          background: #FAF6F4;
+          border: 1px dashed #EDE1DC;
           padding: 24px;
-          border-radius: 4px;
-          color: #777;
+          border-radius: 6px;
+          color: #7A6E6A;
           font-size: 0.86rem;
           margin-bottom: 20px;
         }
         .address-note {
           font-size: 0.78rem;
-          color: #777;
+          color: #7A6E6A;
           line-height: 1.5;
         }
         .security-grid {
@@ -927,13 +945,19 @@ export default function CustomerAccountPage() {
           margin-bottom: 16px;
         }
         .btn-edit-toggle {
-          background: none;
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
-          padding: 4px 12px;
-          border-radius: 3px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          color: #1A1617;
+          padding: 5px 14px;
+          border-radius: 4px;
           font-size: 0.75rem;
+          font-weight: 500;
           cursor: pointer;
+          transition: all 0.2s;
+        }
+        .btn-edit-toggle:hover {
+          border-color: #D99458;
+          background: #FFFFFF;
         }
         .security-form {
           display: flex;
@@ -949,41 +973,52 @@ export default function CustomerAccountPage() {
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.06em;
-          color: #888;
+          color: #7A6E6A;
+          font-weight: 500;
         }
         .form-item input {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-radius: 3px;
+          background: #FFFFFF;
+          border: 1.5px solid #EDE1DC;
+          border-radius: 4px;
           padding: 11px 14px;
-          color: #fff;
+          color: #1A1617;
           font-size: 0.88rem;
           outline: none;
+          transition: border-color 0.2s;
         }
         .form-item input:focus {
-          border-color: #d4af37;
+          border-color: #D99458;
         }
         .btn-save-security {
-          background: #d4af37;
-          color: #000;
+          background: #1A1617;
+          color: #FAF6F4;
           border: none;
           padding: 12px 20px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.8rem;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           cursor: pointer;
           margin-top: 6px;
+          transition: background 0.2s;
+        }
+        .btn-save-security:hover {
+          background: #2D2527;
         }
         .btn-cancel {
-          background: transparent;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: #888;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          color: #7A6E6A;
           padding: 12px 20px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.8rem;
           cursor: pointer;
+          transition: all 0.2s;
+        }
+        .btn-cancel:hover {
+          color: #1A1617;
+          border-color: #7A6E6A;
         }
         .form-actions-row {
           display: flex;
@@ -992,24 +1027,24 @@ export default function CustomerAccountPage() {
         }
         .alert-msg {
           padding: 10px 14px;
-          border-radius: 3px;
+          border-radius: 4px;
           font-size: 0.8rem;
           margin-bottom: 16px;
         }
         .alert-msg.error {
-          background: rgba(229, 62, 62, 0.12);
-          border: 1px solid rgba(229, 62, 62, 0.35);
-          color: #fc8181;
+          background: rgba(229, 62, 62, 0.08);
+          border: 1px solid rgba(229, 62, 62, 0.25);
+          color: #c53030;
         }
         .alert-msg.success {
-          background: rgba(72, 187, 120, 0.12);
-          border: 1px solid rgba(72, 187, 120, 0.35);
-          color: #68d391;
+          background: rgba(72, 187, 120, 0.08);
+          border: 1px solid rgba(72, 187, 120, 0.25);
+          color: #276749;
         }
         .alert-msg.info {
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          color: #d4af37;
+          background: rgba(217, 148, 88, 0.1);
+          border: 1px solid rgba(217, 148, 88, 0.3);
+          color: #B66D31;
         }
         .profile-details-view {
           display: flex;
@@ -1020,18 +1055,19 @@ export default function CustomerAccountPage() {
           display: flex;
           justify-content: space-between;
           padding-bottom: 10px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid #EDE1DC;
           font-size: 0.85rem;
         }
         .detail-row .lbl {
-          color: #777;
+          color: #7A6E6A;
         }
         .detail-row .val {
-          color: #fff;
+          color: #1A1617;
           font-weight: 500;
         }
         .detail-row .val.gold {
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
         }
       `}</style>
     </div>

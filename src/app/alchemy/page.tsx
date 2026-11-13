@@ -136,14 +136,14 @@ export default function AlchemyPage() {
           <div className="svg-container">
             <svg viewBox="0 0 800 350" className="chart-svg">
               {/* Grids */}
-              <line x1="50" y1="50" x2="750" y2="50" stroke="rgba(255,255,255,0.03)" />
-              <line x1="50" y1="125" x2="750" y2="125" stroke="rgba(255,255,255,0.03)" />
-              <line x1="50" y1="200" x2="750" y2="200" stroke="rgba(255,255,255,0.03)" />
-              <line x1="50" y1="275" x2="750" y2="275" stroke="rgba(255,255,255,0.03)" />
+              <line x1="50" y1="50" x2="750" y2="50" stroke="#EDE1DC" />
+              <line x1="50" y1="125" x2="750" y2="125" stroke="#EDE1DC" />
+              <line x1="50" y1="200" x2="750" y2="200" stroke="#EDE1DC" />
+              <line x1="50" y1="275" x2="750" y2="275" stroke="#EDE1DC" />
               
               {/* Axes */}
-              <line x1="50" y1="300" x2="750" y2="300" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-              <line x1="50" y1="300" x2="50" y2="30" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+              <line x1="50" y1="300" x2="750" y2="300" stroke="#7A6E6A" strokeWidth="1.5" />
+              <line x1="50" y1="300" x2="50" y2="30" stroke="#7A6E6A" strokeWidth="1.5" />
               
               {/* Chart lines for each note category */}
               
@@ -151,7 +151,7 @@ export default function AlchemyPage() {
               <path 
                 d="M 50 40 Q 150 150 250 300 L 750 300" 
                 fill="none" 
-                stroke="#ef4444" 
+                stroke="#c53030" 
                 strokeWidth="2.5" 
                 strokeDasharray="4"
                 opacity={activeTab === 'top' ? 1 : 0.25}
@@ -162,7 +162,7 @@ export default function AlchemyPage() {
               <path 
                 d="M 50 150 C 150 40 250 100 450 300 L 750 300" 
                 fill="none" 
-                stroke="#d4af37" 
+                stroke="#D99458" 
                 strokeWidth="3.5"
                 opacity={activeTab === 'heart' ? 1 : 0.25}
                 className="curve-path"
@@ -172,7 +172,7 @@ export default function AlchemyPage() {
               <path 
                 d="M 50 250 Q 150 220 300 200 T 750 220" 
                 fill="none" 
-                stroke="#3b82f6" 
+                stroke="#3182ce" 
                 strokeWidth="2.5"
                 strokeDasharray="2"
                 opacity={activeTab === 'base' ? 1 : 0.25}
@@ -181,28 +181,28 @@ export default function AlchemyPage() {
 
               {/* Data points */}
               {/* Top notes peak */}
-              <circle cx="50" cy="40" r="5" fill="#ef4444" opacity={activeTab === 'top' ? 1 : 0.4} />
+              <circle cx="50" cy="40" r="5" fill="#c53030" opacity={activeTab === 'top' ? 1 : 0.4} />
               {/* Heart notes peak */}
-              <circle cx="180" cy="55" r="6" fill="#d4af37" opacity={activeTab === 'heart' ? 1 : 0.4} />
+              <circle cx="180" cy="55" r="6" fill="#D99458" opacity={activeTab === 'heart' ? 1 : 0.4} />
               {/* Base notes transition */}
-              <circle cx="300" cy="200" r="5" fill="#3b82f6" opacity={activeTab === 'base' ? 1 : 0.4} />
+              <circle cx="300" cy="200" r="5" fill="#3182ce" opacity={activeTab === 'base' ? 1 : 0.4} />
 
               {/* Labels */}
-              <text x="75" y="30" fill="#ef4444" fontSize="10" opacity={activeTab === 'top' ? 1 : 0.4}>Top Notes Peak (Instant)</text>
-              <text x="200" y="45" fill="#d4af37" fontSize="10" opacity={activeTab === 'heart' ? 1 : 0.4}>Heart Accords (Full Bloom)</text>
-              <text x="320" y="190" fill="#3b82f6" fontSize="10" opacity={activeTab === 'base' ? 1 : 0.4}>Base Fixatives (Sillage)</text>
+              <text x="75" y="30" fill="#c53030" fontSize="10" opacity={activeTab === 'top' ? 1 : 0.4}>Top Notes Peak (Instant)</text>
+              <text x="200" y="45" fill="#B66D31" fontSize="10" opacity={activeTab === 'heart' ? 1 : 0.4}>Heart Accords (Full Bloom)</text>
+              <text x="320" y="190" fill="#3182ce" fontSize="10" opacity={activeTab === 'base' ? 1 : 0.4}>Base Fixatives (Sillage)</text>
 
               {/* Y Axis labels */}
-              <text x="15" y="55" fill="rgba(255,255,255,0.4)" fontSize="10">High</text>
-              <text x="15" y="170" fill="rgba(255,255,255,0.4)" fontSize="10">Medium</text>
-              <text x="15" y="295" fill="rgba(255,255,255,0.4)" fontSize="10">Low</text>
-              <text x="-190" y="35" fill="rgba(255,255,255,0.4)" fontSize="10" transform="rotate(-90)" letterSpacing="0.1em">CONCENTRATION</text>
+              <text x="15" y="55" fill="#7A6E6A" fontSize="10">High</text>
+              <text x="15" y="170" fill="#7A6E6A" fontSize="10">Medium</text>
+              <text x="15" y="295" fill="#7A6E6A" fontSize="10">Low</text>
+              <text x="-190" y="35" fill="#7A6E6A" fontSize="10" transform="rotate(-90)" letterSpacing="0.1em">CONCENTRATION</text>
 
               {/* X Axis labels */}
-              <text x="50" y="325" fill="rgba(255,255,255,0.4)" fontSize="10">0 Hours (Spray)</text>
-              <text x="250" y="325" fill="rgba(255,255,255,0.4)" fontSize="10">1 Hour</text>
-              <text x="450" y="325" fill="rgba(255,255,255,0.4)" fontSize="10">4 Hours</text>
-              <text x="650" y="325" fill="rgba(255,255,255,0.4)" fontSize="10">12+ Hours (Dry Down)</text>
+              <text x="50" y="325" fill="#7A6E6A" fontSize="10">0 Hours (Spray)</text>
+              <text x="250" y="325" fill="#7A6E6A" fontSize="10">1 Hour</text>
+              <text x="450" y="325" fill="#7A6E6A" fontSize="10">4 Hours</text>
+              <text x="650" y="325" fill="#7A6E6A" fontSize="10">12+ Hours (Dry Down)</text>
             </svg>
           </div>
           
@@ -226,11 +226,12 @@ export default function AlchemyPage() {
       <style jsx>{`
         .alchemy-container {
           min-height: 100vh;
-          background-color: #050505;
+          background-color: #FAF6F4;
           padding: 140px 50px 80px 50px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          color: #1A1617;
         }
 
         .alchemy-hero {
@@ -243,25 +244,25 @@ export default function AlchemyPage() {
           font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.3em;
-          color: #d4af37;
+          color: #B66D31;
           margin-bottom: 12px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         .alchemy-title {
           font-family: var(--font-serif);
           font-size: 2.75rem;
-          color: #ffffff;
-          font-weight: 300;
-          letter-spacing: 0.1em;
+          color: #1A1617;
+          font-weight: 400;
+          letter-spacing: 0.05em;
           margin-bottom: 16px;
         }
 
         .alchemy-subtitle {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.5);
-          line-height: 1.6;
-          font-weight: 300;
+          font-size: 0.95rem;
+          color: #7A6E6A;
+          line-height: 1.7;
+          font-weight: 400;
         }
 
         .alchemy-pyramid-section {
@@ -288,21 +289,24 @@ export default function AlchemyPage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           border-radius: 6px;
           padding: 40px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .visual-heading {
-          font-size: 1.15rem;
+          font-family: var(--font-serif);
+          font-size: 1.35rem;
           margin-bottom: 8px;
-          color: #fff;
+          color: #1A1617;
+          font-weight: 400;
         }
 
         .visual-desc {
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.85rem;
+          color: #7A6E6A;
           margin-bottom: 40px;
         }
 
@@ -317,16 +321,16 @@ export default function AlchemyPage() {
 
         .pyramid-layer {
           width: 100%;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: rgba(255, 255, 255, 0.6);
+          background: #FAF6F4;
+          border: 1.5px solid #EDE1DC;
+          color: #7A6E6A;
           padding: 24px 20px;
           cursor: pointer;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 4px;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           position: relative;
           outline: none;
         }
@@ -355,54 +359,54 @@ export default function AlchemyPage() {
 
         .layer-label {
           font-family: var(--font-serif);
-          font-size: 0.95rem;
+          font-size: 1rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           transition: color 0.3s;
+          font-weight: 500;
         }
 
         .layer-duration {
-          font-size: 0.7rem;
-          opacity: 0.7;
+          font-size: 0.72rem;
+          opacity: 0.8;
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
 
         .pyramid-layer:hover {
-          background: rgba(212, 175, 55, 0.03);
-          border-color: rgba(212, 175, 55, 0.4);
-          color: #fff;
+          background: #FFFFFF;
+          border-color: #D99458;
+          color: #1A1617;
         }
 
         .pyramid-layer.active {
-          background: rgba(212, 175, 55, 0.08);
-          border-color: #d4af37;
-          color: #fff;
-          box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+          background: rgba(217, 148, 88, 0.12);
+          border-color: #D99458;
+          color: #1A1617;
+          box-shadow: 0 4px 16px rgba(217, 148, 88, 0.15);
         }
 
         .layer-top.active {
-          border-color: #ef4444;
-          background: rgba(239, 68, 68, 0.06);
+          border-color: #c53030;
+          background: rgba(229, 62, 62, 0.08);
         }
         .layer-top:hover {
-          border-color: rgba(239, 68, 68, 0.4);
+          border-color: #c53030;
         }
 
         .layer-base.active {
-          border-color: #3b82f6;
-          background: rgba(59, 130, 246, 0.06);
+          border-color: #3182ce;
+          background: rgba(49, 130, 206, 0.08);
         }
         .layer-base:hover {
-          border-color: rgba(59, 130, 246, 0.4);
+          border-color: #3182ce;
         }
 
         .glass-card {
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           border-radius: 6px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .details-card {
@@ -411,75 +415,80 @@ export default function AlchemyPage() {
         }
 
         .details-badge {
-          font-size: 0.65rem;
+          font-size: 0.68rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          color: #d4af37;
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          padding: 4px 10px;
+          color: #B66D31;
+          border: 1px solid rgba(217, 148, 88, 0.4);
+          background: rgba(217, 148, 88, 0.1);
+          padding: 4px 12px;
           border-radius: 12px;
           display: inline-block;
           margin-bottom: 20px;
+          font-weight: 600;
         }
 
         .details-title {
+          font-family: var(--font-serif);
           font-size: 1.75rem;
-          color: #fff;
+          color: #1A1617;
           margin-bottom: 16px;
-          font-weight: 300;
+          font-weight: 400;
         }
 
         .details-desc {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.92rem;
+          color: #4A403E;
           line-height: 1.7;
           margin-bottom: 30px;
         }
 
         .ingredients-list {
-          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-top: 1px solid #EDE1DC;
           padding-top: 24px;
         }
 
         .ingredients-heading {
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           text-transform: uppercase;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
+          font-weight: 600;
           margin-bottom: 20px;
         }
 
         .ingredient-item {
           margin-bottom: 16px;
-          background: rgba(255, 255, 255, 0.01);
-          padding: 12px 16px;
-          border-radius: 4px;
-          border: 1px solid rgba(255, 255, 255, 0.02);
+          background: #FAF6F4;
+          padding: 14px 18px;
+          border-radius: 6px;
+          border: 1px solid #EDE1DC;
         }
 
         .ing-header {
           display: flex;
           justify-content: space-between;
           margin-bottom: 4px;
-          font-size: 0.9rem;
+          font-size: 0.92rem;
         }
 
         .ing-name {
-          color: #fff;
+          color: #1A1617;
           font-weight: 500;
         }
 
         .ing-origin {
-          color: #d4af37;
+          color: #B66D31;
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          font-weight: 600;
         }
 
         .ing-desc {
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.5);
-          line-height: 1.4;
+          font-size: 0.85rem;
+          color: #4A403E;
+          line-height: 1.5;
         }
 
         .alchemy-chart-section {
@@ -497,21 +506,23 @@ export default function AlchemyPage() {
         }
 
         .chart-header h3 {
-          font-size: 1.25rem;
-          color: #fff;
+          font-family: var(--font-serif);
+          font-size: 1.45rem;
+          color: #1A1617;
           margin-bottom: 6px;
+          font-weight: 400;
         }
 
         .chart-header p {
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.85rem;
+          color: #7A6E6A;
         }
 
         .svg-container {
           width: 100%;
-          background: #080808;
-          border: 1px solid rgba(255, 255, 255, 0.02);
-          border-radius: 4px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          border-radius: 6px;
           padding: 20px;
           margin-bottom: 24px;
         }
@@ -537,14 +548,14 @@ export default function AlchemyPage() {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.82rem;
+          color: #7A6E6A;
           cursor: pointer;
           transition: color 0.2s;
         }
 
         .legend-item:hover {
-          color: #fff;
+          color: #1A1617;
         }
 
         .legend-dot {
@@ -553,9 +564,9 @@ export default function AlchemyPage() {
           border-radius: 50%;
         }
 
-        .color-top { background-color: #ef4444; }
-        .color-heart { background-color: #d4af37; }
-        .color-base { background-color: #3b82f6; }
+        .color-top { background-color: #c53030; }
+        .color-heart { background-color: #D99458; }
+        .color-base { background-color: #3182ce; }
 
         @media (max-width: 768px) {
           .alchemy-container {

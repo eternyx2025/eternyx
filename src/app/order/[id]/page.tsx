@@ -31,44 +31,53 @@ export default async function OrderDetailPage({ params }: Props) {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #080808;
-            color: #fff;
+            background: #FAF6F4;
+            color: #1A1617;
             padding: 120px 24px;
           }
           .not-found-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: #FFFFFF;
+            border: 1px solid #EDE1DC;
+            box-shadow: 0 10px 30px rgba(26, 22, 23, 0.04);
             padding: 48px;
             text-align: center;
             max-width: 480px;
             width: 100%;
+            border-radius: 6px;
           }
           .gold-seal {
             font-size: 0.75rem;
             letter-spacing: 0.3em;
-            color: #d4af37;
+            color: #B66D31;
+            font-weight: 600;
             margin-bottom: 16px;
           }
           .not-found-card h1 {
             font-size: 1.8rem;
-            font-weight: 300;
+            font-weight: 400;
+            color: #1A1617;
             margin-bottom: 12px;
           }
           .not-found-card p {
-            color: #888;
+            color: #7A6E6A;
             font-size: 0.9rem;
             margin-bottom: 28px;
           }
           .btn-gold {
             display: inline-block;
-            background: #d4af37;
-            color: #000;
+            background: #1A1617;
+            color: #FAF6F4;
             padding: 12px 28px;
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.2s;
+          }
+          .btn-gold:hover {
+            background: #2D2527;
           }
         `}</style>
       </div>
@@ -241,21 +250,21 @@ export default async function OrderDetailPage({ params }: Props) {
               <div style={{
                 marginTop: '12px',
                 padding: '12px 14px',
-                borderRadius: '4px',
-                background: order.payment_method === 'COD' ? 'rgba(212, 175, 55, 0.08)' : 'rgba(46, 125, 50, 0.08)',
-                border: order.payment_method === 'COD' ? '1px solid rgba(212, 175, 55, 0.35)' : '1px solid rgba(46, 125, 50, 0.35)',
+                borderRadius: '6px',
+                background: order.payment_method === 'COD' ? 'rgba(217, 148, 88, 0.12)' : 'rgba(72, 187, 120, 0.1)',
+                border: order.payment_method === 'COD' ? '1px solid rgba(217, 148, 88, 0.35)' : '1px solid rgba(72, 187, 120, 0.3)',
                 fontSize: '0.8rem',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: order.payment_method === 'COD' && order.status !== 'Delivered' ? '6px' : '0' }}>
-                  <span style={{ color: order.payment_method === 'COD' ? '#d4af37' : '#81c784', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ color: order.payment_method === 'COD' ? '#B66D31' : '#276749', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span>{order.payment_method === 'COD' ? '💵 Cash on Delivery' : '💳 Prepaid (Online)'}</span>
                   </span>
-                  <span style={{ fontSize: '0.72rem', color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '0.72rem', color: '#7A6E6A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Status: {order.payment_status || 'Pending'}
                   </span>
                 </div>
                 {order.payment_method === 'COD' && order.status !== 'Delivered' && (
-                  <p style={{ margin: '4px 0 0 0', fontSize: '0.75rem', color: '#ccc', lineHeight: 1.4 }}>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '0.75rem', color: '#7A6E6A', lineHeight: 1.4 }}>
                     Please keep <strong>₹{Number(order.total).toLocaleString('en-IN')}</strong> in cash or UPI ready when the delivery partner arrives.
                   </p>
                 )}
@@ -299,8 +308,8 @@ export default async function OrderDetailPage({ params }: Props) {
       <style>{`
         .order-detail-page {
           min-height: 100vh;
-          background: #080808;
-          color: #e5e5e5;
+          background: #FAF6F4;
+          color: #1A1617;
           padding: 120px 24px 80px 24px;
         }
         .order-detail-wrapper {
@@ -315,26 +324,27 @@ export default async function OrderDetailPage({ params }: Props) {
           gap: 20px;
           margin-bottom: 32px;
           padding-bottom: 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid #EDE1DC;
         }
         .order-tag {
           font-size: 0.72rem;
           letter-spacing: 0.25em;
           text-transform: uppercase;
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
           display: block;
           margin-bottom: 6px;
         }
         .order-page-header h1 {
           font-size: 2rem;
-          font-weight: 300;
-          color: #fff;
+          font-weight: 400;
+          color: #1A1617;
           margin: 0 0 6px 0;
           font-family: serif;
         }
         .order-timestamp {
           font-size: 0.85rem;
-          color: #777;
+          color: #7A6E6A;
           margin: 0;
         }
         .header-badges {
@@ -349,32 +359,33 @@ export default async function OrderDetailPage({ params }: Props) {
           letter-spacing: 0.08em;
           text-transform: uppercase;
           border-radius: 999px;
-          background: rgba(212, 175, 55, 0.15);
-          color: #d4af37;
-          border: 1px solid rgba(212, 175, 55, 0.3);
+          background: rgba(217, 148, 88, 0.12);
+          color: #B66D31;
+          border: 1px solid rgba(217, 148, 88, 0.3);
         }
         .status-pill.delivered {
-          background: rgba(72, 187, 120, 0.15);
-          color: #48bb78;
-          border-color: rgba(72, 187, 120, 0.3);
+          background: rgba(72, 187, 120, 0.12);
+          color: #2f855a;
+          border-color: rgba(72, 187, 120, 0.35);
         }
         .payment-pill {
           padding: 6px 14px;
           font-size: 0.75rem;
           font-weight: 500;
           border-radius: 999px;
-          background: rgba(255, 255, 255, 0.05);
-          color: #aaa;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: #FFFFFF;
+          color: #7A6E6A;
+          border: 1px solid #EDE1DC;
         }
 
         /* Tracking Section Card */
         .tracking-section-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(212, 175, 55, 0.25);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           padding: 32px;
-          border-radius: 4px;
+          border-radius: 6px;
           margin-bottom: 32px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
         .tracking-card-header {
           display: flex;
@@ -391,20 +402,22 @@ export default async function OrderDetailPage({ params }: Props) {
           font-size: 0.8rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
         }
         .carrier-badge .dot {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #48bb78;
-          box-shadow: 0 0 10px #48bb78;
+          background: #38a169;
+          box-shadow: 0 0 8px #38a169;
         }
         .awb-num {
           font-family: monospace;
           font-size: 0.85rem;
-          color: #aaa;
-          background: rgba(255, 255, 255, 0.05);
+          color: #4A403E;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
           padding: 4px 10px;
           border-radius: 4px;
         }
@@ -421,12 +434,12 @@ export default async function OrderDetailPage({ params }: Props) {
           left: 40px;
           right: 40px;
           height: 2px;
-          background: rgba(255, 255, 255, 0.1);
+          background: #EDE1DC;
           z-index: 1;
         }
         .stepper-line-fill {
           height: 100%;
-          background: #d4af37;
+          background: #D99458;
           transition: width 0.4s ease;
         }
         .stepper-nodes {
@@ -445,9 +458,9 @@ export default async function OrderDetailPage({ params }: Props) {
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: #111;
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          color: #666;
+          background: #FAF6F4;
+          border: 2px solid #EDE1DC;
+          color: #7A6E6A;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -456,34 +469,37 @@ export default async function OrderDetailPage({ params }: Props) {
           transition: all 0.3s;
         }
         .step-node.completed .node-circle {
-          border-color: #d4af37;
-          background: #d4af37;
-          color: #000;
+          border-color: #D99458;
+          background: #D99458;
+          color: #FAF6F4;
         }
         .step-node.current .node-circle {
-          box-shadow: 0 0 14px rgba(212, 175, 55, 0.5);
+          box-shadow: 0 0 14px rgba(217, 148, 88, 0.4);
+          border-color: #D99458;
         }
         .node-label {
           font-size: 0.75rem;
           letter-spacing: 0.05em;
-          color: #666;
+          color: #7A6E6A;
           text-transform: uppercase;
         }
         .step-node.completed .node-label {
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
         }
 
         /* Timeline */
         .timeline-block {
           margin-top: 32px;
           padding-top: 24px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
         }
         .timeline-title {
           font-size: 0.85rem;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #aaa;
+          color: #7A6E6A;
+          font-weight: 600;
           margin-bottom: 20px;
         }
         .timeline-list {
@@ -499,7 +515,7 @@ export default async function OrderDetailPage({ params }: Props) {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #d4af37;
+          background: #D99458;
           margin-top: 6px;
           flex-shrink: 0;
         }
@@ -513,16 +529,16 @@ export default async function OrderDetailPage({ params }: Props) {
         }
         .tl-time {
           font-size: 0.75rem;
-          color: #d4af37;
-          font-weight: 500;
+          color: #B66D31;
+          font-weight: 600;
         }
         .tl-loc {
           font-size: 0.75rem;
-          color: #888;
+          color: #7A6E6A;
         }
         .tl-desc {
           font-size: 0.85rem;
-          color: #ccc;
+          color: #4A403E;
           margin: 0;
         }
 
@@ -534,19 +550,19 @@ export default async function OrderDetailPage({ params }: Props) {
           gap: 16px;
           margin-top: 28px;
           padding-top: 20px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
         }
         .tracking-note {
           font-size: 0.82rem;
-          color: #888;
+          color: #7A6E6A;
           margin: 0;
         }
         .btn-full-track {
           font-size: 0.8rem;
-          color: #d4af37;
+          color: #B66D31;
           text-decoration: none;
           letter-spacing: 0.08em;
-          font-weight: 500;
+          font-weight: 600;
         }
         .btn-full-track:hover {
           text-decoration: underline;
@@ -564,19 +580,20 @@ export default async function OrderDetailPage({ params }: Props) {
           }
         }
         .grid-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           padding: 28px;
-          border-radius: 4px;
+          border-radius: 6px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
         .grid-card h2 {
           font-size: 1.1rem;
-          font-weight: 400;
-          color: #fff;
+          font-weight: 500;
+          color: #1A1617;
           margin-top: 0;
           margin-bottom: 20px;
           padding-bottom: 12px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid #EDE1DC;
         }
         .items-list {
           display: flex;
@@ -593,11 +610,12 @@ export default async function OrderDetailPage({ params }: Props) {
           width: 54px;
           height: 54px;
           object-fit: cover;
-          border-radius: 2px;
-          background: #111;
+          border-radius: 4px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
         }
         .item-img.placeholder {
-          background: #1a1a1a;
+          background: #FAF6F4;
         }
         .item-info {
           flex: 1;
@@ -606,26 +624,26 @@ export default async function OrderDetailPage({ params }: Props) {
           margin: 0 0 4px 0;
           font-size: 0.9rem;
           font-weight: 500;
-          color: #fff;
+          color: #1A1617;
         }
         .item-size {
           font-size: 0.75rem;
-          color: #888;
+          color: #7A6E6A;
           display: block;
           margin-bottom: 2px;
         }
         .item-qty {
           font-size: 0.78rem;
-          color: #aaa;
+          color: #4A403E;
         }
         .item-total {
           font-size: 0.9rem;
-          font-weight: 500;
-          color: #d4af37;
+          font-weight: 600;
+          color: #1A1617;
         }
 
         .price-summary {
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
           padding-top: 16px;
           display: flex;
           flex-direction: column;
@@ -635,56 +653,64 @@ export default async function OrderDetailPage({ params }: Props) {
           display: flex;
           justify-content: space-between;
           font-size: 0.85rem;
-          color: #888;
+          color: #7A6E6A;
         }
         .summary-row.discount {
-          color: #48bb78;
+          color: #276749;
         }
         .summary-row .free {
-          color: #d4af37;
-          font-weight: 500;
-        }
-        .summary-row.grand-total {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding-top: 12px;
-          font-size: 1.05rem;
-          color: #fff;
+          color: #276749;
           font-weight: 600;
         }
+        .summary-row.grand-total {
+          border-top: 1px solid #EDE1DC;
+          padding-top: 12px;
+          font-size: 1.05rem;
+          color: #1A1617;
+          font-weight: 700;
+        }
         .summary-row.grand-total span:last-child {
-          color: #d4af37;
+          color: #1A1617;
         }
 
         .address-box, .contact-box, .support-box {
           margin-bottom: 20px;
           font-size: 0.85rem;
           line-height: 1.6;
-          color: #aaa;
+          color: #4A403E;
         }
         .recipient-name {
-          color: #fff;
-          font-weight: 500;
+          color: #1A1617;
+          font-weight: 600;
           margin-bottom: 4px;
         }
         .contact-box h3, .support-box h3 {
           font-size: 0.85rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #d4af37;
+          color: #B66D31;
+          font-weight: 600;
           margin-bottom: 8px;
         }
         .btn-contact {
           display: inline-block;
           margin-top: 10px;
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          color: #1A1617;
           padding: 8px 18px;
           font-size: 0.75rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           text-decoration: none;
-          border-radius: 2px;
+          border-radius: 4px;
+          font-weight: 500;
+          transition: all 0.2s;
+        }
+        .btn-contact:hover {
+          background: #1A1617;
+          color: #FAF6F4;
+          border-color: #1A1617;
         }
       `}</style>
     </div>

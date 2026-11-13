@@ -110,11 +110,12 @@ export default function StoryPage() {
       <style jsx>{`
         .story-container {
           min-height: 100vh;
-          background-color: #060606;
+          background-color: #FAF6F4;
           padding: 140px 50px 80px 50px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          color: #1A1617;
         }
 
         .story-hero {
@@ -127,25 +128,25 @@ export default function StoryPage() {
           font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.3em;
-          color: #d4af37;
+          color: #B66D31;
           margin-bottom: 12px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         .story-title {
           font-family: var(--font-serif);
           font-size: 3rem;
-          color: #ffffff;
-          font-weight: 300;
-          letter-spacing: 0.1em;
+          color: #1A1617;
+          font-weight: 400;
+          letter-spacing: 0.05em;
           margin-bottom: 16px;
         }
 
         .story-subtitle {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.55);
-          line-height: 1.7;
-          font-weight: 300;
+          font-size: 0.95rem;
+          color: #7A6E6A;
+          line-height: 1.8;
+          font-weight: 400;
         }
 
         .philosophy-section {
@@ -169,18 +170,19 @@ export default function StoryPage() {
         }
 
         .philosophy-text h2 {
-          font-size: 1.5rem;
-          color: #fff;
+          font-size: 1.6rem;
+          color: #1A1617;
           margin-bottom: 24px;
-          font-weight: 300;
+          font-weight: 400;
+          font-family: var(--font-serif);
         }
 
         .philosophy-paragraph {
           font-size: 0.95rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: #4A403E;
           line-height: 1.8;
           margin-bottom: 20px;
-          font-weight: 300;
+          font-weight: 400;
         }
 
         .philosophy-visual {
@@ -188,11 +190,12 @@ export default function StoryPage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
           border-radius: 6px;
           padding: 40px;
           position: relative;
+          box-shadow: 0 4px 20px rgba(26, 22, 23, 0.03);
         }
 
         .visual-box {
@@ -203,7 +206,7 @@ export default function StoryPage() {
         .gold-accent-line {
           width: 40px;
           height: 1.5px;
-          background-color: #d4af37;
+          background-color: #D99458;
           margin: 0 auto 24px auto;
         }
 
@@ -212,8 +215,8 @@ export default function StoryPage() {
           font-size: 1.15rem;
           font-style: italic;
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 300;
+          color: #1A1617;
+          font-weight: 400;
         }
 
         .timeline-section {
@@ -228,14 +231,16 @@ export default function StoryPage() {
         }
 
         .timeline-header h2 {
-          font-size: 1.5rem;
-          color: #fff;
+          font-size: 1.6rem;
+          color: #1A1617;
           margin-bottom: 8px;
+          font-family: var(--font-serif);
+          font-weight: 400;
         }
 
         .timeline-header p {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.88rem;
+          color: #7A6E6A;
         }
 
         .timeline-tree {
@@ -261,8 +266,8 @@ export default function StoryPage() {
         .node-year {
           font-family: var(--font-serif);
           font-size: 1.5rem;
-          color: #d4af37;
-          font-weight: 400;
+          color: #B66D31;
+          font-weight: 600;
           line-height: 1;
         }
 
@@ -279,8 +284,8 @@ export default function StoryPage() {
           width: 12px;
           height: 12px;
           border-radius: 50%;
-          background: #000;
-          border: 2px solid #d4af37;
+          background: #FAF6F4;
+          border: 2px solid #D99458;
           z-index: 2;
           margin-top: 24px;
         }
@@ -288,7 +293,7 @@ export default function StoryPage() {
         .node-line {
           flex: 1;
           width: 1.5px;
-          background: rgba(255, 255, 255, 0.08);
+          background: #EDE1DC;
           z-index: 1;
         }
 
@@ -303,43 +308,44 @@ export default function StoryPage() {
         }
 
         .glass-card {
-          background: rgba(255, 255, 255, 0.01);
-          border: 1px solid rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 6px;
+          box-shadow: 0 4px 16px rgba(26, 22, 23, 0.03);
         }
 
         .node-card {
           padding: 24px 30px;
-          transition: border-color 0.3s;
+          transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .node-card:hover {
-          border-color: rgba(212, 175, 55, 0.2);
+          border-color: #D99458;
+          box-shadow: 0 6px 20px rgba(217, 148, 88, 0.08);
         }
 
         .node-location {
           font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.15em;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
+          font-weight: 600;
           display: block;
           margin-bottom: 6px;
         }
 
         .node-title {
           font-size: 1.15rem;
-          color: #fff;
+          color: #1A1617;
           margin-bottom: 12px;
-          font-weight: 400;
+          font-weight: 500;
         }
 
         .node-desc {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.55);
-          line-height: 1.6;
-          font-weight: 300;
+          font-size: 0.88rem;
+          color: #4A403E;
+          line-height: 1.7;
+          font-weight: 400;
         }
 
         .story-closing {
@@ -352,18 +358,18 @@ export default function StoryPage() {
           font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.35em;
-          color: #d4af37;
+          color: #B66D31;
           display: block;
           margin-bottom: 16px;
-          font-weight: 500;
+          font-weight: 600;
         }
 
         .closing-quote {
           font-family: var(--font-serif);
           font-size: 1.45rem;
-          color: #ffffff;
+          color: #1A1617;
           line-height: 1.6;
-          font-weight: 300;
+          font-weight: 400;
           letter-spacing: 0.04em;
         }
 

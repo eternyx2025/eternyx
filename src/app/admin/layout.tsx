@@ -28,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     {
       title: 'Content',
       items: [
+        { href: '/admin/homepage', label: 'Homepage Builder' },
         { href: '/admin/products', label: 'Products' },
         { href: '/admin/banners', label: 'Hero Banners' },
         { href: '/admin/reels', label: 'Reels & Social' }

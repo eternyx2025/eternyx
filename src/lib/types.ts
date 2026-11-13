@@ -42,6 +42,99 @@ export interface Product {
   shopify_keywords?: string[];
   image_alt?: string[];
   product_tags?: string[];
+  compare_at_price?: number;
+  gender?: string;
+  note_profile?: string;
+  rating?: number;
+  review_count?: number;
+  is_trending?: boolean;
+  is_new_launch?: boolean;
+  is_bestseller?: boolean;
+  is_gifting?: boolean;
+  gifting_category?: string;
+}
+
+export interface HomepageAnnouncement {
+  text: string;
+  code?: string;
+  link?: string;
+}
+
+export interface HomepageCategoryPill {
+  id: string;
+  label: string;
+  slug: string;
+  active: boolean;
+}
+
+export interface HomepagePopup {
+  enabled: boolean;
+  title: string;
+  subtitle: string;
+  imageUrl: string;
+  buttonText: string;
+  buttonUrl: string;
+  delaySeconds: number;
+}
+
+export interface HomepagePressItem {
+  id: string;
+  name: string;
+  text?: string;
+  logoUrl?: string;
+  url?: string;
+}
+
+export interface HomepageBundleCard {
+  id: string;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonUrl: string;
+  imageUrl: string;
+}
+
+export interface HomepageNoteProfile {
+  id: string;
+  name: string;
+  tag: string;
+  imageUrl: string;
+  description: string;
+}
+
+export interface HomepageRetailPartner {
+  id: string;
+  name: string;
+  text?: string;
+  logoUrl?: string;
+  url?: string;
+}
+
+export interface HomepagePromise {
+  id: string;
+  title: string;
+  description?: string;
+  iconUrl?: string;
+}
+
+export interface HomepageInstagramPost {
+  id: string;
+  imageUrl: string;
+  caption: string;
+  url: string;
+}
+
+export interface HomepageTitles {
+  shopMomentTitle: string;
+  genderTitle: string;
+  hypeTitle: string;
+  noteProfileTitle: string;
+  giftingTitle: string;
+  promisesTitle: string;
+  customerCountTitle: string;
+  instagramTitle: string;
+  brandWordmark: string;
+  brandTagline: string;
 }
 
 export interface OrderItem {

@@ -188,24 +188,24 @@ function TrackContent() {
 
       <style jsx>{`
         .track-page-container {
-          min-height: calc(100vh - 100px);
+          min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 80px 20px;
-          background: #0a0a0a;
-          color: #fff;
+          padding: 130px 20px 80px 20px;
+          background: #FAF6F4;
+          color: #1A1617;
           font-family: var(--font-sans);
         }
 
         .track-card {
-          background: #111;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 16px;
           padding: 48px;
           width: 100%;
           max-width: 680px;
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 10px 40px rgba(26, 22, 23, 0.05);
         }
 
         .track-header {
@@ -216,20 +216,21 @@ function TrackContent() {
           display: block;
           font-size: 0.68rem;
           text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: #d4af37;
+          letter-spacing: 0.25em;
+          color: #D99458;
           margin-bottom: 10px;
+          font-weight: 700;
         }
         h1 {
           font-family: var(--font-serif);
-          font-size: 2rem;
-          font-weight: 300;
-          color: #fff;
-          letter-spacing: 0.04em;
+          font-size: 2.1rem;
+          font-weight: 500;
+          color: #1A1617;
+          letter-spacing: -0.01em;
           margin: 0 0 12px 0;
         }
         .subtitle {
-          color: rgba(255, 255, 255, 0.5);
+          color: #7A6E6A;
           font-size: 0.88rem;
           line-height: 1.6;
           margin: 0 auto;
@@ -246,42 +247,46 @@ function TrackContent() {
           display: flex;
           align-items: center;
           gap: 10px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 4px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          border-radius: 8px;
           padding: 12px 16px;
           transition: border-color 0.2s;
         }
         .input-wrap:focus-within {
-          border-color: #d4af37;
+          border-color: #D99458;
+          box-shadow: 0 0 0 2px rgba(217, 148, 88, 0.15);
         }
         .input-wrap svg {
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
         }
         .input-wrap input {
           background: none;
           border: none;
-          color: #fff;
+          color: #1A1617;
           font-size: 0.92rem;
           outline: none;
           width: 100%;
+          font-weight: 500;
         }
         .track-btn {
-          background: #d4af37;
-          color: #000;
-          border: none;
+          background: #1A1617;
+          color: #FAF6F4;
+          border: 1px solid #1A1617;
           padding: 0 24px;
           font-size: 0.82rem;
-          font-weight: 600;
+          font-weight: 700;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          border-radius: 4px;
+          border-radius: 8px;
           cursor: pointer;
-          transition: opacity 0.2s;
+          transition: all 0.25s;
           white-space: nowrap;
         }
         .track-btn:hover:not(:disabled) {
-          opacity: 0.88;
+          background: #D99458;
+          border-color: #D99458;
+          color: #1A1617;
         }
         .track-btn:disabled {
           opacity: 0.4;
@@ -289,11 +294,11 @@ function TrackContent() {
         }
 
         .track-error {
-          background: rgba(239, 68, 68, 0.1);
+          background: rgba(239, 68, 68, 0.08);
           border: 1px solid rgba(239, 68, 68, 0.2);
-          color: #f87171;
+          color: #dc2626;
           padding: 14px 18px;
-          border-radius: 4px;
+          border-radius: 8px;
           font-size: 0.85rem;
           text-align: center;
           margin-bottom: 24px;
@@ -302,14 +307,14 @@ function TrackContent() {
         /* Results */
         .track-result-section {
           animation: fadeIn 0.3s ease;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid #EDE1DC;
           padding-top: 28px;
         }
 
         .status-banner {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 6px;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          border-radius: 10px;
           padding: 20px 24px;
           display: flex;
           justify-content: space-between;
@@ -323,13 +328,13 @@ function TrackContent() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(34, 197, 94, 0.12);
-          border: 1px solid rgba(34, 197, 94, 0.25);
-          color: #4ade80;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          color: #047857;
           padding: 6px 14px;
           border-radius: 20px;
           font-size: 0.82rem;
-          font-weight: 500;
+          font-weight: 700;
           letter-spacing: 0.04em;
           text-transform: uppercase;
         }
@@ -337,7 +342,7 @@ function TrackContent() {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #22c55e;
+          background: #10b981;
           animation: pulse 1.8s infinite;
         }
 
@@ -350,24 +355,25 @@ function TrackContent() {
           font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          color: rgba(255, 255, 255, 0.4);
+          color: #7A6E6A;
+          font-weight: 600;
         }
         .meta-val {
           font-size: 0.9rem;
-          color: #fff;
-          font-weight: 500;
+          color: #1A1617;
+          font-weight: 600;
         }
         .font-mono {
           font-family: monospace;
-          color: #d4af37;
+          color: #D99458;
         }
 
         .order-summary-chip {
           display: flex;
           gap: 20px;
-          background: rgba(212, 175, 55, 0.04);
-          border: 1px solid rgba(212, 175, 55, 0.15);
-          border-radius: 4px;
+          background: #FFFFFF;
+          border: 1px solid #EDE1DC;
+          border-radius: 8px;
           padding: 12px 20px;
           margin-bottom: 28px;
           flex-wrap: wrap;
@@ -378,21 +384,23 @@ function TrackContent() {
           gap: 2px;
         }
         .chip-label {
-          font-size: 0.62rem;
+          font-size: 0.65rem;
           text-transform: uppercase;
           letter-spacing: 0.08em;
-          color: rgba(212, 175, 55, 0.7);
+          color: #7A6E6A;
+          font-weight: 600;
         }
         .chip-val {
-          font-size: 0.82rem;
-          color: #fff;
+          font-size: 0.85rem;
+          color: #1A1617;
+          font-weight: 600;
         }
 
         /* Timeline */
         .timeline-container h3 {
           font-size: 0.95rem;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 0.9);
+          font-weight: 600;
+          color: #1A1617;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin: 0 0 24px 0;
@@ -420,32 +428,103 @@ function TrackContent() {
           width: 18px;
           height: 18px;
           border-radius: 50%;
-          border: 2px solid rgba(255, 255, 255, 0.2);
+          border: 2px solid #EDE1DC;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #111;
+          background: #FFFFFF;
           z-index: 2;
         }
         .timeline-step.current .outer-circle {
-          border-color: #d4af37;
-          background: rgba(212, 175, 55, 0.15);
+          border-color: #D99458;
+          background: rgba(217, 148, 88, 0.15);
         }
         .inner-dot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
+          background: #EDE1DC;
         }
         .timeline-step.current .inner-dot {
-          background: #d4af37;
+          background: #D99458;
         }
         .step-line {
           width: 2px;
           flex: 1;
-          background: rgba(255, 255, 255, 0.08);
+          background: #EDE1DC;
           margin: 4px 0;
           min-height: 44px;
+        }
+
+        .step-content {
+          padding-bottom: 24px;
+        }
+        .step-desc {
+          font-size: 0.9rem;
+          color: #1A1617;
+          margin: 0 0 4px 0;
+          line-height: 1.4;
+          font-weight: 500;
+        }
+        .timeline-step.current .step-desc {
+          color: #D99458;
+          font-weight: 600;
+        }
+        .step-meta {
+          font-size: 0.78rem;
+          color: #7A6E6A;
+        }
+
+        .no-logs-msg {
+          padding: 24px;
+          text-align: center;
+          color: #7A6E6A;
+          font-size: 0.85rem;
+          background: #FAF6F4;
+          border: 1px solid #EDE1DC;
+          border-radius: 8px;
+        }
+
+        .track-footer {
+          margin-top: 36px;
+          text-align: center;
+        }
+        .back-link {
+          color: #7A6E6A;
+          text-decoration: none;
+          font-size: 0.82rem;
+          font-weight: 600;
+          transition: color 0.2s;
+        }
+        .back-link:hover {
+          color: #D99458;
+        }
+
+        @keyframes pulse {
+          0% { opacity: 0.4; transform: scale(0.9); }
+          50% { opacity: 1; transform: scale(1.2); }
+          100% { opacity: 0.4; transform: scale(0.9); }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+          .track-card {
+            padding: 24px;
+          }
+          .track-form {
+            flex-direction: column;
+          }
+          .track-btn {
+            padding: 12px;
+          }
+          .status-banner {
+            flex-direction: column;
+            align-items: flex-start;
+          }
         }
 
         .step-content {
